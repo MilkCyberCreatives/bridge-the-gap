@@ -8,7 +8,10 @@ export async function POST(req: Request) {
     console.log("Consultation Request:", body);
 
     return NextResponse.json({ ok: true });
-  } catch (e) {
-    return NextResponse.json({ ok: false }, { status: 400 });
+  } catch {
+    return NextResponse.json(
+      { ok: false, message: "Invalid request payload" },
+      { status: 400 }
+    );
   }
 }
