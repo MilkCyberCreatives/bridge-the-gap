@@ -1,7 +1,7 @@
 import BreadcrumbHero from "@/components/ui/BreadcrumbHero";
-import ScienceOverviewSection from "@/components/subjects/science/ScienceOverviewSection";
-import ScienceTopicsSection from "@/components/subjects/science/ScienceTopicsSection";
-import ScienceSupportSection from "@/components/subjects/science/ScienceSupportSection";
+import ScienceOverviewSection from "@/components/subjects/sciences/ScienceOverviewSection";
+import ScienceTopicsSection from "@/components/subjects/sciences/ScienceTopicsSection";
+import ScienceSupportSection from "@/components/subjects/sciences/ScienceSupportSection";
 import ConsultationFormSection from "@/components/home/ConsultationFormSection";
 
 export default function SciencePage() {
@@ -13,15 +13,16 @@ export default function SciencePage() {
         crumbs={[
           { label: "home", href: "/" },
           { label: "subjects", href: "/subjects" },
-          { label: "science" },
+          { label: "sciences" },
         ]}
+        image="/images/breadcrumbs/master.jpg"
       />
 
       <ScienceOverviewSection />
       <ScienceTopicsSection />
       <ScienceSupportSection />
 
-      {/* ✅ all detail pages must end with consultation */}
+      {/* ✅ detail pages must end with consultation form */}
       <ConsultationFormSection />
     </>
   );

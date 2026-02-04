@@ -18,13 +18,15 @@ export default function ScienceOverviewSection() {
           <p className="text-xs font-semibold tracking-wide text-black/55">
             subject focus
           </p>
+
           <h2 className="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl">
             science made simple and practical
           </h2>
+
           <p className="mt-3 text-base leading-relaxed text-black/70">
-            We help learners understand key concepts, apply them in tests, and build
-            consistent study habits. Lessons are structured, paced, and aligned to the
-            learner’s grade and curriculum.
+            Our science support helps learners understand key concepts, apply them
+            confidently in tests, and build consistent study habits. Lessons are
+            structured, paced, and aligned to the learner’s grade and curriculum.
           </p>
 
           <div className="mt-6 grid gap-3 sm:grid-cols-2">
@@ -54,7 +56,7 @@ export default function ScienceOverviewSection() {
           <div className="relative aspect-[16/11] w-full">
             <Image
               src="/images/subjects/science.jpg"
-              alt="science support"
+              alt="science tutoring support"
               fill
               className="object-cover"
               sizes="(max-width: 1024px) 100vw, 50vw"

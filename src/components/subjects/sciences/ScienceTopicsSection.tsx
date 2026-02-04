@@ -3,10 +3,22 @@
 import { motion, useReducedMotion } from "framer-motion";
 
 const TOPICS = [
-  { title: "matter & materials", desc: "properties, changes, and real-world examples." },
-  { title: "energy & change", desc: "heat, electricity, forces, and motion basics." },
-  { title: "life & living", desc: "systems, cells, and life processes (grade dependent)." },
-  { title: "earth & beyond", desc: "weather, climate, and our planet in context." },
+  {
+    title: "matter & materials",
+    desc: "properties of materials, changes of state, mixtures, and everyday applications.",
+  },
+  {
+    title: "energy & change",
+    desc: "heat, electricity, forces and motion — simplified with examples and practice questions.",
+  },
+  {
+    title: "life & living",
+    desc: "basic systems, cells and processes (aligned to grade level and curriculum).",
+  },
+  {
+    title: "earth & beyond",
+    desc: "weather, climate, planet earth concepts, and understanding key terms clearly.",
+  },
 ];
 
 export default function ScienceTopicsSection() {
@@ -19,11 +31,14 @@ export default function ScienceTopicsSection() {
           <p className="text-xs font-semibold tracking-wide text-black/55">
             what we cover
           </p>
+
           <h2 className="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl">
-            key science topics learners struggle with
+            key topics learners commonly struggle with
           </h2>
+
           <p className="mx-auto mt-3 max-w-2xl text-base leading-relaxed text-black/70">
-            We break complex ideas into clear steps and reinforce with practice.
+            We break complex ideas into clear steps and reinforce them with exam-style
+            practice.
           </p>
         </div>
 
@@ -41,16 +56,10 @@ export default function ScienceTopicsSection() {
             <motion.div
               key={t.title}
               variants={{
-                hidden: reduceMotion
-                  ? { opacity: 1, y: 0 }
-                  : { opacity: 0, y: 16 },
+                hidden: reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 },
                 show: reduceMotion
                   ? { opacity: 1, y: 0 }
-                  : {
-                      opacity: 1,
-                      y: 0,
-                      transition: { duration: 0.6, ease: "easeOut" },
-                    },
+                  : { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
               }}
               className="water-hover rounded-3xl border border-border bg-white/70 p-6 backdrop-blur-xl"
             >
