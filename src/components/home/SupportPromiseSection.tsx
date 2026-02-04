@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, MessagesSquare, ShieldCheck, Target, Users } from "lucide-react";
+import { EASE_OUT } from "@/lib/motion";
 
 export default function SupportPromiseSection() {
   const reduceMotion = useReducedMotion();
@@ -18,7 +19,7 @@ export default function SupportPromiseSection() {
           y: 0,
           scale: 1,
           filter: "blur(0px)",
-          transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
+          transition: { duration: 0.8, ease: EASE_OUT, },
         },
   };
 

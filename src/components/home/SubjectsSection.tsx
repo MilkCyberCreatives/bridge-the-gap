@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
+import { EASE_OUT } from "@/lib/motion";
 
 type Subject = {
   name: string;
@@ -68,7 +69,7 @@ export default function SubjectsSection() {
           y: 0,
           scale: 1,
           filter: "blur(0px)",
-          transition: { duration: 0.75, ease: [0.22, 1, 0.36, 1] },
+          transition: { duration: 0.75, ease: EASE_OUT, },
         },
   };
 

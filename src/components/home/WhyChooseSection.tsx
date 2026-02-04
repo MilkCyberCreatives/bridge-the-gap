@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { BadgeCheck, Target, ShieldCheck, TrendingUp, ArrowRight } from "lucide-react";
+import { EASE_OUT } from "@/lib/motion";
 
 function useCountUp(target: number, startCounting: boolean, durationMs = 900) {
   const [value, setValue] = useState(0);
@@ -72,7 +73,7 @@ export default function WhyChooseSection() {
           y: 0,
           scale: 1,
           filter: "blur(0px)",
-          transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
+          transition: { duration: 0.8, ease: EASE_OUT, },
         },
   };
 

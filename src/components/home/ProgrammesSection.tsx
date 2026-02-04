@@ -9,6 +9,8 @@ import {
   ArrowRight,
 } from "lucide-react";
 
+import { EASE_OUT } from "@/lib/motion";
+
 const items = [
   {
     title: "Learner Support",
@@ -57,7 +59,7 @@ export default function ProgrammesSection() {
           y: 0,
           scale: 1,
           filter: "blur(0px)",
-          transition: { duration: 0.75, ease: [0.22, 1, 0.36, 1] },
+          transition: { duration: 0.75, ease: EASE_OUT, },
         },
   };
 

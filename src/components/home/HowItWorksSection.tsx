@@ -4,6 +4,9 @@ import { motion, useReducedMotion } from "framer-motion";
 import { CheckCircle } from "lucide-react";
 import Link from "next/link";
 
+/* ✅ IMPORT THE SHARED EASING */
+import { EASE_OUT } from "@/lib/motion";
+
 export default function HowItWorksSection() {
   const reduceMotion = useReducedMotion();
 
@@ -18,17 +21,18 @@ export default function HowItWorksSection() {
 
   const item = {
     hidden: reduceMotion
-      ? { opacity: 1, y: 0 }
+      ? { opacity: 1, y: 0, filter: "blur(0px)" }
       : { opacity: 0, y: 40, filter: "blur(10px)" },
+
     show: reduceMotion
-      ? { opacity: 1, y: 0 }
+      ? { opacity: 1, y: 0, filter: "blur(0px)" }
       : {
           opacity: 1,
           y: 0,
           filter: "blur(0px)",
           transition: {
             duration: 0.9,
-            ease: [0.22, 1, 0.36, 1],
+            ease: EASE_OUT, // ✅ FIXED (typed easing)
           },
         },
   };
@@ -84,10 +88,7 @@ export default function HowItWorksSection() {
             </motion.p>
 
             {/* Steps */}
-            <motion.div
-              variants={container}
-              className="mt-10 space-y-5"
-            >
+            <motion.div variants={container} className="mt-10 space-y-5">
               {[
                 {
                   title: "Assessment & Consultation",

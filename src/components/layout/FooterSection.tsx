@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { Mail, Phone, Send, Facebook, Instagram } from "lucide-react";
+import { EASE_OUT } from "@/lib/motion";
 
 const RECENT = [
   {
@@ -34,7 +35,7 @@ export default function FooterSection() {
           opacity: 1,
           y: 0,
           filter: "blur(0px)",
-          transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
+          transition: { duration: 0.7, ease: EASE_OUT, },
         },
   };
 
