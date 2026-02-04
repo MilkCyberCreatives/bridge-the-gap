@@ -82,11 +82,11 @@ export default function WhyChooseSection() {
       {/* ✅ Full-width background image */}
       <motion.div
         className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: "url('/images/why-choose.jpg')" }}
+        style={{ backgroundImage: "url('/images/why-choose.webp')" }}
         initial={{ scale: 1.08 }}
         whileInView={{ scale: 1 }}
         viewport={{ once: true }}
-        transition={{ duration: 2.3, ease: "easeOut" }}
+        transition={{ duration: 2.3, ease: EASE_OUT, }}
       />
 
       {/* Premium overlay (keeps it readable + on-brand) */}

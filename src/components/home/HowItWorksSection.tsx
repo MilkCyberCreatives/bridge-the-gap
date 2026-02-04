@@ -47,7 +47,7 @@ export default function HowItWorksSection() {
         transition={{ duration: 2.5, ease: "easeOut" }}
         className="absolute inset-0 bg-cover bg-center"
         style={{
-          backgroundImage: "url('/images/how-it-works.jpg')",
+          backgroundImage: "url('/images/how-it-works.webp')",
         }}
       />
 

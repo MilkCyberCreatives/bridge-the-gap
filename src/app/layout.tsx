@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     type: "website",
     url: siteUrl,
     siteName,
-    title: `${siteName} | Touching the Future Through Meaningful Learning`,
+    title: `${siteName} | Touching The Future Through Meaningful Learning`,
     description:
       "Learner academic support, matric rewrite programmes, and teacher development aligned to CAPS and IEB.",
   },
@@ -46,26 +46,27 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en-ZA" className={`${font.variable} antialiased`}>
-      <body className="relative min-h-screen bg-[rgb(var(--bg))] text-[rgb(var(--fg))]">
-        {/* ✅ global cursor ripple (should be pointer-events-none inside component) */}
+      {/* ✅ IMPORTANT: flex column + main flex-1 removes the white strip */}
+      <body className="relative flex min-h-screen flex-col bg-[rgb(var(--bg))] text-[rgb(var(--fg))]">
+        {/* global cursor ripple */}
         <WaterCursor />
 
-        {/* ✅ global background wash */}
+        {/* background wash */}
         <div className="fixed inset-0 -z-10">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(250,78,27,0.14),transparent_45%),radial-gradient(circle_at_80%_20%,rgba(248,135,24,0.12),transparent_45%),radial-gradient(circle_at_40%_90%,rgba(0,0,0,0.06),transparent_55%)]" />
           <div className="absolute inset-0 bg-grain opacity-60" />
         </div>
 
-        {/* ✅ FIXED header stack (NO GAP) */}
+        {/* fixed header stack */}
         <header className="fixed inset-x-0 top-0 z-[60]">
           <TopHeader />
           <MainHeader />
         </header>
 
-        {/* ✅ page content offset */}
-        <main className="pt-[var(--hdr)]">{children}</main>
+        {/* page content offset + flex filler */}
+        <main className="flex-1 pt-[var(--hdr)]">{children}</main>
 
-        {/* ✅ Scroll to top (render LAST so it always stays above everything) */}
+        {/* scroll-to-top LAST so it sits above everything */}
         <ScrollToTop />
       </body>
     </html>

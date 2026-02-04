@@ -13,7 +13,7 @@ const POSTS = [
       "Simple routines that help learners stay consistent, reduce stress, and build confidence over time.",
     date: "04 Feb 2026",
     href: "/insights/study-habits",
-    image: "/images/blog/blog-1.jpg",
+    image: "/images/blog/blog-1.webp",
   },
   {
     topic: "Matric Support",
@@ -22,7 +22,7 @@ const POSTS = [
       "A clear approach to past papers, time management, and the topics that move marks the most.",
     date: "04 Feb 2026",
     href: "/insights/matric-plan",
-    image: "/images/blog/blog-2.jpg",
+    image: "/images/blog/blog-2.webp",
   },
   {
     topic: "CAPS & IEB",
@@ -31,7 +31,7 @@ const POSTS = [
       "How curriculum depth and assessment style differs — so tutoring stays aligned and effective.",
     date: "04 Feb 2026",
     href: "/insights/caps-vs-ieb",
-    image: "/images/blog/blog-3.jpg",
+    image: "/images/blog/blog-3.webp",
   },
 ];
 

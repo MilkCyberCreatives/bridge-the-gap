@@ -2,32 +2,42 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
-import { Mail, Phone, Send, Facebook, Instagram } from "lucide-react";
-import { EASE_OUT } from "@/lib/motion";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
+import { Mail, Phone, Send, Facebook, Instagram, Linkedin } from "lucide-react";
+
+/** ✅ TikTok icon (clean inline SVG) */
+function TikTokIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...props}>
+      <path d="M21 8.5c-1.9.1-3.7-.5-5.1-1.7v8.1c0 3.4-2.7 6.1-6.1 6.1S3.7 18.3 3.7 14.9c0-3.4 2.7-6.1 6.1-6.1.4 0 .9.1 1.3.2v3.2c-.4-.2-.8-.3-1.3-.3-1.6 0-2.9 1.3-2.9 2.9s1.3 2.9 2.9 2.9 2.9-1.3 2.9-2.9V3h3.2c.2 1.4.9 2.7 2 3.6 1 .9 2.2 1.4 3.5 1.5v.4z" />
+    </svg>
+  );
+}
 
 const RECENT = [
   {
     title: "Study Habits That Improve Results",
     date: "04 Feb, 2026",
     href: "/insights/study-habits",
+    image: "/images/blog/blog-1.webp",
   },
   {
     title: "A Practical Matric Preparation Plan",
     date: "04 Feb, 2026",
     href: "/insights/matric-plan",
+    image: "/images/blog/blog-2.webp",
   },
 ];
 
 export default function FooterSection() {
   const reduceMotion = useReducedMotion();
 
-  const wrap = {
+  const wrap: Variants = {
     hidden: {},
     show: { transition: { staggerChildren: 0.08 } },
   };
 
-  const item = {
+  const item: Variants = {
     hidden: reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 18, filter: "blur(10px)" },
     show: reduceMotion
       ? { opacity: 1, y: 0 }
@@ -35,7 +45,7 @@ export default function FooterSection() {
           opacity: 1,
           y: 0,
           filter: "blur(0px)",
-          transition: { duration: 0.7, ease: EASE_OUT, },
+          transition: { duration: 0.7, ease: "easeOut" },
         },
   };
 
@@ -50,7 +60,9 @@ export default function FooterSection() {
           variants={wrap}
           className="relative overflow-hidden rounded-[28px] border border-white/10 bg-white/10 backdrop-blur-2xl"
         >
-          <div className="absolute inset-0 opacity-70"
+          {/* ✅ no logo here */}
+          <div
+            className="absolute inset-0 opacity-70"
             style={{
               background:
                 "radial-gradient(circle at 20% 30%, rgba(255,255,255,0.08), transparent 55%), radial-gradient(circle at 80% 20%, rgba(250,78,27,0.18), transparent 55%)",
@@ -104,16 +116,18 @@ export default function FooterSection() {
         >
           {/* Column 1 */}
           <motion.div variants={item}>
-            {/* White logo (SVG invert) */}
-            <div className="relative h-14 w-[220px]">
-              <Image
-                src="/bridge-the-gap-logo.svg"
-                alt="Bridge The Gap Educational Services"
-                fill
-                className="object-contain invert brightness-0"
-                sizes="220px"
-                priority={false}
-              />
+            {/* ✅ cleaner logo positioning */}
+            <div className="flex items-start">
+              <div className="relative h-20 w-[300px] sm:h-24 sm:w-[340px]">
+                <Image
+                  src="/bridge-the-gap-footer.svg"
+                  alt="Bridge The Gap Educational Services"
+                  fill
+                  className="object-contain"
+                  sizes="(max-width: 640px) 300px, 340px"
+                  priority={false}
+                />
+              </div>
             </div>
 
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/75">
@@ -122,13 +136,22 @@ export default function FooterSection() {
             </p>
 
             <div className="mt-5 space-y-3 text-sm">
-              <div className="flex items-center gap-3 text-white/80">
-                <Phone className="h-4 w-4 text-[rgb(var(--brand))]" />
-                <span>+27 (0) XX XXX XXXX</span>
+              <div className="flex items-start gap-3 text-white/80">
+                <Phone className="mt-0.5 h-4 w-4 shrink-0 text-[rgb(var(--brand))]" />
+                <a className="water-hover inline-block" href="tel:+27000000000">
+                  +27 (0) XX XXX XXXX
+                </a>
               </div>
-              <div className="flex items-center gap-3 text-white/80">
-                <Mail className="h-4 w-4 text-[rgb(var(--brand))]" />
-                <span>info@bridgethegap.co.za</span>
+
+              {/* ✅ FIX: email will never cut off */}
+              <div className="flex items-start gap-3 text-white/80">
+                <Mail className="mt-0.5 h-4 w-4 shrink-0 text-[rgb(var(--brand))]" />
+                <a
+                  className="water-hover inline-block break-all"
+                  href="mailto:info@bridgethegapeducationalservices.co.za"
+                >
+                  info@bridgethegapeducationalservices.co.za
+                </a>
               </div>
             </div>
           </motion.div>
@@ -137,10 +160,26 @@ export default function FooterSection() {
           <motion.div variants={item}>
             <h4 className="text-sm font-extrabold tracking-tight">Programmes</h4>
             <ul className="mt-4 space-y-3 text-sm text-white/75">
-              <li><Link className="water-hover inline-block" href="/programmes">Learner Support (Grade R–12)</Link></li>
-              <li><Link className="water-hover inline-block" href="/programmes">Matric Support & Rewrite</Link></li>
-              <li><Link className="water-hover inline-block" href="/programmes">Study Skills & Exam Prep</Link></li>
-              <li><Link className="water-hover inline-block" href="/programmes">Educator Development</Link></li>
+              <li>
+                <Link className="water-hover inline-block" href="/programmes">
+                  Learner Support (Grade R–12)
+                </Link>
+              </li>
+              <li>
+                <Link className="water-hover inline-block" href="/programmes">
+                  Matric Support & Rewrite
+                </Link>
+              </li>
+              <li>
+                <Link className="water-hover inline-block" href="/programmes">
+                  Study Skills & Exam Prep
+                </Link>
+              </li>
+              <li>
+                <Link className="water-hover inline-block" href="/programmes">
+                  Educator Development
+                </Link>
+              </li>
             </ul>
           </motion.div>
 
@@ -148,11 +187,31 @@ export default function FooterSection() {
           <motion.div variants={item}>
             <h4 className="text-sm font-extrabold tracking-tight">Quick Links</h4>
             <ul className="mt-4 space-y-3 text-sm text-white/75">
-              <li><Link className="water-hover inline-block" href="/about">About</Link></li>
-              <li><Link className="water-hover inline-block" href="/subjects">Subjects</Link></li>
-              <li><Link className="water-hover inline-block" href="/how-it-works">How It Works</Link></li>
-              <li><Link className="water-hover inline-block" href="/insights">Insights</Link></li>
-              <li><Link className="water-hover inline-block" href="/contact">Contact</Link></li>
+              <li>
+                <Link className="water-hover inline-block" href="/about">
+                  About
+                </Link>
+              </li>
+              <li>
+                <Link className="water-hover inline-block" href="/subjects">
+                  Subjects
+                </Link>
+              </li>
+              <li>
+                <Link className="water-hover inline-block" href="/how-it-works">
+                  How It Works
+                </Link>
+              </li>
+              <li>
+                <Link className="water-hover inline-block" href="/insights">
+                  Insights
+                </Link>
+              </li>
+              <li>
+                <Link className="water-hover inline-block" href="/contact">
+                  Contact
+                </Link>
+              </li>
             </ul>
           </motion.div>
 
@@ -167,7 +226,18 @@ export default function FooterSection() {
                   href={p.href}
                   className="water-hover group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-xl"
                 >
-                  <div className="h-10 w-10 rounded-xl bg-white/10" />
+                  {/* ✅ image that matches article */}
+                  <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-xl border border-white/10 bg-white/10">
+                    <Image
+                      src={p.image}
+                      alt={p.title}
+                      fill
+                      className="object-cover"
+                      sizes="44px"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-tr from-black/35 via-transparent to-transparent" />
+                  </div>
+
                   <div className="min-w-0">
                     <p className="truncate text-sm font-extrabold text-white/90">
                       {p.title}
@@ -178,20 +248,46 @@ export default function FooterSection() {
               ))}
             </div>
 
+            {/* ✅ add LinkedIn + TikTok */}
             <div className="mt-5 flex items-center gap-3">
               <a
                 className="water-hover inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5"
-                href="#"
+                href="https://facebook.com"
+                target="_blank"
+                rel="noreferrer"
                 aria-label="Facebook"
               >
                 <Facebook className="h-4 w-4 text-white/80" />
               </a>
+
               <a
                 className="water-hover inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5"
-                href="#"
+                href="https://instagram.com"
+                target="_blank"
+                rel="noreferrer"
                 aria-label="Instagram"
               >
                 <Instagram className="h-4 w-4 text-white/80" />
+              </a>
+
+              <a
+                className="water-hover inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5"
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="LinkedIn"
+              >
+                <Linkedin className="h-4 w-4 text-white/80" />
+              </a>
+
+              <a
+                className="water-hover inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5"
+                href="https://tiktok.com"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="TikTok"
+              >
+                <TikTokIcon className="h-4 w-4 text-white/80" />
               </a>
             </div>
           </motion.div>

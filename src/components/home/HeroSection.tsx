@@ -44,7 +44,7 @@ export default function HeroSection() {
           transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
         >
           <Image
-            src="/images/hero/hero-bg.jpg"
+            src="/images/hero/hero-bg.webp"
             alt=""
             fill
             priority
