@@ -4,6 +4,8 @@ import { useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
 
+const EASE_OUT = [0.22, 1, 0.36, 1] as const;
+
 const FAQS = [
   {
     q: "Which grades do you support?",
@@ -27,22 +29,18 @@ export default function FAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
   const reduceMotion = useReducedMotion();
 
-  const wrap = {
-    hidden: {},
-    show: {
-      transition: { staggerChildren: 0.08 },
-    },
-  };
-
+  // ✅ typed motion variants (fixes Vercel build)
   const item = {
-    hidden: reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16, filter: "blur(10px)" },
+    hidden: reduceMotion
+      ? { opacity: 1, y: 0, filter: "blur(0px)" }
+      : { opacity: 0, y: 18, filter: "blur(10px)" },
     show: reduceMotion
-      ? { opacity: 1, y: 0 }
+      ? { opacity: 1, y: 0, filter: "blur(0px)" }
       : {
           opacity: 1,
           y: 0,
           filter: "blur(0px)",
-          transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] },
+          transition: { duration: 0.75, ease: EASE_OUT },
         },
   };
 
@@ -50,13 +48,19 @@ export default function FAQSection() {
     <section className="relative w-full py-16 sm:py-20">
       <div className="container-tight">
         <motion.div
-          variants={wrap}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.22 }}
+          viewport={{ once: true, amount: 0.25 }}
+          variants={{
+            hidden: {},
+            show: { transition: { staggerChildren: 0.08 } },
+          }}
           className="mx-auto max-w-3xl text-center"
         >
-          <motion.p variants={item} className="text-xs font-semibold tracking-wide text-black/55">
+          <motion.p
+            variants={item}
+            className="text-xs font-semibold tracking-wide text-black/55"
+          >
             Frequently Asked Questions
           </motion.p>
 
@@ -75,31 +79,18 @@ export default function FAQSection() {
           </motion.p>
         </motion.div>
 
-        <motion.div
-          variants={wrap}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.18 }}
-          className="mx-auto mt-10 max-w-3xl"
-        >
-          {FAQS.map((faq, idx) => {
+        <div className="mx-auto mt-10 max-w-3xl">
+          {FAQS.map((itemData, idx) => {
             const isOpen = openIndex === idx;
 
             return (
               <motion.div
-                key={faq.q}
-                variants={item}
-                whileHover={reduceMotion ? {} : { y: -2 }}
-                transition={{ duration: 0.2, ease: "easeOut" }}
+                key={itemData.q}
+                initial={reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.55, ease: EASE_OUT }}
                 className="water-hover mb-3 rounded-3xl border border-border bg-white/70 backdrop-blur-xl"
-                onMouseMove={(e) => {
-                  const el = e.currentTarget as HTMLDivElement;
-                  const r = el.getBoundingClientRect();
-                  const x = ((e.clientX - r.left) / r.width) * 100;
-                  const y = ((e.clientY - r.top) / r.height) * 100;
-                  el.style.setProperty("--x", `${x}%`);
-                  el.style.setProperty("--y", `${y}%`);
-                }}
               >
                 <button
                   type="button"
@@ -107,30 +98,41 @@ export default function FAQSection() {
                   className="flex w-full items-center justify-between gap-4 px-5 py-5 text-left sm:px-6"
                 >
                   <span className="text-sm font-extrabold tracking-tight text-black/85 sm:text-base">
-                    {faq.q}
+                    {itemData.q}
                   </span>
 
-                  <motion.span
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-white/70"
-                    animate={reduceMotion ? {} : { rotate: isOpen ? 0 : 0 }}
-                    whileHover={reduceMotion ? {} : { scale: 1.03 }}
-                    transition={{ duration: 0.18, ease: "easeOut" }}
-                  >
-                    {isOpen ? <Minus className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
-                  </motion.span>
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-white/70">
+                    {isOpen ? (
+                      <Minus className="h-4 w-4" />
+                    ) : (
+                      <Plus className="h-4 w-4" />
+                    )}
+                  </span>
                 </button>
 
                 <AnimatePresence initial={false}>
                   {isOpen && (
                     <motion.div
-                      initial={reduceMotion ? { opacity: 1 } : { height: 0, opacity: 0 }}
-                      animate={reduceMotion ? { opacity: 1 } : { height: "auto", opacity: 1 }}
-                      exit={reduceMotion ? { opacity: 1 } : { height: 0, opacity: 0 }}
+                      initial={
+                        reduceMotion
+                          ? { height: "auto", opacity: 1 }
+                          : { height: 0, opacity: 0 }
+                      }
+                      animate={
+                        reduceMotion
+                          ? { height: "auto", opacity: 1 }
+                          : { height: "auto", opacity: 1 }
+                      }
+                      exit={
+                        reduceMotion
+                          ? { height: "auto", opacity: 1 }
+                          : { height: 0, opacity: 0 }
+                      }
                       transition={{ duration: 0.28, ease: "easeOut" }}
                       className="overflow-hidden"
                     >
                       <div className="px-5 pb-6 text-sm leading-relaxed text-black/70 sm:px-6">
-                        {faq.a}
+                        {itemData.a}
                       </div>
                     </motion.div>
                   )}
@@ -138,7 +140,7 @@ export default function FAQSection() {
               </motion.div>
             );
           })}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
