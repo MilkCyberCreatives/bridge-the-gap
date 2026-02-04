@@ -2,26 +2,123 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ---------------------------
+   Bridge The Gap Design Tokens
+   --------------------------- */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: 255 255 255;
+  --fg: 10 10 10;
+
+  /* Brand */
+  --brand: 250 78 27; /* #fa4e1b */
+  --brand-2: 248 135 24; /* #f88718 */
+  --ink: 0 0 0; /* #000000 */
+
+  /* Surfaces */
+  --card: 255 255 255;
+  --muted: 246 247 249;
+  --border: 229 231 235;
+
+  /* Radius */
+  --radius: 18px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  height: 100%;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: rgb(var(--fg));
+  background: rgb(var(--bg));
+  text-rendering: optimizeLegibility;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Selection highlight */
+::selection {
+  background: rgba(250, 78, 27, 0.22);
+}
+
+/* Utility: premium container spacing */
+.container-tight {
+  @apply mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8;
+}
+
+/* Subtle grain for premium feel */
+.bg-grain {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.035) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+/* ---------------------------
+   Premium Water Hover Effect (ONE COPY)
+   --------------------------- */
+
+.btn-water,
+.water-hover {
+  position: relative;
+  overflow: hidden;
+  transform: translateZ(0);
+  transition: transform 220ms ease, filter 220ms ease, background 220ms ease,
+    border-color 220ms ease;
+}
+
+.btn-water:hover,
+.water-hover:hover {
+  transform: translateY(-1px);
+  filter: saturate(1.05);
+}
+
+.btn-water::before,
+.water-hover::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: radial-gradient(
+    circle at var(--x, 50%) var(--y, 50%),
+    rgba(255, 255, 255, 0.55),
+    transparent 45%
+  );
+  opacity: 0;
+  transition: opacity 220ms ease;
+  pointer-events: none;
+}
+
+.btn-water:hover::before,
+.water-hover:hover::before {
+  opacity: 1;
+}
+
+/* ---------------------------
+   Smooth "Dance" hover
+   --------------------------- */
+
+.nav-dance {
+  display: inline-block;
+  will-change: transform;
+  transition: transform 260ms ease, letter-spacing 260ms ease;
+}
+
+.nav-dance:hover {
+  transform: translateY(-2px);
+  letter-spacing: 0.2px;
+  animation: nav-bounce 420ms ease;
+}
+
+@keyframes nav-bounce {
+  0% {
+    transform: translateY(0);
+  }
+  45% {
+    transform: translateY(-3px);
+  }
+  100% {
+    transform: translateY(-2px);
   }
 }
