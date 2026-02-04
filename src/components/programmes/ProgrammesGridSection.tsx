@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion, Variants } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
 const PROGRAMMES = [
@@ -39,17 +39,16 @@ export default function ProgrammesGridSection() {
     },
   };
 
-  const item = {
-    hidden: reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 18, filter: "blur(10px)" },
-    show: reduceMotion
-      ? { opacity: 1, y: 0 }
-      : {
-          opacity: 1,
-          y: 0,
-          filter: "blur(0px)",
-          transition: { duration: 0.7, ease: "easeOut" },
-        },
-  };
+  const item: Variants = {
+  hidden: { opacity: 0, y: 14, filter: "blur(10px)" },
+  show: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: 0.55, ease: "easeOut" },
+  },
+};
+
 
   return (
     <section className="relative w-full py-16 sm:py-20">
