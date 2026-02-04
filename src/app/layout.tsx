@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Plus_Jakarta_Sans } from "next/font/google";
+
 import TopHeader from "@/components/layout/TopHeader";
 import MainHeader from "@/components/layout/MainHeader";
+import ScrollToTop from "@/components/ui/ScrollToTop";
 import WaterCursor from "@/components/ui/WaterCursor";
 
 const font = Plus_Jakarta_Sans({
@@ -43,25 +45,28 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en-ZA" className={font.variable}>
-      <body className="min-h-screen bg-bg text-fg">
-        {/* ✅ enables global water hover cursor ripple */}
+    <html lang="en-ZA" className={`${font.variable} antialiased`}>
+      <body className="relative min-h-screen bg-[rgb(var(--bg))] text-[rgb(var(--fg))]">
+        {/* ✅ global cursor ripple (should be pointer-events-none inside component) */}
         <WaterCursor />
 
-        {/* background wash */}
+        {/* ✅ global background wash */}
         <div className="fixed inset-0 -z-10">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(250,78,27,0.14),transparent_45%),radial-gradient(circle_at_80%_20%,rgba(248,135,24,0.12),transparent_45%),radial-gradient(circle_at_40%_90%,rgba(0,0,0,0.06),transparent_55%)]" />
           <div className="absolute inset-0 bg-grain opacity-60" />
         </div>
 
-        {/* ✅ FIXED header stack (no gap) */}
+        {/* ✅ FIXED header stack (NO GAP) */}
         <header className="fixed inset-x-0 top-0 z-[60]">
           <TopHeader />
           <MainHeader />
         </header>
 
-        {/* ✅ default offset for every page content */}
+        {/* ✅ page content offset */}
         <main className="pt-[var(--hdr)]">{children}</main>
+
+        {/* ✅ Scroll to top (render LAST so it always stays above everything) */}
+        <ScrollToTop />
       </body>
     </html>
   );

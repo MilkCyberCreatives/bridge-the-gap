@@ -27,29 +27,79 @@ export default function FAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
   const reduceMotion = useReducedMotion();
 
+  const wrap = {
+    hidden: {},
+    show: {
+      transition: { staggerChildren: 0.08 },
+    },
+  };
+
+  const item = {
+    hidden: reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16, filter: "blur(10px)" },
+    show: reduceMotion
+      ? { opacity: 1, y: 0 }
+      : {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] },
+        },
+  };
+
   return (
     <section className="relative w-full py-16 sm:py-20">
       <div className="container-tight">
-        <div className="mx-auto max-w-3xl text-center">
-          <p className="text-xs font-semibold tracking-wide text-black/55">
+        <motion.div
+          variants={wrap}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.22 }}
+          className="mx-auto max-w-3xl text-center"
+        >
+          <motion.p variants={item} className="text-xs font-semibold tracking-wide text-black/55">
             Frequently Asked Questions
-          </p>
-          <h2 className="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl">
-            Quick Answers Before You Book
-          </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-base leading-relaxed text-black/70">
-            Clean, clear guidance — so you can move forward with confidence.
-          </p>
-        </div>
+          </motion.p>
 
-        <div className="mx-auto mt-10 max-w-3xl">
-          {FAQS.map((item, idx) => {
+          <motion.h2
+            variants={item}
+            className="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl"
+          >
+            Quick Answers Before You Book
+          </motion.h2>
+
+          <motion.p
+            variants={item}
+            className="mx-auto mt-3 max-w-2xl text-base leading-relaxed text-black/70"
+          >
+            Clean, clear guidance — so you can move forward with confidence.
+          </motion.p>
+        </motion.div>
+
+        <motion.div
+          variants={wrap}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.18 }}
+          className="mx-auto mt-10 max-w-3xl"
+        >
+          {FAQS.map((faq, idx) => {
             const isOpen = openIndex === idx;
 
             return (
-              <div
-                key={item.q}
+              <motion.div
+                key={faq.q}
+                variants={item}
+                whileHover={reduceMotion ? {} : { y: -2 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
                 className="water-hover mb-3 rounded-3xl border border-border bg-white/70 backdrop-blur-xl"
+                onMouseMove={(e) => {
+                  const el = e.currentTarget as HTMLDivElement;
+                  const r = el.getBoundingClientRect();
+                  const x = ((e.clientX - r.left) / r.width) * 100;
+                  const y = ((e.clientY - r.top) / r.height) * 100;
+                  el.style.setProperty("--x", `${x}%`);
+                  el.style.setProperty("--y", `${y}%`);
+                }}
               >
                 <button
                   type="button"
@@ -57,49 +107,38 @@ export default function FAQSection() {
                   className="flex w-full items-center justify-between gap-4 px-5 py-5 text-left sm:px-6"
                 >
                   <span className="text-sm font-extrabold tracking-tight text-black/85 sm:text-base">
-                    {item.q}
+                    {faq.q}
                   </span>
 
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-white/70">
-                    {isOpen ? (
-                      <Minus className="h-4 w-4" />
-                    ) : (
-                      <Plus className="h-4 w-4" />
-                    )}
-                  </span>
+                  <motion.span
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-white/70"
+                    animate={reduceMotion ? {} : { rotate: isOpen ? 0 : 0 }}
+                    whileHover={reduceMotion ? {} : { scale: 1.03 }}
+                    transition={{ duration: 0.18, ease: "easeOut" }}
+                  >
+                    {isOpen ? <Minus className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
+                  </motion.span>
                 </button>
 
                 <AnimatePresence initial={false}>
                   {isOpen && (
                     <motion.div
-                      initial={
-                        reduceMotion
-                          ? { height: "auto", opacity: 1 }
-                          : { height: 0, opacity: 0 }
-                      }
-                      animate={
-                        reduceMotion
-                          ? { height: "auto", opacity: 1 }
-                          : { height: "auto", opacity: 1 }
-                      }
-                      exit={
-                        reduceMotion
-                          ? { height: "auto", opacity: 1 }
-                          : { height: 0, opacity: 0 }
-                      }
+                      initial={reduceMotion ? { opacity: 1 } : { height: 0, opacity: 0 }}
+                      animate={reduceMotion ? { opacity: 1 } : { height: "auto", opacity: 1 }}
+                      exit={reduceMotion ? { opacity: 1 } : { height: 0, opacity: 0 }}
                       transition={{ duration: 0.28, ease: "easeOut" }}
                       className="overflow-hidden"
                     >
                       <div className="px-5 pb-6 text-sm leading-relaxed text-black/70 sm:px-6">
-                        {item.a}
+                        {faq.a}
                       </div>
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </div>
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
