@@ -35,30 +35,37 @@ const POSTS = [
   },
 ];
 
+// ✅ Fix Framer Motion v12 TS typing: use tuple easing (not number[])
+const EASE_OUT = [0.22, 1, 0.36, 1] as const;
+
 export default function BlogPreviewSection() {
   const reduceMotion = useReducedMotion();
 
   const headerItem = {
-    hidden: reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 18, filter: "blur(10px)" },
+    hidden: reduceMotion
+      ? { opacity: 1, y: 0, filter: "blur(0px)" }
+      : { opacity: 0, y: 18, filter: "blur(10px)" },
     show: reduceMotion
-      ? { opacity: 1, y: 0 }
+      ? { opacity: 1, y: 0, filter: "blur(0px)" }
       : {
           opacity: 1,
           y: 0,
           filter: "blur(0px)",
-          transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
+          transition: { duration: 0.7, ease: EASE_OUT },
         },
   };
 
   const cardItem = {
-    hidden: reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 26, filter: "blur(12px)" },
+    hidden: reduceMotion
+      ? { opacity: 1, y: 0, filter: "blur(0px)" }
+      : { opacity: 0, y: 22, filter: "blur(12px)" },
     show: reduceMotion
-      ? { opacity: 1, y: 0 }
+      ? { opacity: 1, y: 0, filter: "blur(0px)" }
       : {
           opacity: 1,
           y: 0,
           filter: "blur(0px)",
-          transition: { duration: 0.75, ease: [0.22, 1, 0.36, 1] },
+          transition: { duration: 0.75, ease: EASE_OUT },
         },
   };
 
@@ -68,14 +75,17 @@ export default function BlogPreviewSection() {
         <motion.div
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.22 }}
+          viewport={{ once: true, amount: 0.25 }}
           variants={{
             hidden: {},
-            show: { transition: { staggerChildren: 0.08 } },
+            show: { transition: { staggerChildren: 0.09 } },
           }}
           className="text-center"
         >
-          <motion.p variants={headerItem} className="text-xs font-semibold tracking-wide text-black/55">
+          <motion.p
+            variants={headerItem}
+            className="text-xs font-semibold tracking-wide text-black/55"
+          >
             Latest Articles
           </motion.p>
 
@@ -83,61 +93,51 @@ export default function BlogPreviewSection() {
             variants={headerItem}
             className="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl"
           >
-            Helpful Tips For Learners & Parents
+            Helpful Tips For Learners &amp; Parents
           </motion.h2>
 
           <motion.p
             variants={headerItem}
             className="mx-auto mt-3 max-w-2xl text-base leading-relaxed text-black/70"
           >
-            Guidance designed for South African learning outcomes — practical, clean, and easy to apply.
+            Guidance designed for South African learning outcomes — practical, clean,
+            and easy to apply.
           </motion.p>
 
           <div className="mt-10 grid gap-4 md:grid-cols-3">
             {POSTS.map((p) => (
-              <motion.div
-                key={p.title}
-                variants={cardItem}
-                whileHover={reduceMotion ? undefined : { y: -6 }}
-                transition={{ duration: 0.25, ease: "easeOut" }}
-                className="h-full"
-              >
+              <motion.div key={p.title} variants={cardItem}>
                 <Link
                   href={p.href}
-                  className="water-hover group block h-full overflow-hidden rounded-3xl border border-border bg-white/65 text-left backdrop-blur-xl"
+                  className="water-hover group block overflow-hidden rounded-3xl border border-border bg-white/65 text-left backdrop-blur-xl"
                 >
-                  {/* Image */}
+                  {/* ✅ Image (premium + subtle hover zoom) */}
                   <div className="relative aspect-[16/10] w-full overflow-hidden">
-                    <motion.div
-                      className="absolute inset-0"
-                      initial={false}
-                      whileHover={
-                        reduceMotion
-                          ? undefined
-                          : { scale: 1.06 }
-                      }
-                      transition={{ duration: 0.6, ease: "easeOut" }}
-                    >
-                      <Image
-                        src={p.image}
-                        alt={p.title}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, 33vw"
-                        priority={false}
-                      />
-                    </motion.div>
-
-                    {/* premium overlay */}
+                    <Image
+                      src={p.image}
+                      alt={p.title}
+                      fill
+                      className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                    {/* subtle overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent" />
 
-                    {/* soft top shine on hover */}
-                    <div className="pointer-events-none absolute -inset-x-10 -top-10 h-24 rotate-6 opacity-0 blur-xl transition-opacity duration-300 group-hover:opacity-100"
-                      style={{
-                        background:
-                          "linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent)",
-                      }}
-                    />
+                    {/* small shimmer line (cheap, premium) */}
+                    {!reduceMotion && (
+                      <motion.div
+                        aria-hidden
+                        className="pointer-events-none absolute -inset-x-24 inset-y-0 rotate-12"
+                        initial={{ x: "-60%", opacity: 0 }}
+                        whileInView={{ x: "140%", opacity: [0, 0.55, 0] }}
+                        viewport={{ once: true, amount: 0.4 }}
+                        transition={{ duration: 1.4, ease: EASE_OUT }}
+                        style={{
+                          background:
+                            "linear-gradient(90deg, transparent, rgba(255,255,255,0.22), transparent)",
+                        }}
+                      />
+                    )}
                   </div>
 
                   {/* Content */}
