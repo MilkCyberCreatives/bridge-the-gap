@@ -1,0 +1,13 @@
+import ProgrammesHero from "@/components/programmes/ProgrammesHero";
+import ProgrammesGridSection from "@/components/programmes/ProgrammesGridSection";
+import ProgrammesCTASection from "@/components/programmes/ProgrammesCTASection";
+
+export default function ProgrammesPage() {
+  return (
+    <>
+      <ProgrammesHero />
+      <ProgrammesGridSection />
+      <ProgrammesCTASection />
+    </>
+  );
+}

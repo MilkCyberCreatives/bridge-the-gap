@@ -6,6 +6,7 @@ import TopHeader from "@/components/layout/TopHeader";
 import MainHeader from "@/components/layout/MainHeader";
 import ScrollToTop from "@/components/ui/ScrollToTop";
 import WaterCursor from "@/components/ui/WaterCursor";
+import FooterSection from "@/components/layout/FooterSection";
 
 const font = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -34,7 +35,7 @@ export const metadata: Metadata = {
     type: "website",
     url: siteUrl,
     siteName,
-    title: `${siteName} | Touching The Future Through Meaningful Learning`,
+    title: `${siteName} | Touching the Future Through Meaningful Learning`,
     description:
       "Learner academic support, matric rewrite programmes, and teacher development aligned to CAPS and IEB.",
   },
@@ -46,27 +47,29 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en-ZA" className={`${font.variable} antialiased`}>
-      {/* ✅ IMPORTANT: flex column + main flex-1 removes the white strip */}
-      <body className="relative flex min-h-screen flex-col bg-[rgb(var(--bg))] text-[rgb(var(--fg))]">
-        {/* global cursor ripple */}
+      <body className="relative min-h-screen bg-[rgb(var(--bg))] text-[rgb(var(--fg))]">
+        {/* ✅ global cursor ripple */}
         <WaterCursor />
 
-        {/* background wash */}
+        {/* ✅ global background wash */}
         <div className="fixed inset-0 -z-10">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(250,78,27,0.14),transparent_45%),radial-gradient(circle_at_80%_20%,rgba(248,135,24,0.12),transparent_45%),radial-gradient(circle_at_40%_90%,rgba(0,0,0,0.06),transparent_55%)]" />
           <div className="absolute inset-0 bg-grain opacity-60" />
         </div>
 
-        {/* fixed header stack */}
+        {/* ✅ fixed header */}
         <header className="fixed inset-x-0 top-0 z-[60]">
           <TopHeader />
           <MainHeader />
         </header>
 
-        {/* page content offset + flex filler */}
-        <main className="flex-1 pt-[var(--hdr)]">{children}</main>
+        {/* ✅ content offset below header */}
+        <main className="pt-[var(--hdr)]">{children}</main>
 
-        {/* scroll-to-top LAST so it sits above everything */}
+        {/* ✅ footer on ALL pages */}
+        <FooterSection />
+
+        {/* ✅ scroll to top on ALL pages (render last) */}
         <ScrollToTop />
       </body>
     </html>
