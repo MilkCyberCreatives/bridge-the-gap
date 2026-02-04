@@ -1,27 +1,33 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { BookOpen, CheckCircle2, Send } from "lucide-react";
+
+const EASE_OUT: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 export default function RequestSubjectFormSection() {
   const reduceMotion = useReducedMotion();
 
-  const wrap = {
+  const wrap: Variants = {
     hidden: {},
     show: {
-      transition: reduceMotion ? { duration: 0 } : { staggerChildren: 0.12, delayChildren: 0.05 },
+      transition: reduceMotion
+        ? { duration: 0 }
+        : { staggerChildren: 0.12, delayChildren: 0.05 },
     },
   };
 
-  const item = {
-    hidden: reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 18, filter: "blur(10px)" },
+  const item: Variants = {
+    hidden: reduceMotion
+      ? { opacity: 1, y: 0, filter: "blur(0px)" }
+      : { opacity: 0, y: 18, filter: "blur(10px)" },
     show: reduceMotion
-      ? { opacity: 1, y: 0 }
+      ? { opacity: 1, y: 0, filter: "blur(0px)" }
       : {
           opacity: 1,
           y: 0,
           filter: "blur(0px)",
-          transition: { duration: 0.7, ease: "easeOut" },
+          transition: { duration: 0.7, ease: EASE_OUT },
         },
   };
 
@@ -93,76 +99,78 @@ export default function RequestSubjectFormSection() {
               </div>
 
               <motion.form
-                variants={wrap}
-                initial="hidden"
-                animate="show"
                 onSubmit={(e) => e.preventDefault()}
                 className="mt-8 grid gap-4"
               >
-                <motion.div variants={item} className="grid gap-4 md:grid-cols-2">
-                  <input
-                    className="water-hover h-12 w-full rounded-full border border-border bg-white/70 px-5 text-sm outline-none placeholder:text-black/45 focus:border-black/20"
-                    placeholder="Parent / Guardian Name"
-                    name="guardianName"
-                  />
-                  <input
-                    className="water-hover h-12 w-full rounded-full border border-border bg-white/70 px-5 text-sm outline-none placeholder:text-black/45 focus:border-black/20"
-                    placeholder="Contact Number (WhatsApp preferred)"
-                    name="phone"
-                  />
-                  <input
-                    className="water-hover h-12 w-full rounded-full border border-border bg-white/70 px-5 text-sm outline-none placeholder:text-black/45 focus:border-black/20"
-                    placeholder="Email Address"
-                    name="email"
-                    type="email"
-                  />
-                  <input
-                    className="water-hover h-12 w-full rounded-full border border-border bg-white/70 px-5 text-sm outline-none placeholder:text-black/45 focus:border-black/20"
-                    placeholder="Learner Grade (e.g. Grade 7)"
-                    name="grade"
-                  />
-                </motion.div>
+                <motion.div variants={wrap} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.25 }}>
+                  <motion.div variants={item} className="grid gap-4 md:grid-cols-2">
+                    <input
+                      className="water-hover h-12 w-full rounded-full border border-border bg-white/70 px-5 text-sm outline-none placeholder:text-black/45 focus:border-black/20"
+                      placeholder="Parent / Guardian Name"
+                      name="guardianName"
+                    />
+                    <input
+                      className="water-hover h-12 w-full rounded-full border border-border bg-white/70 px-5 text-sm outline-none placeholder:text-black/45 focus:border-black/20"
+                      placeholder="Contact Number (WhatsApp preferred)"
+                      name="phone"
+                    />
+                    <input
+                      className="water-hover h-12 w-full rounded-full border border-border bg-white/70 px-5 text-sm outline-none placeholder:text-black/45 focus:border-black/20"
+                      placeholder="Email Address"
+                      name="email"
+                      type="email"
+                    />
+                    <input
+                      className="water-hover h-12 w-full rounded-full border border-border bg-white/70 px-5 text-sm outline-none placeholder:text-black/45 focus:border-black/20"
+                      placeholder="Learner Grade (e.g. Grade 7)"
+                      name="grade"
+                    />
+                  </motion.div>
 
-                <motion.div variants={item} className="grid gap-4 md:grid-cols-2">
-                  <input
-                    className="water-hover h-12 w-full rounded-full border border-border bg-white/70 px-5 text-sm outline-none placeholder:text-black/45 focus:border-black/20 md:col-span-2"
-                    placeholder="Subject Requested (e.g. Life Sciences / Accounting)"
-                    name="subject"
-                  />
+                  <motion.div variants={item} className="mt-4 grid gap-4 md:grid-cols-2">
+                    <input
+                      className="water-hover h-12 w-full rounded-full border border-border bg-white/70 px-5 text-sm outline-none placeholder:text-black/45 focus:border-black/20 md:col-span-2"
+                      placeholder="Subject Requested (e.g. Life Sciences / Accounting)"
+                      name="subject"
+                    />
 
-                  <input
-                    className="water-hover h-12 w-full rounded-full border border-border bg-white/70 px-5 text-sm outline-none placeholder:text-black/45 focus:border-black/20"
-                    placeholder="Curriculum (CAPS / IEB)"
-                    name="curriculum"
-                  />
+                    <input
+                      className="water-hover h-12 w-full rounded-full border border-border bg-white/70 px-5 text-sm outline-none placeholder:text-black/45 focus:border-black/20"
+                      placeholder="Curriculum (CAPS / IEB)"
+                      name="curriculum"
+                    />
 
-                  <input
-                    className="water-hover h-12 w-full rounded-full border border-border bg-white/70 px-5 text-sm outline-none placeholder:text-black/45 focus:border-black/20"
-                    placeholder="Preferred Format (Online / In-person)"
-                    name="format"
-                  />
-                </motion.div>
+                    <input
+                      className="water-hover h-12 w-full rounded-full border border-border bg-white/70 px-5 text-sm outline-none placeholder:text-black/45 focus:border-black/20"
+                      placeholder="Preferred Format (Online / In-person)"
+                      name="format"
+                    />
+                  </motion.div>
 
-                <motion.div variants={item}>
-                  <textarea
-                    className="water-hover min-h-[160px] w-full rounded-3xl border border-border bg-white/70 px-5 py-4 text-sm outline-none placeholder:text-black/45 focus:border-black/20"
-                    placeholder="Tell us what the learner needs help with (topics, challenges, test/exam date, goals, etc.)"
-                    name="message"
-                  />
-                </motion.div>
+                  <motion.div variants={item} className="mt-4">
+                    <textarea
+                      className="water-hover min-h-[160px] w-full rounded-3xl border border-border bg-white/70 px-5 py-4 text-sm outline-none placeholder:text-black/45 focus:border-black/20"
+                      placeholder="Tell us what the learner needs help with (topics, challenges, test/exam date, goals, etc.)"
+                      name="message"
+                    />
+                  </motion.div>
 
-                <motion.div variants={item} className="mt-2 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-                  <button
-                    type="submit"
-                    className="btn-water inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[rgb(var(--brand))] px-8 text-sm font-extrabold text-white"
+                  <motion.div
+                    variants={item}
+                    className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center"
                   >
-                    <Send className="h-4 w-4" />
-                    submit request
-                  </button>
+                    <button
+                      type="submit"
+                      className="btn-water inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[rgb(var(--brand))] px-8 text-sm font-extrabold text-white"
+                    >
+                      <Send className="h-4 w-4" />
+                      submit request
+                    </button>
 
-                  <p className="text-xs text-black/55">
-                    We’ll respond within business hours. Your details stay private.
-                  </p>
+                    <p className="text-xs text-black/55">
+                      We’ll respond within business hours. Your details stay private.
+                    </p>
+                  </motion.div>
                 </motion.div>
               </motion.form>
             </div>
