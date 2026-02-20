@@ -1,6 +1,6 @@
 "use client";
 
-import { MessageCircle } from "lucide-react";
+import { Facebook, Instagram, Linkedin, MessageCircle } from "lucide-react";
 import { CONTACT_DETAILS } from "@/data/site";
 
 export default function TopHeader() {
@@ -20,6 +20,36 @@ export default function TopHeader() {
           >
             <MessageCircle className="h-3.5 w-3.5" />
             WhatsApp {CONTACT_DETAILS.phoneLocal}
+          </a>
+
+          <a
+            href="https://instagram.com"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Instagram"
+            className="water-hover inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white/85 transition hover:bg-white/15 hover:text-white"
+          >
+            <Instagram className="h-4 w-4" />
+          </a>
+
+          <a
+            href="https://facebook.com"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Facebook"
+            className="water-hover inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white/85 transition hover:bg-white/15 hover:text-white"
+          >
+            <Facebook className="h-4 w-4" />
+          </a>
+
+          <a
+            href="https://linkedin.com"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="LinkedIn"
+            className="water-hover inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white/85 transition hover:bg-white/15 hover:text-white"
+          >
+            <Linkedin className="h-4 w-4" />
           </a>
         </div>
       </div>
