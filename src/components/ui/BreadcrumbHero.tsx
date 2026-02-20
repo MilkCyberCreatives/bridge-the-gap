@@ -23,7 +23,7 @@ export default function BreadcrumbHero({
 
   return (
     <section className="relative -mt-[var(--mainhdr)] w-full overflow-hidden pt-[var(--mainhdr)]">
-      <div className="relative min-h-[300px] sm:min-h-[340px]">
+      <div className="relative -mt-[var(--mainhdr)] min-h-[300px] pt-[var(--mainhdr)] sm:min-h-[340px]">
         <div className="absolute inset-0">
           <motion.div
             initial={reduceMotion ? { scale: 1 } : { scale: 1.06 }}
