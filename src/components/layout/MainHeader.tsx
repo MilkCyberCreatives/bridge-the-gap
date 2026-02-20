@@ -55,9 +55,9 @@ export default function MainHeader() {
         style={{ backgroundColor: headerBackground }}
         className="w-full border-b border-slate-200/90 shadow-[0_8px_20px_rgba(15,23,42,0.06)]"
       >
-        <div className="container-tight flex min-h-[84px] items-center justify-between py-2 sm:min-h-[96px] sm:py-3">
+        <div className="container-tight flex min-h-[96px] items-center justify-between py-2 sm:min-h-[112px] sm:py-3">
           <Link href="/" className="flex items-center" aria-label="Bridge The Gap">
-            <div className="relative h-24 w-24 sm:h-28 sm:w-28">
+            <div className="relative h-28 w-28 sm:h-32 sm:w-32">
               <Image
                 src="/bridge-the-gap-icon.svg"
                 alt="Bridge The Gap"
