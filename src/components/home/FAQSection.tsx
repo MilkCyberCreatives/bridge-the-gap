@@ -10,8 +10,11 @@ export default function FAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section className="relative w-full py-16 sm:py-20">
-      <div className="container-tight">
+    <section className="relative w-full overflow-hidden py-16 sm:py-20">
+      <div className="absolute inset-0 bg-[url('/images/how-it-works.webp')] bg-cover bg-center opacity-20" />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(243,246,250,0.9),rgba(243,246,250,0.96))]" />
+
+      <div className="container-tight relative z-10">
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-black/55">
             FAQ
