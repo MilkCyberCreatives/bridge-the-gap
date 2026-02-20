@@ -20,7 +20,7 @@ export default function SubjectDetailHero({
   const reduceMotion = useReducedMotion();
 
   return (
-    <section className="relative w-full overflow-hidden">
+    <section className="relative -mt-[var(--hdr)] w-full overflow-hidden pt-[var(--hdr)]">
       <div className="absolute inset-0">
         <motion.div
           className="absolute inset-0"
