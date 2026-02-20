@@ -60,7 +60,7 @@ export default function HomePage() {
           audienceSchema,
         ]}
       />
-      <main className="w-full">
+      <div className="w-full">
         <HeroSection />
         <ProgrammesSection />
         <SupportPromiseSection />
@@ -71,7 +71,7 @@ export default function HomePage() {
         <FAQSection />
         <ConsultationFormSection />
         <BlogPreviewSection />
-      </main>
+      </div>
     </>
   );
 }

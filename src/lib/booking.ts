@@ -97,6 +97,24 @@ export function getSlotsForDate(date: string): AvailabilitySlot[] {
   return slots;
 }
 
+function formatLocalIsoDate(date: Date): string {
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const day = date.getDate().toString().padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+export function isBusinessHourTime(time: string): boolean {
+  if (!/^\d{2}:\d{2}$/.test(time)) return false;
+  const [hourString, minuteString] = time.split(":");
+  const hour = Number(hourString);
+  const minute = Number(minuteString);
+
+  if (!Number.isInteger(hour) || !Number.isInteger(minute)) return false;
+  if (minute !== 0) return false;
+  return hour >= BUSINESS_HOURS.start && hour < BUSINESS_HOURS.end;
+}
+
 export function getSelectableDates(numberOfDays = 21): string[] {
   const result: string[] = [];
   const now = new Date();
@@ -108,7 +126,7 @@ export function getSelectableDates(numberOfDays = 21): string[] {
     const day = date.getDay();
     if (day === 0) continue;
 
-    const isoDate = date.toISOString().slice(0, 10);
+    const isoDate = formatLocalIsoDate(date);
     result.push(isoDate);
   }
 
@@ -147,6 +165,35 @@ export function validateConsultationPayload(input: unknown): ConsultationValidat
     return { ok: false, message: "Please provide a valid email address." };
   }
 
+  const fullName = payload.fullName?.trim() ?? "";
+  const phone = payload.phone?.trim() ?? "";
+  const audience = payload.audience?.trim() ?? "";
+  const service = payload.service?.trim() ?? "";
+  const curriculum = payload.curriculum?.trim() ?? "";
+  const message = payload.message?.trim() ?? "";
+  const organisation = payload.organisation?.trim() ?? "";
+  const otherSubject = payload.otherSubject?.trim() ?? "";
+
+  if (fullName.length > 120) {
+    return { ok: false, message: "Full name is too long." };
+  }
+
+  if (phone.length > 30) {
+    return { ok: false, message: "Phone number is too long." };
+  }
+
+  if (message.length > 2500) {
+    return { ok: false, message: "Message is too long." };
+  }
+
+  if (organisation.length > 160 || otherSubject.length > 160) {
+    return { ok: false, message: "Some optional fields are too long." };
+  }
+
+  if (audience.length > 80 || service.length > 120 || curriculum.length > 40) {
+    return { ok: false, message: "Invalid service selection fields." };
+  }
+
   if (
     (payload.preferredDate && !isIsoDateString(payload.preferredDate)) ||
     (payload.preferredTime && !/^\d{2}:\d{2}$/.test(payload.preferredTime))
@@ -162,9 +209,24 @@ export function validateConsultationPayload(input: unknown): ConsultationValidat
     return { ok: false, message: "Please choose a preferred date." };
   }
 
+  if (payload.preferredDate && getDayOfWeek(payload.preferredDate) === 0) {
+    return { ok: false, message: "Bookings are not available on Sundays." };
+  }
+
+  if (payload.preferredTime && !isBusinessHourTime(payload.preferredTime)) {
+    return { ok: false, message: "Please select a valid business-hour time slot." };
+  }
+
   const subjects = Array.isArray(payload.subjects)
-    ? payload.subjects.filter((value): value is string => typeof value === "string")
+    ? payload.subjects
+        .filter((value): value is string => typeof value === "string")
+        .map((value) => value.trim())
+        .filter(Boolean)
     : [];
+
+  if (subjects.length > 20 || subjects.some((subject) => subject.length > 80)) {
+    return { ok: false, message: "Please reduce subject selections." };
+  }
 
   const optionalTrackingFields: Array<
     keyof Pick<
@@ -192,23 +254,26 @@ export function validateConsultationPayload(input: unknown): ConsultationValidat
     if (value !== undefined && typeof value !== "string") {
       return { ok: false, message: `Invalid field: ${field}.` };
     }
+    if (typeof value === "string" && value.length > 240) {
+      return { ok: false, message: `Field too long: ${field}.` };
+    }
   }
 
   return {
     ok: true,
     data: {
-      fullName: payload.fullName?.trim() ?? "",
+      fullName,
       email,
-      phone: payload.phone?.trim() ?? "",
-      organisation: payload.organisation?.trim() ?? "",
-      audience: payload.audience?.trim() ?? "",
-      service: payload.service?.trim() ?? "",
-      curriculum: payload.curriculum?.trim() ?? "",
+      phone,
+      organisation,
+      audience,
+      service,
+      curriculum,
       subjects,
-      otherSubject: payload.otherSubject?.trim() ?? "",
+      otherSubject,
       preferredDate: payload.preferredDate,
       preferredTime: payload.preferredTime,
-      message: payload.message?.trim() ?? "",
+      message,
       utmSource: payload.utmSource?.trim() ?? "",
       utmMedium: payload.utmMedium?.trim() ?? "",
       utmCampaign: payload.utmCampaign?.trim() ?? "",
