@@ -32,7 +32,7 @@ export default function FooterSection() {
   };
 
   return (
-    <footer className="relative w-full bg-black text-white">
+    <footer id="site-footer" className="relative w-full bg-black text-white">
       <div className="container-tight pt-10">
         <motion.div
           initial="hidden"

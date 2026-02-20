@@ -71,7 +71,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en-ZA" className={`${font.variable} antialiased`}>
-      <body className="relative min-h-screen bg-[rgb(var(--bg))] text-[rgb(var(--fg))]">
+      <body className="relative flex min-h-screen flex-col bg-[rgb(var(--bg))] text-[rgb(var(--fg))]">
         <ScrollProgressBar />
         <WaterCursor />
 
@@ -85,7 +85,7 @@ export default function RootLayout({
           <MainHeader />
         </header>
 
-        <main className="pt-[var(--hdr)]">{children}</main>
+        <main className="flex-1 pt-[var(--hdr)]">{children}</main>
 
         <FooterSection />
         <FloatingWhatsAppButton />
