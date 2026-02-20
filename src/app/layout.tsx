@@ -20,9 +20,6 @@ import {
 const ScrollProgressBar = dynamic(() => import("@/components/ui/ScrollProgressBar"), {
   ssr: false,
 });
-const ScrollToTop = dynamic(() => import("@/components/ui/ScrollToTopButton"), {
-  ssr: false,
-});
 const CookieBanner = dynamic(() => import("@/components/ui/CookieBanner"), {
   ssr: false,
 });
@@ -83,7 +80,6 @@ export default function RootLayout({
         <main className="flex-1 pt-[var(--hdr)]">{children}</main>
 
         <FooterSection />
-        <ScrollToTop />
         <CookieBanner />
         <AnalyticsProvider />
         <StructuredData data={[getOrganizationSchema(), getWebsiteSchema()]} />
