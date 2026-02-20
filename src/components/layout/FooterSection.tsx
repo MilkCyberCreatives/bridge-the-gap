@@ -36,36 +36,6 @@ export default function FooterSection() {
       id="site-footer"
       className="relative w-full bg-[linear-gradient(145deg,#121111,#0f0f0f_45%,#171513)] text-white"
     >
-      <div className="container-tight pt-10">
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.25 }}
-          variants={wrap}
-          className="overflow-hidden rounded-[28px] border border-white/12 bg-white/8 px-6 py-6 backdrop-blur-xl sm:px-8"
-        >
-          <motion.h3 variants={item} className="text-2xl font-extrabold tracking-tight">
-            Bridge The Gap works with school leaders, parents, and learners.
-          </motion.h3>
-          <motion.div variants={item} className="mt-5 flex flex-col gap-3 sm:flex-row">
-            <Link
-              href="/contact#book"
-              className="btn-water inline-flex items-center justify-center rounded-full bg-[linear-gradient(120deg,rgb(var(--brand)),rgb(var(--brand-2)))] px-6 py-3 text-sm font-extrabold text-white"
-            >
-              Book Consultation
-            </Link>
-            <a
-              href={CONTACT_DETAILS.whatsappUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="water-hover inline-flex items-center justify-center rounded-full border border-white/20 bg-white/8 px-6 py-3 text-sm font-semibold text-white"
-            >
-              WhatsApp {CONTACT_DETAILS.phoneLocal}
-            </a>
-          </motion.div>
-        </motion.div>
-      </div>
-
       <div className="container-tight pb-10 pt-12">
         <motion.div
           initial="hidden"
