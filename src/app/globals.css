@@ -13,7 +13,8 @@
   --border: 219 226 236;
   --radius: 18px;
   --hdr: 152px;
-  --mainhdr: 112px;
+  --tophdr: 52px;
+  --mainhdr: calc(var(--hdr) - var(--tophdr));
   --surface-shadow: 0 10px 28px rgba(16, 24, 40, 0.07);
   --surface-shadow-hover: 0 14px 34px rgba(16, 24, 40, 0.1);
 }
@@ -21,7 +22,7 @@
 @media (max-width: 640px) {
   :root {
     --hdr: 138px;
-    --mainhdr: 96px;
+    --tophdr: 48px;
   }
 }
 
