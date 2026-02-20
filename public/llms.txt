@@ -1,0 +1,33 @@
+# Bridge The Gap Educational Services
+
+Bridge The Gap Educational Services is an education support and professional development provider under RushedTech Educational Services.
+
+## Core services
+- Tutoring Services: Academic tutoring across CAPS and IB curricula (individual and group intervention models).
+- Matric Support Services: Matric rewrites, matric tutoring, subject additions, and SBA portfolio support.
+- Teacher Professional Development: Workshops, training, coaching, and development programmes for education professionals.
+- Coaching Services: Coaching for learners, school leaders, and educators.
+
+## Target audiences
+- School leaders
+- Parents and guardians
+- Learners
+- Teachers and education professionals
+
+## Location and delivery
+- Base location: Kempton Park, Birchleigh North, Gauteng, South Africa
+- Delivery: Online, in-person, and group interventions
+
+## Contact
+- Email: info@bridgethegapeducationalservices.co.za
+- Phone/WhatsApp: +27 84 233 1687
+
+## Canonical website
+- https://bridge-the-gap-delta.vercel.app/
+
+## Key pages
+- Home: https://bridge-the-gap-delta.vercel.app/
+- Services: https://bridge-the-gap-delta.vercel.app/programmes
+- Subjects: https://bridge-the-gap-delta.vercel.app/subjects
+- Insights: https://bridge-the-gap-delta.vercel.app/insights
+- Contact: https://bridge-the-gap-delta.vercel.app/contact

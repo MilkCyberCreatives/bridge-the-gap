@@ -10,6 +10,7 @@ import {
   type AvailabilitySlot,
 } from "@/lib/booking";
 import { CONTACT_DETAILS, FORM_FOCUS_OPTIONS } from "@/data/site";
+import { trackLead } from "@/lib/tracking";
 
 type ConsultationFormSectionProps = {
   title?: string;
@@ -27,6 +28,28 @@ const EASE_OUT = [0.22, 1, 0.36, 1] as const;
 const INITIAL_SUBMIT_STATE: SubmitState = {
   status: "idle",
   message: "",
+};
+
+const ATTRIBUTION_STORAGE_KEY = "btg_marketing_attribution";
+
+type AttributionState = {
+  utmSource: string;
+  utmMedium: string;
+  utmCampaign: string;
+  utmTerm: string;
+  utmContent: string;
+  landingPage: string;
+  referrer: string;
+};
+
+const INITIAL_ATTRIBUTION_STATE: AttributionState = {
+  utmSource: "",
+  utmMedium: "",
+  utmCampaign: "",
+  utmTerm: "",
+  utmContent: "",
+  landingPage: "",
+  referrer: "",
 };
 
 function formatDateLabel(date: string): string {
@@ -63,6 +86,7 @@ export default function ConsultationFormSection({
   const [loadingSlots, setLoadingSlots] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitState, setSubmitState] = useState<SubmitState>(INITIAL_SUBMIT_STATE);
+  const [attribution, setAttribution] = useState<AttributionState>(INITIAL_ATTRIBUTION_STATE);
 
   useEffect(() => {
     if (!preferredDate) {
@@ -111,6 +135,49 @@ export default function ConsultationFormSection({
     setService(presetService);
   }, [presetService]);
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const params = new URLSearchParams(window.location.search);
+    const safeValue = (value: string | null, max = 120) =>
+      (value ?? "").trim().slice(0, max);
+
+    const stored = { ...INITIAL_ATTRIBUTION_STATE };
+    try {
+      const saved = window.localStorage.getItem(ATTRIBUTION_STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved) as Partial<AttributionState>;
+        Object.assign(stored, {
+          utmSource: typeof parsed.utmSource === "string" ? parsed.utmSource : "",
+          utmMedium: typeof parsed.utmMedium === "string" ? parsed.utmMedium : "",
+          utmCampaign: typeof parsed.utmCampaign === "string" ? parsed.utmCampaign : "",
+          utmTerm: typeof parsed.utmTerm === "string" ? parsed.utmTerm : "",
+          utmContent: typeof parsed.utmContent === "string" ? parsed.utmContent : "",
+          landingPage: typeof parsed.landingPage === "string" ? parsed.landingPage : "",
+          referrer: typeof parsed.referrer === "string" ? parsed.referrer : "",
+        });
+      }
+    } catch {
+      // Ignore invalid local storage payloads and continue with defaults.
+    }
+
+    const nextAttribution: AttributionState = {
+      utmSource: safeValue(params.get("utm_source")) || stored.utmSource,
+      utmMedium: safeValue(params.get("utm_medium")) || stored.utmMedium,
+      utmCampaign: safeValue(params.get("utm_campaign")) || stored.utmCampaign,
+      utmTerm: safeValue(params.get("utm_term")) || stored.utmTerm,
+      utmContent: safeValue(params.get("utm_content")) || stored.utmContent,
+      landingPage: `${window.location.pathname}${window.location.search}`.slice(0, 240),
+      referrer: safeValue(document.referrer, 240) || stored.referrer,
+    };
+
+    setAttribution(nextAttribution);
+    window.localStorage.setItem(
+      ATTRIBUTION_STORAGE_KEY,
+      JSON.stringify(nextAttribution)
+    );
+  }, []);
+
   function toggleSubject(value: string) {
     setSubjects((prev) =>
       prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]
@@ -139,6 +206,13 @@ export default function ConsultationFormSection({
           message,
           subjects,
           otherSubject,
+          utmSource: attribution.utmSource,
+          utmMedium: attribution.utmMedium,
+          utmCampaign: attribution.utmCampaign,
+          utmTerm: attribution.utmTerm,
+          utmContent: attribution.utmContent,
+          landingPage: attribution.landingPage,
+          referrer: attribution.referrer,
         }),
       });
 
@@ -163,6 +237,7 @@ export default function ConsultationFormSection({
         message: `Request submitted successfully. ${availabilityNote}`,
       });
 
+      trackLead(service, audience);
       setMessage("");
       setOtherSubject("");
       setSubjects([]);
@@ -390,6 +465,8 @@ export default function ConsultationFormSection({
             <button
               type="submit"
               disabled={submitting}
+              data-track="consultation_submit"
+              data-track-location="consultation_form"
               className="btn-water inline-flex h-12 items-center justify-center rounded-full bg-[rgb(var(--brand))] px-8 text-sm font-extrabold text-white disabled:cursor-not-allowed disabled:opacity-70"
             >
               {submitting ? "Submitting..." : "Submit Booking Request"}

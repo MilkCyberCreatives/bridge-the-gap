@@ -1,10 +1,55 @@
+import type { Metadata } from "next";
 import BreadcrumbHero from "@/components/ui/BreadcrumbHero";
 import ConsultationFormSection from "@/components/home/ConsultationFormSection";
+import StructuredData from "@/components/seo/StructuredData";
 import { CONTACT_DETAILS } from "@/data/site";
+import {
+  absoluteUrl,
+  buildPageMetadata,
+  getBreadcrumbSchema,
+  getWebPageSchema,
+} from "@/lib/seo";
+
+export const metadata: Metadata = buildPageMetadata({
+  title: "Contact and Bookings",
+  description:
+    "Contact Bridge The Gap Educational Services for tutoring, matric support, teacher professional development, and coaching bookings.",
+  path: "/contact",
+  keywords: [
+    "book consultation",
+    "education support contact",
+    "Kempton Park education services",
+  ],
+});
 
 export default function ContactPage() {
+  const contactSchema = {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    name: "Contact and Bookings",
+    url: absoluteUrl("/contact"),
+    email: CONTACT_DETAILS.bookingsEmail,
+    telephone: CONTACT_DETAILS.phoneIntl,
+    areaServed: "South Africa",
+  };
+
   return (
     <>
+      <StructuredData
+        data={[
+          getWebPageSchema({
+            name: "Contact and Bookings",
+            path: "/contact",
+            description:
+              "Contact Bridge The Gap for bookings, consultations, and service enquiries.",
+          }),
+          getBreadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "Contact", path: "/contact" },
+          ]),
+          contactSchema,
+        ]}
+      />
       <BreadcrumbHero
         title="Contact and Bookings"
         subtitle="Book tutoring, matric support, teacher development, or coaching support."

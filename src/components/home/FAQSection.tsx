@@ -3,29 +3,7 @@
 import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Minus, Plus } from "lucide-react";
-
-const FAQS = [
-  {
-    q: "Do you only provide tutoring?",
-    a: "No. Tutoring is one service area. We also provide matric support, teacher professional development, and coaching services.",
-  },
-  {
-    q: "Which curricula do you support?",
-    a: "We support subjects and focus areas across CAPS and IB curricula.",
-  },
-  {
-    q: "Can schools request group tutoring interventions?",
-    a: "Yes. Group tutoring is available as part of school intervention programmes and can be scoped with school leaders.",
-  },
-  {
-    q: "Can bookings sync with the Londiwe email calendar?",
-    a: "Yes. The booking flow supports calendar availability checks when Google Calendar credentials are configured in Vercel.",
-  },
-  {
-    q: "Where are you based?",
-    a: "Kempton Park, Birchleigh North. Online and in-person options are available depending on the programme.",
-  },
-];
+import { HOME_FAQS } from "@/data/faqs";
 
 export default function FAQSection() {
   const reduceMotion = useReducedMotion();
@@ -47,11 +25,11 @@ export default function FAQSection() {
         </div>
 
         <div className="mx-auto mt-10 max-w-3xl">
-          {FAQS.map((faq, index) => {
+          {HOME_FAQS.map((faq, index) => {
             const open = openIndex === index;
             return (
               <motion.div
-                key={faq.q}
+                key={faq.question}
                 initial={reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
@@ -64,7 +42,7 @@ export default function FAQSection() {
                   className="flex w-full items-center justify-between gap-4 px-5 py-5 text-left sm:px-6"
                 >
                   <span className="text-sm font-extrabold tracking-tight text-black/85 sm:text-base">
-                    {faq.q}
+                    {faq.question}
                   </span>
                   <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-white/80">
                     {open ? <Minus className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
@@ -81,7 +59,7 @@ export default function FAQSection() {
                       className="overflow-hidden"
                     >
                       <p className="px-5 pb-6 text-sm leading-relaxed text-black/70 sm:px-6">
-                        {faq.a}
+                        {faq.answer}
                       </p>
                     </motion.div>
                   ) : null}

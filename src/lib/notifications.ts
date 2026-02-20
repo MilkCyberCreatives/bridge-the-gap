@@ -13,6 +13,16 @@ function buildEmailBody(payload: ConsultationPayload, calendarLink: string | nul
       ? payload.subjects.join(", ")
       : payload.otherSubject || "Not specified";
 
+  const attributionLines = [
+    payload.utmSource ? `UTM Source: ${payload.utmSource}` : "",
+    payload.utmMedium ? `UTM Medium: ${payload.utmMedium}` : "",
+    payload.utmCampaign ? `UTM Campaign: ${payload.utmCampaign}` : "",
+    payload.utmTerm ? `UTM Term: ${payload.utmTerm}` : "",
+    payload.utmContent ? `UTM Content: ${payload.utmContent}` : "",
+    payload.landingPage ? `Landing page: ${payload.landingPage}` : "",
+    payload.referrer ? `Referrer: ${payload.referrer}` : "",
+  ].filter(Boolean);
+
   return [
     `New consultation request from ${payload.fullName}`,
     "",
@@ -26,6 +36,7 @@ function buildEmailBody(payload: ConsultationPayload, calendarLink: string | nul
     payload.preferredDate ? `Preferred date: ${payload.preferredDate}` : "Preferred date: Not set",
     payload.preferredTime ? `Preferred time: ${payload.preferredTime}` : "Preferred time: Not set",
     calendarLink ? `Calendar event: ${calendarLink}` : "",
+    ...(attributionLines.length > 0 ? ["", "Marketing attribution:", ...attributionLines] : []),
     "",
     "Client message:",
     payload.message,

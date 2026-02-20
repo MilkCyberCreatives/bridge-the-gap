@@ -23,6 +23,28 @@ npm run lint
 npm run build
 ```
 
+## SEO, GEO, and AEO Stack
+
+- Technical SEO: Canonical metadata, robots, sitemap, OpenGraph, and Twitter cards.
+- GEO (local search optimization): Kempton Park / Gauteng geo metadata and organization/local service schema.
+- AEO (answer engine optimization): Structured FAQ schema, service schema, and article schema across pages.
+- Generative engine support: `public/llms.txt` is included for AI crawler context.
+
+## Analytics and Digital Marketing Tracking
+
+- Vercel Analytics and Speed Insights are enabled with cookie consent.
+- Optional GA4 page-view and lead-event tracking:
+  - `NEXT_PUBLIC_GA_ID`
+- Optional Google Tag Manager:
+  - `NEXT_PUBLIC_GTM_ID`
+- Optional Meta Pixel lead/pageview tracking:
+  - `NEXT_PUBLIC_META_PIXEL_ID`
+- Optional search engine verification tags:
+  - `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION`
+  - `NEXT_PUBLIC_BING_SITE_VERIFICATION`
+
+Booking submissions also capture campaign attribution values (`utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content`), landing page, and referrer for reporting in notification emails.
+
 ## Booking and Availability
 
 The booking form posts to `POST /api/consultation` and loads available slots from

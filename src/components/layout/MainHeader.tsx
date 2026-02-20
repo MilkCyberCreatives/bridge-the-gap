@@ -123,6 +123,8 @@ export default function MainHeader() {
           <div className="flex items-center gap-2">
             <Link
               href="/contact#book"
+              data-track="header_book_consultation"
+              data-track-location="header"
               className="btn-water hidden rounded-full bg-[rgb(var(--brand))] px-5 py-3 text-sm font-extrabold text-white sm:inline-flex"
             >
               Book Consultation
@@ -225,6 +227,8 @@ export default function MainHeader() {
               <Link
                 href="/contact#book"
                 onClick={() => setMobileOpen(false)}
+                data-track="mobile_header_book_consultation"
+                data-track-location="mobile_menu"
                 className="btn-water mt-5 inline-flex w-full items-center justify-center rounded-full bg-[rgb(var(--brand))] px-5 py-3 text-sm font-extrabold text-white"
               >
                 Book Consultation

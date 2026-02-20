@@ -1,11 +1,56 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import BreadcrumbHero from "@/components/ui/BreadcrumbHero";
+import StructuredData from "@/components/seo/StructuredData";
 import { INSIGHT_POSTS } from "@/data/insights";
+import {
+  absoluteUrl,
+  buildPageMetadata,
+  getBreadcrumbSchema,
+  getWebPageSchema,
+} from "@/lib/seo";
+
+export const metadata: Metadata = buildPageMetadata({
+  title: "Insights",
+  description:
+    "Practical education insights for school leaders, parents, learners, and education professionals.",
+  path: "/insights",
+  keywords: ["education insights", "matric preparation tips", "study habits"],
+});
 
 export default function InsightsPage() {
+  const blogListingSchema = {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    name: "Bridge The Gap Insights",
+    url: absoluteUrl("/insights"),
+    blogPost: INSIGHT_POSTS.map((post) => ({
+      "@type": "BlogPosting",
+      headline: post.title,
+      datePublished: post.publishedAt,
+      description: post.excerpt,
+      url: absoluteUrl(`/insights/${post.slug}`),
+    })),
+  };
+
   return (
     <>
+      <StructuredData
+        data={[
+          getWebPageSchema({
+            name: "Insights",
+            path: "/insights",
+            description:
+              "Practical guidance and insight articles for education stakeholders.",
+          }),
+          getBreadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "Insights", path: "/insights" },
+          ]),
+          blogListingSchema,
+        ]}
+      />
       <BreadcrumbHero
         title="Insights"
         subtitle="Practical insights for school leaders, parents, learners, and education professionals."

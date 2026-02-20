@@ -1,7 +1,17 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import BreadcrumbHero from "@/components/ui/BreadcrumbHero";
 import ConsultationFormSection from "@/components/home/ConsultationFormSection";
+import StructuredData from "@/components/seo/StructuredData";
 import { SERVICE_AREAS } from "@/data/site";
+import {
+  absoluteUrl,
+  buildPageMetadata,
+  getBreadcrumbSchema,
+  getWebPageSchema,
+  SITE_NAME,
+  SITE_URL,
+} from "@/lib/seo";
 
 type ServicePageProps = {
   params: {
@@ -13,12 +23,79 @@ export function generateStaticParams() {
   return SERVICE_AREAS.map((service) => ({ slug: service.slug }));
 }
 
+export async function generateMetadata({
+  params,
+}: ServicePageProps): Promise<Metadata> {
+  const service = SERVICE_AREAS.find((item) => item.slug === params.slug);
+  if (!service) {
+    return buildPageMetadata({
+      title: "Service Not Found",
+      description: "The requested service page could not be found.",
+      path: "/programmes",
+      noIndex: true,
+    });
+  }
+
+  return buildPageMetadata({
+    title: service.title,
+    description: service.summary,
+    path: `/programmes/${service.slug}`,
+    keywords: [service.title, ...service.focusAreas],
+  });
+}
+
 export default function ServiceDetailPage({ params }: ServicePageProps) {
   const service = SERVICE_AREAS.find((item) => item.slug === params.slug);
   if (!service) return notFound();
 
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: service.title,
+    serviceType: service.title,
+    description: service.summary,
+    areaServed: {
+      "@type": "Country",
+      name: "South Africa",
+    },
+    provider: {
+      "@type": "EducationalOrganization",
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
+    audience: {
+      "@type": "Audience",
+      audienceType: service.audience,
+    },
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: `${service.title} Focus Areas`,
+      itemListElement: service.focusAreas.map((focus, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: focus,
+      })),
+    },
+    url: absoluteUrl(`/programmes/${service.slug}`),
+  };
+
   return (
     <>
+      <StructuredData
+        data={[
+          getWebPageSchema({
+            name: service.title,
+            path: `/programmes/${service.slug}`,
+            description: service.summary,
+          }),
+          getBreadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "Services", path: "/programmes" },
+            { name: service.title, path: `/programmes/${service.slug}` },
+          ]),
+          serviceSchema,
+        ]}
+      />
       <BreadcrumbHero
         title={service.title}
         subtitle={service.summary}

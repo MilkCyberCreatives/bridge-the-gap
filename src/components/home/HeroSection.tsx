@@ -41,12 +41,16 @@ export default function HeroSection() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/contact#book"
+                data-track="hero_book_consultation"
+                data-track-location="hero"
                 className="btn-water inline-flex items-center justify-center rounded-full bg-[rgb(var(--brand))] px-8 py-3 text-sm font-extrabold text-white"
               >
                 Book Consultation
               </Link>
               <Link
                 href="/programmes"
+                data-track="hero_explore_services"
+                data-track-location="hero"
                 className="btn-water inline-flex items-center justify-center rounded-full border border-border bg-white/80 px-8 py-3 text-sm font-semibold text-black/80"
               >
                 Explore Service Areas

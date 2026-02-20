@@ -6,7 +6,16 @@ import "./globals.css";
 import TopHeader from "@/components/layout/TopHeader";
 import MainHeader from "@/components/layout/MainHeader";
 import FooterSection from "@/components/layout/FooterSection";
+import StructuredData from "@/components/seo/StructuredData";
 import { CONTACT_DETAILS } from "@/data/site";
+import {
+  buildPageMetadata,
+  getOrganizationSchema,
+  getWebsiteSchema,
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  SITE_URL,
+} from "@/lib/seo";
 
 const ScrollToTop = dynamic(() => import("@/components/ui/ScrollToTop"), {
   ssr: false,
@@ -34,33 +43,27 @@ const font = Plus_Jakarta_Sans({
   variable: "--font-sans",
 });
 
-const siteName = "Bridge The Gap Educational Services";
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://bridge-the-gap-delta.vercel.app";
+const baseMetadata = buildPageMetadata({
+  title: "Education Support and Professional Development",
+  description: SITE_DESCRIPTION,
+  path: "/",
+});
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  ...baseMetadata,
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: `${siteName} | Education Support and Professional Development`,
-    template: `%s | ${siteName}`,
+    default: `${SITE_NAME} | Education Support and Professional Development`,
+    template: `%s | ${SITE_NAME}`,
   },
-  description:
-    "Bridge The Gap Educational Services provides tutoring services, matric support, teacher professional development, and coaching across CAPS and IB curricula.",
-  alternates: { canonical: siteUrl },
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  category: "Education",
   icons: {
     icon: "/bridge-the-gap-icon.svg",
     shortcut: "/bridge-the-gap-icon.svg",
     apple: "/bridge-the-gap-icon.svg",
   },
-  openGraph: {
-    type: "website",
-    url: siteUrl,
-    siteName,
-    title: `${siteName} | Education Support and Professional Development`,
-    description:
-      "Support for school leaders, parents, and learners through tutoring, matric support, coaching, and educator development.",
-  },
-  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({
@@ -89,6 +92,7 @@ export default function RootLayout({
         <ScrollToTop />
         <CookieBanner />
         <AnalyticsProvider />
+        <StructuredData data={[getOrganizationSchema(), getWebsiteSchema()]} />
 
         <span className="sr-only">
           Contact: {CONTACT_DETAILS.phoneLocal} - {CONTACT_DETAILS.addressLine}

@@ -26,6 +26,13 @@ export type ConsultationPayload = {
   preferredDate?: string;
   preferredTime?: string;
   message: string;
+  utmSource?: string;
+  utmMedium?: string;
+  utmCampaign?: string;
+  utmTerm?: string;
+  utmContent?: string;
+  landingPage?: string;
+  referrer?: string;
 };
 
 export type ConsultationValidationResult =
@@ -159,6 +166,34 @@ export function validateConsultationPayload(input: unknown): ConsultationValidat
     ? payload.subjects.filter((value): value is string => typeof value === "string")
     : [];
 
+  const optionalTrackingFields: Array<
+    keyof Pick<
+      ConsultationPayload,
+      | "utmSource"
+      | "utmMedium"
+      | "utmCampaign"
+      | "utmTerm"
+      | "utmContent"
+      | "landingPage"
+      | "referrer"
+    >
+  > = [
+    "utmSource",
+    "utmMedium",
+    "utmCampaign",
+    "utmTerm",
+    "utmContent",
+    "landingPage",
+    "referrer",
+  ];
+
+  for (const field of optionalTrackingFields) {
+    const value = payload[field];
+    if (value !== undefined && typeof value !== "string") {
+      return { ok: false, message: `Invalid field: ${field}.` };
+    }
+  }
+
   return {
     ok: true,
     data: {
@@ -174,6 +209,13 @@ export function validateConsultationPayload(input: unknown): ConsultationValidat
       preferredDate: payload.preferredDate,
       preferredTime: payload.preferredTime,
       message: payload.message?.trim() ?? "",
+      utmSource: payload.utmSource?.trim() ?? "",
+      utmMedium: payload.utmMedium?.trim() ?? "",
+      utmCampaign: payload.utmCampaign?.trim() ?? "",
+      utmTerm: payload.utmTerm?.trim() ?? "",
+      utmContent: payload.utmContent?.trim() ?? "",
+      landingPage: payload.landingPage?.trim() ?? "",
+      referrer: payload.referrer?.trim() ?? "",
     },
   };
 }

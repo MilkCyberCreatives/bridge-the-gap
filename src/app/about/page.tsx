@@ -1,9 +1,38 @@
+import type { Metadata } from "next";
 import BreadcrumbHero from "@/components/ui/BreadcrumbHero";
 import ConsultationFormSection from "@/components/home/ConsultationFormSection";
+import StructuredData from "@/components/seo/StructuredData";
+import {
+  buildPageMetadata,
+  getBreadcrumbSchema,
+  getWebPageSchema,
+} from "@/lib/seo";
+
+export const metadata: Metadata = buildPageMetadata({
+  title: "About",
+  description:
+    "Learn how Bridge The Gap Educational Services supports school leaders, parents, learners, and educators through integrated education services.",
+  path: "/about",
+  keywords: ["about Bridge The Gap", "education support provider", "RushedTech services"],
+});
 
 export default function AboutPage() {
   return (
     <>
+      <StructuredData
+        data={[
+          getWebPageSchema({
+            name: "About Bridge The Gap",
+            path: "/about",
+            description:
+              "About Bridge The Gap Educational Services and its integrated education support model.",
+          }),
+          getBreadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "About", path: "/about" },
+          ]),
+        ]}
+      />
       <BreadcrumbHero
         title="About Bridge The Gap"
         subtitle="Bridge The Gap Educational Services is an education support and professional development provider under RushedTech Educational Services."

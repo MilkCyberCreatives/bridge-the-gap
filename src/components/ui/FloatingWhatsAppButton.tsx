@@ -10,6 +10,8 @@ export default function FloatingWhatsAppButton() {
       target="_blank"
       rel="noreferrer"
       aria-label="Chat on WhatsApp"
+      data-track="floating_whatsapp"
+      data-track-location="floating_cta"
       className="btn-water fixed bottom-5 left-5 z-[60] inline-flex items-center justify-center rounded-full bg-[rgb(var(--brand))] p-4 text-white"
     >
       <MessageCircle className="h-5 w-5" />

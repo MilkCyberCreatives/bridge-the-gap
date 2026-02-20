@@ -1,11 +1,43 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import SubjectDetailHero from "@/components/subjects/detail/SubjectDetailHero";
 import SubjectDetailContent from "@/components/subjects/detail/SubjectDetailContent";
 import ConsultationFormSection from "@/components/home/ConsultationFormSection";
+import StructuredData from "@/components/seo/StructuredData";
 import { SUBJECTS } from "@/data/subjects";
+import {
+  absoluteUrl,
+  buildPageMetadata,
+  getBreadcrumbSchema,
+  getFaqSchema,
+  getWebPageSchema,
+} from "@/lib/seo";
 
 export function generateStaticParams() {
   return SUBJECTS.map((subject) => ({ slug: subject.slug }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
+  const subject = SUBJECTS.find((item) => item.slug === params.slug);
+  if (!subject) {
+    return buildPageMetadata({
+      title: "Subject Not Found",
+      description: "The requested subject page could not be found.",
+      path: "/subjects",
+      noIndex: true,
+    });
+  }
+
+  return buildPageMetadata({
+    title: `${subject.name} Support`,
+    description: subject.tagline,
+    path: `/subjects/${subject.slug}`,
+    keywords: [subject.name, ...subject.topics],
+  });
 }
 
 export default function SubjectDetailPage({
@@ -16,8 +48,42 @@ export default function SubjectDetailPage({
   const subject = SUBJECTS.find((item) => item.slug === params.slug);
   if (!subject) return notFound();
 
+  const subjectFaqs = subject.faqs.map((faq) => ({
+    question: faq.q,
+    answer: faq.a,
+  }));
+
+  const subjectSchema = {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    name: `${subject.name} Academic Support`,
+    description: subject.tagline,
+    provider: {
+      "@type": "EducationalOrganization",
+      name: "Bridge The Gap Educational Services",
+    },
+    about: subject.topics,
+    url: absoluteUrl(`/subjects/${subject.slug}`),
+  };
+
   return (
     <>
+      <StructuredData
+        data={[
+          getWebPageSchema({
+            name: `${subject.name} Support`,
+            path: `/subjects/${subject.slug}`,
+            description: subject.tagline,
+          }),
+          getBreadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "Subjects", path: "/subjects" },
+            { name: subject.name, path: `/subjects/${subject.slug}` },
+          ]),
+          getFaqSchema(subjectFaqs),
+          subjectSchema,
+        ]}
+      />
       <SubjectDetailHero
         title={subject.name}
         subtitle={subject.tagline}

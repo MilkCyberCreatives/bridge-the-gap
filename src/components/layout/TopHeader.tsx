@@ -14,6 +14,8 @@ export default function TopHeader() {
             href={CONTACT_DETAILS.whatsappUrl}
             target="_blank"
             rel="noreferrer"
+            data-track="topheader_whatsapp"
+            data-track-location="top_header"
             className="btn-water inline-flex items-center gap-1 rounded-full bg-[rgb(var(--brand))] px-3 py-1 font-semibold text-white"
           >
             <MessageCircle className="h-3.5 w-3.5" />
@@ -25,6 +27,8 @@ export default function TopHeader() {
             target="_blank"
             rel="noreferrer"
             aria-label="Instagram"
+            data-track="topheader_instagram"
+            data-track-location="top_header"
             className="water-hover inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white/85 transition hover:bg-white/15 hover:text-white"
           >
             <Instagram className="h-4 w-4" />
@@ -35,6 +39,8 @@ export default function TopHeader() {
             target="_blank"
             rel="noreferrer"
             aria-label="Facebook"
+            data-track="topheader_facebook"
+            data-track-location="top_header"
             className="water-hover inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white/85 transition hover:bg-white/15 hover:text-white"
           >
             <Facebook className="h-4 w-4" />
@@ -45,6 +51,8 @@ export default function TopHeader() {
             target="_blank"
             rel="noreferrer"
             aria-label="LinkedIn"
+            data-track="topheader_linkedin"
+            data-track-location="top_header"
             className="water-hover inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white/85 transition hover:bg-white/15 hover:text-white"
           >
             <Linkedin className="h-4 w-4" />
