@@ -35,7 +35,7 @@ export default function SubjectDetailContent({
   };
 
   return (
-    <section className="relative w-full py-14 sm:py-16">
+    <section className="relative w-full py-16 sm:py-20">
       <div className="container-tight">
         {/* Intro */}
         <motion.div

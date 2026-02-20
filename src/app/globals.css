@@ -12,14 +12,14 @@
   --muted: 239 233 225;
   --border: 223 215 204;
   --radius: 20px;
-  --hdr: 132px;
+  --hdr: 140px;
   --surface-shadow: 0 14px 40px rgba(28, 22, 14, 0.08);
   --surface-shadow-hover: 0 18px 48px rgba(28, 22, 14, 0.12);
 }
 
 @media (max-width: 640px) {
   :root {
-    --hdr: 126px;
+    --hdr: 120px;
   }
 }
 

@@ -48,7 +48,7 @@ export default function SubjectDetailHero({
       </div>
 
       {/* Content */}
-      <div className="container-tight relative py-14 sm:py-16">
+      <div className="container-tight relative flex min-h-[300px] flex-col justify-end py-10 sm:min-h-[340px] sm:py-12">
         {crumbs?.length ? (
           <nav className="mb-5 flex flex-wrap items-center gap-2 text-xs text-white/80">
             {crumbs.map((c, i) => (

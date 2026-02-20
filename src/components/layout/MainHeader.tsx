@@ -86,7 +86,7 @@ export default function MainHeader() {
                         <Link
                           key={child.href}
                           href={child.href}
-                          className="block rounded-xl px-4 py-3 transition hover:bg-black/5 focus-visible:bg-black/5"
+                          className="block rounded-xl px-4 py-3 transition hover:bg-black/[0.05] focus-visible:bg-black/[0.05]"
                         >
                           <div>
                             <p className="text-sm font-semibold text-black/82">{child.label}</p>
@@ -209,7 +209,7 @@ export default function MainHeader() {
                       key={item.label}
                       href={item.href || "/"}
                       onClick={() => setMobileOpen(false)}
-                      className="water-hover block rounded-xl border border-border bg-white/80 px-4 py-3 text-sm font-semibold text-black/75 transition hover:bg-brand/7"
+                      className="water-hover block rounded-xl border border-border bg-white/80 px-4 py-3 text-sm font-semibold text-black/75 transition hover:bg-[rgb(var(--brand))/0.08]"
                     >
                       {toLabelCase(item.label)}
                     </Link>

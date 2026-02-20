@@ -36,7 +36,7 @@ export default function FooterSection() {
       id="site-footer"
       className="relative w-full bg-[linear-gradient(145deg,#121111,#0f0f0f_45%,#171513)] text-white"
     >
-      <div className="container-tight pb-10 pt-12">
+      <div className="container-tight pb-10 pt-10 sm:pt-12">
         <motion.div
           initial="hidden"
           whileInView="show"
@@ -129,7 +129,7 @@ export default function FooterSection() {
                 <Link
                   key={post.slug}
                   href={`/insights/${post.slug}`}
-                  className="water-hover block rounded-2xl border border-white/10 bg-white/5 p-4"
+                  className="water-hover block rounded-2xl border border-white/10 bg-white/[0.05] p-4"
                 >
                   <p className="text-sm font-semibold text-white/90">{post.title}</p>
                   <p className="mt-1 text-xs text-white/55">{post.category}</p>
