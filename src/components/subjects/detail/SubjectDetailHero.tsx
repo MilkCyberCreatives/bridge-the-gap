@@ -21,7 +21,6 @@ export default function SubjectDetailHero({
 
   return (
     <section className="relative w-full overflow-hidden">
-      {/* Background */}
       <div className="absolute inset-0">
         <motion.div
           className="absolute inset-0"
@@ -33,28 +32,16 @@ export default function SubjectDetailHero({
           <Image src={image} alt="" fill priority className="object-cover" />
         </motion.div>
 
-        {/* Overlays */}
-        <div className="absolute inset-0 bg-black/55" />
-        <motion.div
-          aria-hidden
-          className="absolute inset-0"
-          animate={reduceMotion ? { opacity: 1 } : { opacity: [0.85, 1, 0.85] }}
-          transition={reduceMotion ? { duration: 0 } : { duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          style={{
-            background:
-              "radial-gradient(circle at 18% 22%, rgba(250,78,27,0.26), transparent 55%), radial-gradient(circle at 82% 18%, rgba(248,135,24,0.18), transparent 55%)",
-          }}
-        />
+        <div className="absolute inset-0 bg-slate-950/60" />
       </div>
 
-      {/* Content */}
       <div className="container-tight relative flex min-h-[300px] flex-col justify-end py-10 sm:min-h-[340px] sm:py-12">
         {crumbs?.length ? (
           <nav className="mb-5 flex flex-wrap items-center gap-2 text-xs text-white/80">
             {crumbs.map((c, i) => (
               <span key={`${c.label}-${i}`} className="inline-flex items-center gap-2">
                 {c.href ? (
-                  <Link className="water-hover underline-offset-4 hover:underline" href={c.href}>
+                  <Link className="underline-offset-4 hover:underline" href={c.href}>
                     {c.label}
                   </Link>
                 ) : (

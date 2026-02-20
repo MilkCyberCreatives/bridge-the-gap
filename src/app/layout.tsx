@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
-import { Manrope, Oswald } from "next/font/google";
+import { Montserrat, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
 import TopHeader from "@/components/layout/TopHeader";
@@ -26,21 +26,18 @@ const ScrollProgressBar = dynamic(() => import("@/components/ui/ScrollProgressBa
 const CookieBanner = dynamic(() => import("@/components/ui/CookieBanner"), {
   ssr: false,
 });
-const WaterCursor = dynamic(() => import("@/components/ui/WaterCursor"), {
-  ssr: false,
-});
 const AnalyticsProvider = dynamic(() => import("@/components/analytics/AnalyticsProvider"), {
   ssr: false,
 });
 
-const font = Manrope({
+const font = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  weight: ["400", "500", "700"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-sans",
 });
-const displayFont = Oswald({
+const displayFont = Montserrat({
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  weight: ["600", "700", "800"],
   variable: "--font-display",
 });
 
@@ -77,12 +74,6 @@ export default function RootLayout({
     >
       <body className="relative flex min-h-screen flex-col bg-[rgb(var(--bg))] text-[rgb(var(--fg))]">
         <ScrollProgressBar />
-        <WaterCursor />
-
-        <div className="fixed inset-0 -z-10">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_10%,rgba(250,78,27,0.14),transparent_42%),radial-gradient(circle_at_88%_18%,rgba(248,135,24,0.12),transparent_40%),radial-gradient(circle_at_45%_90%,rgba(0,0,0,0.05),transparent_52%)]" />
-          <div className="absolute inset-0 bg-grain opacity-60" />
-        </div>
 
         <header className="fixed inset-x-0 top-0 z-[70]">
           <TopHeader />

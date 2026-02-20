@@ -34,7 +34,7 @@ export default function FooterSection() {
   return (
     <footer
       id="site-footer"
-      className="relative w-full bg-[linear-gradient(145deg,#121111,#0f0f0f_45%,#171513)] text-white"
+      className="relative w-full bg-[#0f172a] text-slate-100"
     >
       <div className="container-tight pb-10 pt-10 sm:pt-12">
         <motion.div
@@ -59,14 +59,19 @@ export default function FooterSection() {
               Services offers tutoring, matric support, teacher professional development,
               and coaching services.
             </p>
-            <div className="mt-4 space-y-3 text-sm text-white/80">
+            <div className="mt-4 space-y-3 text-sm text-slate-300">
               <p className="flex items-start gap-2">
                 <Phone className="mt-0.5 h-4 w-4 shrink-0 text-[rgb(var(--brand))]" />
-                <a href={`tel:${CONTACT_DETAILS.phoneIntl}`}>{CONTACT_DETAILS.phoneLocal}</a>
+                <a className="hover:text-white" href={`tel:${CONTACT_DETAILS.phoneIntl}`}>
+                  {CONTACT_DETAILS.phoneLocal}
+                </a>
               </p>
               <p className="flex items-start gap-2">
                 <Mail className="mt-0.5 h-4 w-4 shrink-0 text-[rgb(var(--brand))]" />
-                <a className="break-all" href={`mailto:${CONTACT_DETAILS.bookingsEmail}`}>
+                <a
+                  className="break-all hover:text-white"
+                  href={`mailto:${CONTACT_DETAILS.bookingsEmail}`}
+                >
                   {CONTACT_DETAILS.bookingsEmail}
                 </a>
               </p>
@@ -74,11 +79,14 @@ export default function FooterSection() {
           </motion.div>
 
           <motion.div variants={item}>
-            <h4 className="text-sm font-extrabold tracking-tight">Service Areas</h4>
-            <ul className="mt-4 space-y-3 text-sm text-white/75">
+            <h4 className="text-sm font-extrabold tracking-tight text-white">Service Areas</h4>
+            <ul className="mt-4 space-y-3 text-sm text-slate-300">
               {SERVICE_AREAS.map((service) => (
                 <li key={service.id}>
-                  <Link className="water-hover inline-block" href={`/programmes/${service.slug}`}>
+                  <Link
+                    className="water-hover inline-block hover:text-white"
+                    href={`/programmes/${service.slug}`}
+                  >
                     {service.title}
                   </Link>
                 </li>
@@ -87,25 +95,25 @@ export default function FooterSection() {
           </motion.div>
 
           <motion.div variants={item}>
-            <h4 className="text-sm font-extrabold tracking-tight">Quick Links</h4>
-            <ul className="mt-4 space-y-3 text-sm text-white/75">
+            <h4 className="text-sm font-extrabold tracking-tight text-white">Quick Links</h4>
+            <ul className="mt-4 space-y-3 text-sm text-slate-300">
               <li>
-                <Link className="water-hover inline-block" href="/about">
+                <Link className="water-hover inline-block hover:text-white" href="/about">
                   About
                 </Link>
               </li>
               <li>
-                <Link className="water-hover inline-block" href="/subjects">
+                <Link className="water-hover inline-block hover:text-white" href="/subjects">
                   Subjects
                 </Link>
               </li>
               <li>
-                <Link className="water-hover inline-block" href="/insights">
+                <Link className="water-hover inline-block hover:text-white" href="/insights">
                   Insights
                 </Link>
               </li>
               <li>
-                <Link className="water-hover inline-block" href="/contact">
+                <Link className="water-hover inline-block hover:text-white" href="/contact">
                   Contact
                 </Link>
               </li>
@@ -115,7 +123,7 @@ export default function FooterSection() {
               href={CONTACT_DETAILS.whatsappUrl}
               target="_blank"
               rel="noreferrer"
-              className="btn-water mt-5 inline-flex items-center gap-2 rounded-full bg-[rgb(var(--brand))] px-5 py-2.5 text-sm font-semibold text-white"
+              className="btn-water mt-5 inline-flex items-center gap-2 rounded-full border border-transparent bg-[rgb(var(--brand))] px-5 py-2.5 text-sm font-semibold text-white"
             >
               <MessageCircle className="h-4 w-4" />
               WhatsApp Us
@@ -123,13 +131,13 @@ export default function FooterSection() {
           </motion.div>
 
           <motion.div variants={item}>
-            <h4 className="text-sm font-extrabold tracking-tight">Latest Insights</h4>
+            <h4 className="text-sm font-extrabold tracking-tight text-white">Latest Insights</h4>
             <div className="mt-4 space-y-3">
               {INSIGHT_POSTS.slice(0, 2).map((post) => (
                 <Link
                   key={post.slug}
                   href={`/insights/${post.slug}`}
-                  className="water-hover block rounded-2xl border border-white/10 bg-white/[0.05] p-4"
+                  className="water-hover block rounded-2xl border border-white/10 bg-white/[0.04] p-4"
                 >
                   <p className="text-sm font-semibold text-white/90">{post.title}</p>
                   <p className="mt-1 text-xs text-white/55">{post.category}</p>
@@ -139,7 +147,7 @@ export default function FooterSection() {
           </motion.div>
         </motion.div>
 
-        <div className="mt-10 border-t border-white/10 pt-6 text-xs text-white/55">
+        <div className="mt-10 border-t border-white/10 pt-6 text-xs text-slate-400">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <p>(c) 2026 Bridge The Gap Educational Services. All rights reserved.</p>
             <p>Bookings are managed in {CONTACT_DETAILS.timezone}.</p>

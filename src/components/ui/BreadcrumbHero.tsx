@@ -23,9 +23,7 @@ export default function BreadcrumbHero({
 
   return (
     <section className="relative w-full overflow-hidden">
-      {/* Fixed, consistent hero height */}
-      <div className="relative min-h-[320px] sm:min-h-[360px]">
-        {/* Background */}
+      <div className="relative min-h-[300px] sm:min-h-[340px]">
         <div className="absolute inset-0">
           <motion.div
             initial={reduceMotion ? { scale: 1 } : { scale: 1.06 }}
@@ -46,30 +44,20 @@ export default function BreadcrumbHero({
             />
           </motion.div>
 
-          {/* Overlay */}
-          <div className="absolute inset-0 bg-black/60" />
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "radial-gradient(circle at 18% 20%, rgba(250,78,27,0.24), transparent 55%), radial-gradient(circle at 84% 18%, rgba(248,135,24,0.18), transparent 55%)",
-            }}
-          />
+          <div className="absolute inset-0 bg-slate-950/62" />
         </div>
 
-        {/* Content */}
         <div className="relative z-10">
-          <div className="container-tight flex min-h-[320px] flex-col justify-end pb-10 sm:min-h-[360px] sm:pb-12">
-            {/* Breadcrumb pill */}
+          <div className="container-tight flex min-h-[300px] flex-col justify-end pb-10 sm:min-h-[340px] sm:pb-12">
             {crumbs?.length ? (
               <div className="mb-5 flex flex-wrap items-center gap-2">
-                <div className="inline-flex flex-wrap items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs text-white/80 backdrop-blur-xl">
+                <div className="inline-flex flex-wrap items-center gap-2 rounded-full border border-white/15 bg-black/25 px-4 py-2 text-xs text-white/80">
                   {crumbs.map((c, i) => (
                     <span key={`${c.label}-${i}`} className="inline-flex items-center gap-2">
                       {c.href ? (
                         <Link
                           href={c.href}
-                          className="water-hover font-semibold text-white/90 hover:text-white"
+                          className="font-semibold text-white/90 hover:text-white"
                         >
                           {c.label}
                         </Link>

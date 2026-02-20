@@ -33,13 +33,13 @@ export default function ScrollToTop() {
       }
       aria-label="Scroll to top"
       style={dockStyle}
-      className={`btn-water fixed left-auto right-4 z-[90] grid h-12 w-12 place-items-center rounded-full border border-white/15 bg-[rgb(var(--brand))] text-white shadow-lg shadow-black/15 transition-all duration-200 sm:right-6 ${
+      className={`btn-water fixed left-auto right-4 z-[90] grid h-12 w-12 place-items-center rounded-full border border-transparent bg-[rgb(var(--brand))] text-white shadow-[0_10px_24px_rgba(15,23,42,0.22)] transition-all duration-200 sm:right-6 ${
         visible
           ? "pointer-events-auto translate-y-0 opacity-100"
           : "pointer-events-none translate-y-2 opacity-0"
       }`}
     >
-      <ArrowUp className="floating-bob h-5 w-5" />
+      <ArrowUp className="h-5 w-5" />
     </button>
   );
 }

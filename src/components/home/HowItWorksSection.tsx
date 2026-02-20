@@ -39,7 +39,7 @@ export default function HowItWorksSection() {
   return (
     <section className="relative w-full py-16 sm:py-20">
       <div className="container-tight">
-        <div className="rounded-[32px] border border-border bg-black p-7 text-white sm:p-10">
+        <div className="rounded-[30px] border border-border bg-white p-7 shadow-[0_14px_36px_rgba(15,23,42,0.07)] sm:p-10">
           <motion.div
             initial={reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -47,13 +47,13 @@ export default function HowItWorksSection() {
             transition={{ duration: 0.7, ease: EASE_OUT }}
             className="max-w-3xl"
           >
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-white/60">
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
               Booking Journey
             </p>
             <h2 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
               Clear process from first enquiry to delivery.
             </h2>
-            <p className="mt-3 text-base leading-relaxed text-white/78">
+            <p className="mt-3 text-base leading-relaxed text-slate-700">
               Bookings are routed to {CONTACT_DETAILS.bookingsEmail}. If you enable
               Google Calendar integration in Vercel, unavailable slots are blocked
               automatically.
@@ -68,17 +68,17 @@ export default function HowItWorksSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 0.6, ease: EASE_OUT }}
-                className="water-hover rounded-2xl border border-white/10 bg-white/5 p-5"
+                className="water-hover rounded-2xl border border-border bg-[rgb(var(--muted))/0.7] p-5"
               >
                 <div className="flex items-start gap-3">
-                  <div className="rounded-xl border border-white/15 bg-white/10 p-2">
+                  <div className="rounded-xl border border-border bg-white p-2">
                     <step.Icon className="h-5 w-5 text-[rgb(var(--brand-2))]" />
                   </div>
                   <div>
-                    <p className="text-sm font-extrabold tracking-tight text-white/95">
+                    <p className="text-sm font-extrabold tracking-tight text-slate-800">
                       {step.title}
                     </p>
-                    <p className="mt-1 text-sm leading-relaxed text-white/78">
+                    <p className="mt-1 text-sm leading-relaxed text-slate-700">
                       {step.description}
                     </p>
                   </div>
@@ -90,7 +90,7 @@ export default function HowItWorksSection() {
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
             <Link
               href="/contact#book"
-              className="btn-water inline-flex items-center justify-center rounded-full bg-[rgb(var(--brand))] px-7 py-3 text-sm font-extrabold text-white"
+              className="btn-water inline-flex items-center justify-center rounded-full bg-[rgb(var(--brand))] px-7 py-3 text-sm font-bold text-white"
             >
               Start Booking
             </Link>
@@ -98,7 +98,7 @@ export default function HowItWorksSection() {
               href={CONTACT_DETAILS.whatsappUrl}
               target="_blank"
               rel="noreferrer"
-              className="water-hover inline-flex items-center justify-center rounded-full border border-white/20 bg-white/10 px-7 py-3 text-sm font-semibold text-white"
+              className="water-hover inline-flex items-center justify-center rounded-full border border-border bg-white px-7 py-3 text-sm font-semibold text-slate-800"
             >
               WhatsApp {CONTACT_DETAILS.phoneLocal}
             </a>
