@@ -1,6 +1,6 @@
 "use client";
 
-import { Mail, MapPin, MessageCircle } from "lucide-react";
+import { MapPin, MessageCircle } from "lucide-react";
 import { CONTACT_DETAILS } from "@/data/site";
 
 export default function TopHeader() {
@@ -12,15 +12,6 @@ export default function TopHeader() {
         </p>
 
         <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-          <a
-            href={`mailto:${CONTACT_DETAILS.generalEmail}`}
-            className="water-hover inline-flex items-center gap-1 rounded-full bg-white/10 px-3 py-1 text-white/85 transition hover:bg-white/15 hover:text-white"
-          >
-            <Mail className="h-3.5 w-3.5" />
-            <span className="hidden sm:inline">{CONTACT_DETAILS.generalEmail}</span>
-            <span className="sm:hidden">Email</span>
-          </a>
-
           <a
             href={CONTACT_DETAILS.whatsappUrl}
             target="_blank"

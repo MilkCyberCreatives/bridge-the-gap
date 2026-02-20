@@ -28,7 +28,7 @@ export default function ScrollToTop() {
           animate={reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
           exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 10, scale: 0.96 }}
           transition={{ duration: 0.22, ease: "easeOut" }}
-          className="btn-water fixed bottom-6 right-6 z-[90] grid h-12 w-12 place-items-center rounded-full border border-white/15 bg-[rgb(var(--brand))] text-white shadow-lg shadow-black/15"
+          className="btn-water fixed bottom-6 left-auto right-4 z-[90] grid h-12 w-12 place-items-center rounded-full border border-white/15 bg-[rgb(var(--brand))] text-white shadow-lg shadow-black/15 sm:right-6"
         >
           <motion.span
             animate={reduceMotion ? {} : { y: [0, -2, 0] }}
