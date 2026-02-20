@@ -17,8 +17,8 @@ export default function ContactPage() {
       <section className="relative w-full py-16 sm:py-20">
         <div className="container-tight">
           <div className="mx-auto max-w-4xl">
-            <div className="grid gap-4 md:grid-cols-3">
-              <div className="water-hover rounded-3xl border border-border bg-white/75 p-6 backdrop-blur-xl">
+            <div className="grid gap-4 md:auto-rows-fr md:grid-cols-3">
+              <div className="water-hover h-full rounded-3xl border border-border bg-white/75 p-6 backdrop-blur-xl">
                 <p className="text-sm font-extrabold text-black/85">Bookings Email</p>
                 <a
                   href={`mailto:${CONTACT_DETAILS.bookingsEmail}`}
@@ -28,7 +28,7 @@ export default function ContactPage() {
                 </a>
               </div>
 
-              <div className="water-hover rounded-3xl border border-border bg-white/75 p-6 backdrop-blur-xl">
+              <div className="water-hover h-full rounded-3xl border border-border bg-white/75 p-6 backdrop-blur-xl">
                 <p className="text-sm font-extrabold text-black/85">WhatsApp</p>
                 <a
                   href={CONTACT_DETAILS.whatsappUrl}
@@ -40,7 +40,7 @@ export default function ContactPage() {
                 </a>
               </div>
 
-              <div className="water-hover rounded-3xl border border-border bg-white/75 p-6 backdrop-blur-xl">
+              <div className="water-hover h-full rounded-3xl border border-border bg-white/75 p-6 backdrop-blur-xl">
                 <p className="text-sm font-extrabold text-black/85">Address</p>
                 <p className="mt-2 text-sm text-black/70">{CONTACT_DETAILS.addressLine}</p>
               </div>

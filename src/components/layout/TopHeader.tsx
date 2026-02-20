@@ -6,12 +6,12 @@ import { CONTACT_DETAILS } from "@/data/site";
 export default function TopHeader() {
   return (
     <div className="w-full border-b border-white/10 bg-black text-white">
-      <div className="container-tight flex flex-wrap items-center justify-between gap-2 py-2 text-xs sm:text-sm">
-        <p className="font-medium text-white/80">
+      <div className="container-tight flex items-center justify-between gap-3 py-2 text-xs sm:text-sm">
+        <p className="max-w-[52%] truncate font-medium text-white/80 sm:max-w-none">
           Education support and professional development across CAPS and IB curricula.
         </p>
 
-        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
           <a
             href={CONTACT_DETAILS.whatsappUrl}
             target="_blank"

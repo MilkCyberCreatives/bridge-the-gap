@@ -24,7 +24,7 @@ export default function SupportPromiseSection() {
           </p>
         </div>
 
-        <div className="mt-10 grid gap-5 lg:grid-cols-2">
+        <div className="mt-10 grid gap-5 lg:auto-rows-fr lg:grid-cols-2">
           {SERVICE_AREAS.map((service) => (
             <motion.article
               key={service.id}
@@ -32,7 +32,7 @@ export default function SupportPromiseSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.7, ease: EASE_OUT }}
-              className="water-hover rounded-3xl border border-border bg-white/75 p-6 backdrop-blur-xl"
+              className="water-hover flex h-full flex-col rounded-3xl border border-border bg-white/75 p-6 backdrop-blur-xl"
             >
               <h3 className="text-xl font-extrabold tracking-tight text-black/85">
                 Benefits of {service.shortTitle}
@@ -47,7 +47,7 @@ export default function SupportPromiseSection() {
               </ul>
               <Link
                 href={`/programmes/${service.slug}`}
-                className="btn-water mt-5 inline-flex rounded-full border border-border bg-white/90 px-4 py-2 text-sm font-semibold text-black/80"
+                className="btn-water mt-auto inline-flex self-start rounded-full border border-border bg-white/90 px-4 py-2 text-sm font-semibold text-black/80"
               >
                 Learn more
               </Link>

@@ -72,10 +72,10 @@ export default function FooterSection() {
           whileInView="show"
           viewport={{ once: true, amount: 0.2 }}
           variants={wrap}
-          className="grid gap-10 md:grid-cols-4"
+          className="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1fr]"
         >
           <motion.div variants={item}>
-            <div className="relative h-20 w-[300px]">
+            <div className="relative h-20 w-full max-w-[300px]">
               <Image
                 src="/bridge-the-gap-footer.svg"
                 alt="Bridge The Gap Educational Services"
@@ -112,10 +112,7 @@ export default function FooterSection() {
             <ul className="mt-4 space-y-3 text-sm text-white/75">
               {SERVICE_AREAS.map((service) => (
                 <li key={service.id}>
-                  <Link
-                    className="water-hover inline-block"
-                    href={`/programmes/${service.slug}`}
-                  >
+                  <Link className="water-hover inline-block" href={`/programmes/${service.slug}`}>
                     {service.title}
                   </Link>
                 </li>

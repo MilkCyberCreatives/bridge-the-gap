@@ -26,7 +26,7 @@ export default function BlogPreviewSection() {
           </p>
         </div>
 
-        <div className="mt-10 grid gap-4 md:grid-cols-3">
+        <div className="mt-10 grid gap-4 md:auto-rows-fr md:grid-cols-3">
           {INSIGHT_POSTS.map((post) => (
             <motion.article
               key={post.slug}
@@ -34,10 +34,11 @@ export default function BlogPreviewSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.68, ease: EASE_OUT }}
+              className="h-full"
             >
               <Link
                 href={`/insights/${post.slug}`}
-                className="water-hover group block overflow-hidden rounded-3xl border border-border bg-white/75 text-left backdrop-blur-xl"
+                className="water-hover group flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-white/75 text-left backdrop-blur-xl"
               >
                 <div className="relative aspect-[16/10] w-full overflow-hidden">
                   <Image
@@ -49,14 +50,16 @@ export default function BlogPreviewSection() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
                 </div>
-                <div className="p-6">
+                <div className="flex h-full flex-col p-6">
                   <p className="text-xs font-semibold uppercase tracking-[0.12em] text-black/55">
                     {post.category}
                   </p>
                   <h3 className="mt-2 text-lg font-extrabold tracking-tight text-black/85">
                     {post.title}
                   </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-black/70">{post.excerpt}</p>
+                  <p className="mt-2 flex-1 text-sm leading-relaxed text-black/70">
+                    {post.excerpt}
+                  </p>
                   <span className="mt-4 inline-flex items-center gap-2 text-sm font-extrabold text-black/78">
                     Read article
                     <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />

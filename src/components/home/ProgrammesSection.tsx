@@ -64,13 +64,13 @@ export default function ProgrammesSection() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.2 }}
-          className="mt-10 grid gap-5 md:grid-cols-2"
+          className="mt-10 grid gap-5 md:auto-rows-fr md:grid-cols-2"
         >
           {SERVICE_AREAS.map((service) => (
             <motion.article
               key={service.id}
               variants={item}
-              className="water-hover rounded-3xl border border-border bg-white/75 p-6 backdrop-blur-xl"
+              className="water-hover flex h-full flex-col rounded-3xl border border-border bg-white/75 p-6 backdrop-blur-xl"
               whileHover={reduceMotion ? undefined : { y: -5, transition: { duration: 0.2 } }}
             >
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-black/50">
@@ -93,7 +93,7 @@ export default function ProgrammesSection() {
               </ul>
               <Link
                 href={`/programmes/${service.slug}`}
-                className="btn-water mt-5 inline-flex items-center gap-2 rounded-full border border-border bg-white/90 px-4 py-2 text-sm font-semibold text-black/80"
+                className="btn-water mt-auto inline-flex items-center gap-2 self-start rounded-full border border-border bg-white/90 px-4 py-2 text-sm font-semibold text-black/80"
               >
                 View service details <ArrowRight className="h-4 w-4" />
               </Link>
