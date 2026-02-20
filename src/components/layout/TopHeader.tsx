@@ -1,6 +1,4 @@
-import { Facebook, Instagram, Linkedin, MessageCircle } from "lucide-react";
-import { CONTACT_DETAILS } from "@/data/site";
-
+import { Facebook, Instagram, Linkedin } from "lucide-react";
 export default function TopHeader() {
   return (
     <div className="w-full border-b border-white/10 bg-[linear-gradient(110deg,#121212,#1b1917_42%,#111111)] text-white">
@@ -10,18 +8,6 @@ export default function TopHeader() {
         </p>
 
         <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-          <a
-            href={CONTACT_DETAILS.whatsappUrl}
-            target="_blank"
-            rel="noreferrer"
-            data-track="topheader_whatsapp"
-            data-track-location="top_header"
-            className="btn-water inline-flex items-center gap-1 rounded-full bg-[linear-gradient(120deg,rgb(var(--brand)),rgb(var(--brand-2)))] px-3 py-1 font-semibold text-white"
-          >
-            <MessageCircle className="h-3.5 w-3.5" />
-            WhatsApp {CONTACT_DETAILS.phoneLocal}
-          </a>
-
           <a
             href="https://instagram.com"
             target="_blank"
