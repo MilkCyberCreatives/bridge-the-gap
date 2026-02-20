@@ -150,6 +150,18 @@ export default function FooterSection() {
         <div className="mt-10 border-t border-white/10 pt-6 text-xs text-slate-400">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <p>(c) 2026 Bridge The Gap Educational Services. All rights reserved.</p>
+            <p>
+              Website by{" "}
+              <a
+                href="https://milkcybercreatives.co.za/"
+                target="_blank"
+                rel="noreferrer"
+                className="font-semibold text-slate-200 hover:text-white"
+              >
+                Milk Cyber Creatives
+              </a>
+              .
+            </p>
             <p>Bookings are managed in {CONTACT_DETAILS.timezone}.</p>
           </div>
         </div>
