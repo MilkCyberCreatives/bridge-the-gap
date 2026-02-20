@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { ArrowUp } from "lucide-react";
 import { useFooterDockOffset } from "@/hooks/useFooterDockOffset";
 
-export default function ScrollToTop() {
+export default function ScrollToTopButton() {
   const [visible, setVisible] = useState(false);
   const [reduceMotion, setReduceMotion] = useState(false);
   const dockStyle = useFooterDockOffset(24);
@@ -48,3 +48,4 @@ export default function ScrollToTop() {
     </button>
   );
 }
+

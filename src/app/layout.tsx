@@ -20,7 +20,7 @@ import {
 const ScrollProgressBar = dynamic(() => import("@/components/ui/ScrollProgressBar"), {
   ssr: false,
 });
-const ScrollToTop = dynamic(() => import("@/components/ui/ScrollToTop"), {
+const ScrollToTop = dynamic(() => import("@/components/ui/ScrollToTopButton"), {
   ssr: false,
 });
 const CookieBanner = dynamic(() => import("@/components/ui/CookieBanner"), {
