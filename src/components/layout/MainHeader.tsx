@@ -118,7 +118,7 @@ export default function MainHeader() {
               href="/contact#book"
               data-track="header_book_consultation"
               data-track-location="header"
-              className="btn-water hidden rounded-full bg-[linear-gradient(120deg,rgb(var(--brand)),rgb(var(--brand-2)))] px-5 py-3 text-sm font-extrabold text-white sm:inline-flex"
+              className="btn-water hidden rounded-full bg-[rgb(var(--brand))] px-5 py-3 text-sm font-extrabold text-white sm:inline-flex"
             >
               Book Consultation
             </Link>
@@ -222,7 +222,7 @@ export default function MainHeader() {
                 onClick={() => setMobileOpen(false)}
                 data-track="mobile_header_book_consultation"
                 data-track-location="mobile_menu"
-                className="btn-water mt-5 inline-flex w-full items-center justify-center rounded-full bg-[linear-gradient(120deg,rgb(var(--brand)),rgb(var(--brand-2)))] px-5 py-3 text-sm font-extrabold text-white"
+                className="btn-water mt-5 inline-flex w-full items-center justify-center rounded-full bg-[rgb(var(--brand))] px-5 py-3 text-sm font-extrabold text-white"
               >
                 Book Consultation
               </Link>

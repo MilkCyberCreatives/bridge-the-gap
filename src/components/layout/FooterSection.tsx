@@ -115,7 +115,7 @@ export default function FooterSection() {
               href={CONTACT_DETAILS.whatsappUrl}
               target="_blank"
               rel="noreferrer"
-              className="btn-water mt-5 inline-flex items-center gap-2 rounded-full bg-[linear-gradient(120deg,rgb(var(--brand)),rgb(var(--brand-2)))] px-5 py-2.5 text-sm font-semibold text-white"
+              className="btn-water mt-5 inline-flex items-center gap-2 rounded-full bg-[rgb(var(--brand))] px-5 py-2.5 text-sm font-semibold text-white"
             >
               <MessageCircle className="h-4 w-4" />
               WhatsApp Us

@@ -74,7 +74,7 @@ export default function HeroSection() {
                 href="/contact#book"
                 data-track="hero_book_consultation"
                 data-track-location="hero"
-                className="btn-water inline-flex items-center justify-center rounded-full bg-[linear-gradient(120deg,rgb(var(--brand)),rgb(var(--brand-2)))] px-8 py-3 text-sm font-extrabold text-white"
+                className="btn-water inline-flex items-center justify-center rounded-full bg-[rgb(var(--brand))] px-8 py-3 text-sm font-extrabold text-white"
               >
                 Book Consultation
               </Link>
