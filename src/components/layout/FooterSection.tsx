@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { Mail, MessageCircle, Phone } from "lucide-react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { CONTACT_DETAILS, SERVICE_AREAS } from "@/data/site";
 import { INSIGHT_POSTS } from "@/data/insights";
@@ -99,10 +99,6 @@ export default function FooterSection() {
                 <a className="break-all" href={`mailto:${CONTACT_DETAILS.bookingsEmail}`}>
                   {CONTACT_DETAILS.bookingsEmail}
                 </a>
-              </p>
-              <p className="flex items-start gap-2">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[rgb(var(--brand))]" />
-                <span>{CONTACT_DETAILS.addressLine}</span>
               </p>
             </div>
           </motion.div>

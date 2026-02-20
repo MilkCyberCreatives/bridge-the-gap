@@ -26,6 +26,6 @@ export const HOME_FAQS: FaqItem[] = [
   {
     question: "Where are you based?",
     answer:
-      "Kempton Park, Birchleigh North, Gauteng. Online and in-person options are available depending on the programme.",
+      "Online and in-person options are available depending on the programme.",
   },
 ];

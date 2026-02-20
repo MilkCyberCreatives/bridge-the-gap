@@ -22,7 +22,7 @@ import {
 export const metadata: Metadata = buildPageMetadata({
   title: "Education Support for Learners, Schools, and Educators",
   description:
-    "Bridge The Gap offers tutoring services, matric support, teacher professional development, and coaching across CAPS and IB curricula in Kempton Park and online.",
+    "Bridge The Gap offers tutoring services, matric support, teacher professional development, and coaching across CAPS and IB curricula online and in-person.",
   path: "/",
   keywords: [
     "tutoring services South Africa",

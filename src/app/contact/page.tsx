@@ -15,11 +15,7 @@ export const metadata: Metadata = buildPageMetadata({
   description:
     "Contact Bridge The Gap Educational Services for tutoring, matric support, teacher professional development, and coaching bookings.",
   path: "/contact",
-  keywords: [
-    "book consultation",
-    "education support contact",
-    "Kempton Park education services",
-  ],
+  keywords: ["book consultation", "education support contact"],
 });
 
 export default function ContactPage() {
@@ -62,7 +58,7 @@ export default function ContactPage() {
       <section className="relative w-full py-16 sm:py-20">
         <div className="container-tight">
           <div className="mx-auto max-w-4xl">
-            <div className="grid gap-4 md:auto-rows-fr md:grid-cols-3">
+            <div className="grid gap-4 md:auto-rows-fr md:grid-cols-2">
               <div className="water-hover h-full rounded-3xl border border-border bg-white/75 p-6 backdrop-blur-xl">
                 <p className="text-sm font-extrabold text-black/85">Bookings Email</p>
                 <a
@@ -83,11 +79,6 @@ export default function ContactPage() {
                 >
                   {CONTACT_DETAILS.phoneLocal}
                 </a>
-              </div>
-
-              <div className="water-hover h-full rounded-3xl border border-border bg-white/75 p-6 backdrop-blur-xl">
-                <p className="text-sm font-extrabold text-black/85">Address</p>
-                <p className="mt-2 text-sm text-black/70">{CONTACT_DETAILS.addressLine}</p>
               </div>
             </div>
           </div>

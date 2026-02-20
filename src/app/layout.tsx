@@ -94,9 +94,7 @@ export default function RootLayout({
         <AnalyticsProvider />
         <StructuredData data={[getOrganizationSchema(), getWebsiteSchema()]} />
 
-        <span className="sr-only">
-          Contact: {CONTACT_DETAILS.phoneLocal} - {CONTACT_DETAILS.addressLine}
-        </span>
+        <span className="sr-only">Contact: {CONTACT_DETAILS.phoneLocal}</span>
       </body>
     </html>
   );

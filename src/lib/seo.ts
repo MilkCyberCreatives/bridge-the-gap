@@ -15,7 +15,6 @@ export const SITE_KEYWORDS = [
   "teacher professional development",
   "educator coaching",
   "school intervention programmes",
-  "Kempton Park tutoring",
   "education support services",
 ];
 
@@ -97,10 +96,6 @@ export function buildPageMetadata({
       google: googleVerification,
       other: bingVerification ? { "msvalidate.01": bingVerification } : undefined,
     },
-    other: {
-      "geo.region": "ZA-GP",
-      "geo.placename": "Kempton Park, Birchleigh North",
-    },
   };
 }
 
@@ -117,18 +112,7 @@ export function getOrganizationSchema() {
     email: CONTACT_DETAILS.generalEmail,
     telephone: CONTACT_DETAILS.phoneIntl,
     description: SITE_DESCRIPTION,
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: "Birchleigh North",
-      addressLocality: "Kempton Park",
-      addressRegion: "Gauteng",
-      addressCountry: "ZA",
-    },
     areaServed: [
-      {
-        "@type": "AdministrativeArea",
-        name: "Gauteng",
-      },
       {
         "@type": "Country",
         name: "South Africa",

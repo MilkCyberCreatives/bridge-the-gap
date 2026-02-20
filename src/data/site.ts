@@ -21,7 +21,6 @@ export const CONTACT_DETAILS = {
   whatsappUrl: "https://wa.me/27842331687",
   bookingsEmail: "info@bridgethegapeducationalservices.co.za",
   generalEmail: "info@bridgethegapeducationalservices.co.za",
-  addressLine: "Kempton Park, Birchleigh North, Gauteng, South Africa",
   timezone: "SAST (UTC+2)",
 };
 
