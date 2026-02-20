@@ -1,5 +1,3 @@
-"use client";
-
 import { Facebook, Instagram, Linkedin, MessageCircle } from "lucide-react";
 import { CONTACT_DETAILS } from "@/data/site";
 

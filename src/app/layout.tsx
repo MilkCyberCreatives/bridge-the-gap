@@ -1,21 +1,36 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
 import TopHeader from "@/components/layout/TopHeader";
 import MainHeader from "@/components/layout/MainHeader";
 import FooterSection from "@/components/layout/FooterSection";
-import ScrollToTop from "@/components/ui/ScrollToTop";
-import ScrollProgressBar from "@/components/ui/ScrollProgressBar";
-import FloatingWhatsAppButton from "@/components/ui/FloatingWhatsAppButton";
-import CookieBanner from "@/components/ui/CookieBanner";
-import WaterCursor from "@/components/ui/WaterCursor";
-import AnalyticsProvider from "@/components/analytics/AnalyticsProvider";
 import { CONTACT_DETAILS } from "@/data/site";
+
+const ScrollToTop = dynamic(() => import("@/components/ui/ScrollToTop"), {
+  ssr: false,
+});
+const ScrollProgressBar = dynamic(() => import("@/components/ui/ScrollProgressBar"), {
+  ssr: false,
+});
+const FloatingWhatsAppButton = dynamic(
+  () => import("@/components/ui/FloatingWhatsAppButton"),
+  { ssr: false }
+);
+const CookieBanner = dynamic(() => import("@/components/ui/CookieBanner"), {
+  ssr: false,
+});
+const WaterCursor = dynamic(() => import("@/components/ui/WaterCursor"), {
+  ssr: false,
+});
+const AnalyticsProvider = dynamic(() => import("@/components/analytics/AnalyticsProvider"), {
+  ssr: false,
+});
 
 const font = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800"],
+  weight: ["400", "500", "700"],
   variable: "--font-sans",
 });
 
