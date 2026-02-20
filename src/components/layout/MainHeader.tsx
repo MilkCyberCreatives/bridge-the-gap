@@ -56,7 +56,7 @@ export default function MainHeader() {
         className="w-full border-b border-black/6 backdrop-blur-xl shadow-[0_8px_24px_rgba(15,12,10,0.05)]"
       >
         <div className="container-tight flex min-h-[88px] items-center justify-between py-2 sm:min-h-[104px] sm:py-3">
-          <Link href="/" className="flex items-center gap-3" aria-label="Bridge The Gap">
+          <Link href="/" className="flex items-center" aria-label="Bridge The Gap">
             <div className="relative h-20 w-20 sm:h-24 sm:w-24">
               <Image
                 src="/bridge-the-gap-icon.svg"
@@ -65,14 +65,6 @@ export default function MainHeader() {
                 priority
                 className="object-contain"
               />
-            </div>
-            <div className="hidden sm:block">
-              <p className="text-sm font-extrabold tracking-[0.03em] text-black/85">
-                Bridge The Gap
-              </p>
-              <p className="text-xs tracking-[0.02em] text-black/58">
-                Educational Services and Professional Development
-              </p>
             </div>
           </Link>
 
