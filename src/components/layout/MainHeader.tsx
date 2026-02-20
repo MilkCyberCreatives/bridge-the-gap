@@ -36,6 +36,7 @@ export default function MainHeader() {
       },
       { label: "Subjects", href: "/subjects" },
       { label: "Insights", href: "/insights" },
+      { label: "FAQs", href: "/#faq" },
       { label: "About", href: "/about" },
       { label: "Contact", href: "/contact" },
     ],

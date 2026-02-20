@@ -10,7 +10,7 @@ export default function FAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section className="relative w-full overflow-hidden py-16 sm:py-20">
+    <section id="faq" className="relative w-full overflow-hidden py-16 sm:py-20">
       <div className="absolute inset-0 bg-[url('/images/how-it-works.webp')] bg-cover bg-center opacity-20" />
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(243,246,250,0.9),rgba(243,246,250,0.96))]" />
 
