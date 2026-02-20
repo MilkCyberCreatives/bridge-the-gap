@@ -44,10 +44,7 @@ export default function FooterSection() {
           variants={wrap}
           className="overflow-hidden rounded-[28px] border border-white/12 bg-white/8 px-6 py-6 backdrop-blur-xl sm:px-8"
         >
-          <motion.p variants={item} className="text-sm font-semibold text-white/80">
-            Need a custom school intervention plan?
-          </motion.p>
-          <motion.h3 variants={item} className="mt-2 text-2xl font-extrabold tracking-tight">
+          <motion.h3 variants={item} className="text-2xl font-extrabold tracking-tight">
             Bridge The Gap works with school leaders, parents, and learners.
           </motion.h3>
           <motion.div variants={item} className="mt-5 flex flex-col gap-3 sm:flex-row">
