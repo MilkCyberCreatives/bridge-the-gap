@@ -1,6 +1,6 @@
 "use client";
 
-import { MapPin, MessageCircle } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import { CONTACT_DETAILS } from "@/data/site";
 
 export default function TopHeader() {
@@ -21,11 +21,6 @@ export default function TopHeader() {
             <MessageCircle className="h-3.5 w-3.5" />
             WhatsApp {CONTACT_DETAILS.phoneLocal}
           </a>
-
-          <span className="hidden items-center gap-1 rounded-full bg-white/10 px-3 py-1 text-white/80 lg:inline-flex">
-            <MapPin className="h-3.5 w-3.5" />
-            {CONTACT_DETAILS.addressLine}
-          </span>
         </div>
       </div>
     </div>
