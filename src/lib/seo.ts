@@ -6,17 +6,168 @@ export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://bridge-the-gap-delta.vercel.app";
 export const SITE_DESCRIPTION =
   "Bridge The Gap Educational Services delivers tutoring services, matric support, teacher professional development, and coaching across CAPS and IB curricula.";
-export const SITE_KEYWORDS = [
+
+const BRAND_KEYWORDS = [
+  "Bridge The Gap",
   "Bridge The Gap Educational Services",
   "RushedTech Educational Services",
+  "Bridge The Gap tutoring",
+  "Bridge The Gap matric support",
+  "Bridge The Gap teacher development",
+  "Bridge The Gap coaching",
+];
+
+const DIRECT_SERVICE_KEYWORDS = [
+  "tutoring services",
+  "academic tutoring",
+  "private tutoring",
+  "one-on-one tutoring",
+  "one to one tutoring",
+  "group tutoring",
+  "school intervention tutoring",
+  "learner support services",
+  "study support services",
+  "homework support",
+  "exam preparation tutoring",
+  "online tutoring",
+  "in-person tutoring",
   "CAPS tutoring",
   "IB tutoring",
+  "CAPS and IB tutoring",
+  "matric support services",
+  "matric tutoring",
   "matric rewrite support",
+  "matric exam support",
+  "subject addition support",
+  "SBA portfolio support",
   "teacher professional development",
+  "teacher training workshops",
+  "teacher coaching",
+  "educator development programmes",
+  "instructional coaching",
+  "professional learning for teachers",
+  "coaching services",
+  "learner coaching",
+  "student coaching",
   "educator coaching",
-  "school intervention programmes",
+  "school leadership coaching",
   "education support services",
+  "education intervention services",
 ];
+
+const CURRICULUM_AND_SUBJECT_KEYWORDS = [
+  "CAPS curriculum support",
+  "IB curriculum support",
+  "CAPS exam prep",
+  "IB exam prep",
+  "curriculum aligned tutoring",
+  "mathematics tutoring",
+  "maths tutoring",
+  "English tutoring",
+  "physical sciences tutoring",
+  "science tutoring",
+  "life sciences tutoring",
+  "accounting tutoring",
+  "business studies tutoring",
+  "economics tutoring",
+  "IB mathematics tutoring",
+  "IB science tutoring",
+  "IB English tutoring",
+  "mathematics exam preparation",
+  "English exam preparation",
+  "science exam preparation",
+  "past paper practice",
+  "assessment preparation support",
+];
+
+const AUDIENCE_AND_INTENT_KEYWORDS = [
+  "support for school leaders",
+  "support for parents and learners",
+  "support for teachers",
+  "support for education professionals",
+  "school academic intervention programmes",
+  "school performance improvement support",
+  "parent learner support programme",
+  "learner confidence building",
+  "study habits coaching",
+  "exam confidence coaching",
+  "marks improvement support",
+  "academic recovery support",
+  "academic progress tracking",
+  "education consulting support",
+  "education strategy support",
+];
+
+const INDIRECT_COMPETITION_KEYWORDS = [
+  "learning centre",
+  "study centre",
+  "after school programme",
+  "after school tutoring",
+  "homework club",
+  "exam prep center",
+  "test prep services",
+  "academic enrichment programme",
+  "academic mentorship",
+  "student mentoring programme",
+  "educational consulting",
+  "education consultancy",
+  "education solutions provider",
+  "edtech support services",
+  "supplemental education services",
+  "remedial education support",
+  "academic support company",
+  "learning support company",
+  "teacher upskilling programme",
+  "teacher capacity building",
+  "classroom support programme",
+  "school improvement consultancy",
+  "student success programme",
+  "career and study coaching",
+  "personal development coaching for students",
+];
+
+const GEO_AND_CHANNEL_KEYWORDS = [
+  "South Africa tutoring services",
+  "South Africa education support",
+  "online education support",
+  "online teacher development",
+  "online coaching for learners",
+  "hybrid tutoring model",
+  "in person and online tutoring",
+];
+
+const CONVERSION_KEYWORDS = [
+  "book tutoring consultation",
+  "book matric support consultation",
+  "book teacher development workshop",
+  "book coaching consultation",
+  "education consultation services",
+  "academic support consultation",
+  "school intervention consultation",
+  "free education consultation",
+];
+
+export const SITE_KEYWORDS = Array.from(
+  new Set([
+    ...BRAND_KEYWORDS,
+    ...DIRECT_SERVICE_KEYWORDS,
+    ...CURRICULUM_AND_SUBJECT_KEYWORDS,
+    ...AUDIENCE_AND_INTENT_KEYWORDS,
+    ...INDIRECT_COMPETITION_KEYWORDS,
+    ...GEO_AND_CHANNEL_KEYWORDS,
+    ...CONVERSION_KEYWORDS,
+  ])
+);
+
+const KNOWS_ABOUT_TOPICS = Array.from(
+  new Set([
+    ...SERVICE_AREAS.map((service) => service.title),
+    ...SERVICE_AREAS.flatMap((service) => service.focusAreas),
+    ...CURRICULUM_AND_SUBJECT_KEYWORDS,
+    ...AUDIENCE_AND_INTENT_KEYWORDS,
+    ...INDIRECT_COMPETITION_KEYWORDS,
+  ])
+);
 
 const DEFAULT_OG_IMAGE = "/images/hero/hero-bg.webp";
 
@@ -52,7 +203,7 @@ export function buildPageMetadata({
   return {
     title: fullTitle,
     description,
-    keywords: [...SITE_KEYWORDS, ...keywords],
+    keywords: Array.from(new Set([...SITE_KEYWORDS, ...keywords])),
     alternates: {
       canonical: fullUrl,
       languages: {
@@ -128,7 +279,7 @@ export function getOrganizationSchema() {
         availableLanguage: ["English"],
       },
     ],
-    knowsAbout: SERVICE_AREAS.map((service) => service.title),
+    knowsAbout: KNOWS_ABOUT_TOPICS,
     sameAs: [
       "https://bridge-the-gap-delta.vercel.app",
       "https://www.bridgethegapeducationalservices.co.za",
