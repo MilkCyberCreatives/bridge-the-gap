@@ -22,7 +22,7 @@ export default function BreadcrumbHero({
   const reduceMotion = useReducedMotion();
 
   return (
-    <section className="relative -mt-[var(--hdr)] w-full overflow-hidden pt-[var(--hdr)]">
+    <section className="relative -mt-[var(--mainhdr)] w-full overflow-hidden pt-[var(--mainhdr)]">
       <div className="relative min-h-[300px] sm:min-h-[340px]">
         <div className="absolute inset-0">
           <motion.div
