@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
-import { Cormorant_Garamond, Plus_Jakarta_Sans } from "next/font/google";
+import { Manrope, Oswald } from "next/font/google";
 import "./globals.css";
 
 import TopHeader from "@/components/layout/TopHeader";
@@ -33,14 +33,14 @@ const AnalyticsProvider = dynamic(() => import("@/components/analytics/Analytics
   ssr: false,
 });
 
-const font = Plus_Jakarta_Sans({
+const font = Manrope({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
   variable: "--font-sans",
 });
-const displayFont = Cormorant_Garamond({
+const displayFont = Oswald({
   subsets: ["latin"],
-  weight: ["600", "700"],
+  weight: ["500", "600", "700"],
   variable: "--font-display",
 });
 
