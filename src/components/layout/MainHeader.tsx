@@ -4,7 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { ChevronDown, Menu, X } from "lucide-react";
+import { SERVICE_AREAS } from "@/data/site";
 
 type NavItem = {
   label: string;
@@ -12,278 +13,226 @@ type NavItem = {
   children?: { label: string; href: string; desc?: string }[];
 };
 
-function titleCase(input: string) {
-  return input
+function toLabelCase(value: string): string {
+  return value
     .split(" ")
-    .map((w) => (w ? w[0].toUpperCase() + w.slice(1) : w))
+    .map((word) => (word ? word[0].toUpperCase() + word.slice(1) : word))
     .join(" ");
 }
 
 export default function MainHeader() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [expandedMobile, setExpandedMobile] = useState<string | null>(null);
 
-  const nav: NavItem[] = useMemo(
+  const nav = useMemo<NavItem[]>(
     () => [
       {
-        label: "Programmes",
-        children: [
-          {
-            label: "Learner Support (Grade R–12)",
-            href: "/programmes/learner-support",
-            desc: "Tutoring, homework, tests & exam prep",
-          },
-          {
-            label: "Matric Support",
-            href: "/programmes/matric-support",
-            desc: "Rewrites, subject additions & revision",
-          },
-          {
-            label: "Educator Development",
-            href: "/programmes/educator-development",
-            desc: "Coaching, workshops & classroom strategies",
-          },
-        ],
+        label: "Services",
+        children: SERVICE_AREAS.map((service) => ({
+          label: service.title,
+          href: `/programmes/${service.slug}`,
+          desc: service.summary,
+        })),
       },
-      {
-        label: "Subjects",
-        children: [
-          { label: "Mathematics", href: "/subjects/mathematics" },
-          { label: "Sciences", href: "/subjects/sciences" },
-          { label: "English", href: "/subjects/english" },
-          { label: "Request A Subject", href: "/subjects/request" },
-        ],
-      },
-      {
-        label: "Resources",
-        children: [
-          { label: "Study Skills", href: "/success-toolkit/study-skills" },
-          { label: "Exam Preparation", href: "/success-toolkit/exam-prep" },
-          { label: "Learning Tips", href: "/success-toolkit/tips" },
-        ],
-      },
+      { label: "Subjects", href: "/subjects" },
       { label: "Insights", href: "/insights" },
+      { label: "About", href: "/about" },
       { label: "Contact", href: "/contact" },
     ],
     []
   );
 
   const { scrollY } = useScroll();
-  const bg = useTransform(
+  const headerBackground = useTransform(
     scrollY,
     [0, 120],
-    ["rgba(255,255,255,0.68)", "rgba(255,255,255,0.92)"]
+    ["rgba(255,255,255,0.82)", "rgba(255,255,255,0.96)"]
   );
 
   return (
     <>
-      {/* ✅ STRONG seam fix: overlap header upward slightly */}
-      <motion.header
-        style={{ backgroundColor: bg }}
-        className="sticky top-0 z-50 w-full backdrop-blur-xl -mt-[6px]"
+      <motion.div
+        style={{ backgroundColor: headerBackground }}
+        className="w-full border-b border-black/5 backdrop-blur-xl"
       >
-        {/* ✅ add the same padding back so layout stays the same */}
-        <div className="pt-[6px]">
-          <div className="container-tight flex items-center justify-between py-2">
-            <Link href="/" className="flex items-center" aria-label="Bridge The Gap">
-              <div className="relative h-20 w-20 sm:h-24 sm:w-24 lg:h-28 lg:w-28">
-                <Image
-                  src="/bridge-the-gap-icon.svg"
-                  alt="Bridge The Gap"
-                  fill
-                  priority
-                  className="object-contain"
-                />
-              </div>
-            </Link>
+        <div className="container-tight flex items-center justify-between py-2 sm:py-3">
+          <Link href="/" className="flex items-center gap-3" aria-label="Bridge The Gap">
+            <div className="relative h-16 w-16 sm:h-20 sm:w-20">
+              <Image
+                src="/bridge-the-gap-icon.svg"
+                alt="Bridge The Gap"
+                fill
+                priority
+                className="object-contain"
+              />
+            </div>
+            <div className="hidden sm:block">
+              <p className="text-sm font-extrabold tracking-tight text-black/80">
+                Bridge The Gap
+              </p>
+              <p className="text-xs text-black/60">
+                Educational Services and Professional Development
+              </p>
+            </div>
+          </Link>
 
-            {/* Desktop nav */}
-            <nav className="hidden items-center gap-7 lg:flex">
-              {nav.map((item) =>
-                item.children ? (
-                  <div key={item.label} className="group relative">
-                    <span className="nav-dance water-hover relative cursor-pointer text-sm font-semibold text-black/75 transition hover:text-black">
-                      {titleCase(item.label)}
-                      <span className="absolute -bottom-2 left-0 h-[2px] w-0 bg-brand transition-all duration-300 group-hover:w-full" />
-                    </span>
-
-                    {/* hover bridge */}
-                    <div className="pointer-events-none absolute left-0 top-full h-4 w-[360px] opacity-0 group-hover:pointer-events-auto" />
-
-                    <div className="pointer-events-none absolute left-0 top-full mt-3 w-[360px] opacity-0 transition duration-200 group-hover:pointer-events-auto group-hover:opacity-100">
-                      <div className="rounded-2xl border border-border bg-white/90 p-2 backdrop-blur-xl">
-                        {item.children.map((c) => (
-                          <Link
-                            key={c.href}
-                            href={c.href}
-                            className="water-hover flex rounded-xl px-4 py-3 transition hover:bg-brand/5"
-                          >
-                            <div className="min-w-0">
-                              <p className="nav-dance text-sm font-semibold text-black/80">
-                                {c.label}
+          <nav className="hidden items-center gap-6 lg:flex">
+            {nav.map((item) =>
+              item.children ? (
+                <div key={item.label} className="group relative">
+                  <button
+                    type="button"
+                    className="nav-dance inline-flex items-center gap-1 text-sm font-semibold text-black/75 transition hover:text-black"
+                  >
+                    {item.label}
+                    <ChevronDown className="h-4 w-4 text-black/55 transition group-hover:rotate-180" />
+                  </button>
+                  <div className="pointer-events-none absolute left-0 top-full mt-3 w-[380px] opacity-0 transition group-hover:pointer-events-auto group-hover:opacity-100">
+                    <div className="rounded-2xl border border-border bg-white/95 p-2 shadow-soft backdrop-blur-xl">
+                      {item.children.map((child) => (
+                        <Link
+                          key={child.href}
+                          href={child.href}
+                          className="water-hover flex rounded-xl px-4 py-3 transition hover:bg-brand/5"
+                        >
+                          <div>
+                            <p className="text-sm font-semibold text-black/80">{child.label}</p>
+                            {child.desc ? (
+                              <p className="mt-1 text-xs leading-relaxed text-black/55">
+                                {child.desc}
                               </p>
-                              {c.desc ? (
-                                <p className="mt-1 text-xs text-black/55">{c.desc}</p>
-                              ) : null}
-                            </div>
-                            <span className="ml-auto mt-1 h-2 w-2 rounded-full bg-brand/25 transition group-hover:bg-brand" />
-                          </Link>
-                        ))}
-                      </div>
+                            ) : null}
+                          </div>
+                        </Link>
+                      ))}
                     </div>
                   </div>
-                ) : (
-                  <Link
-                    key={item.label}
-                    href={item.href || "/"}
-                    className="nav-dance water-hover group relative text-sm font-semibold text-black/75 transition hover:text-black"
-                  >
-                    <span>{titleCase(item.label)}</span>
-                    <span className="absolute -bottom-2 left-0 h-[2px] w-0 bg-brand transition-all duration-300 group-hover:w-full" />
-                  </Link>
-                )
-              )}
-            </nav>
+                </div>
+              ) : (
+                <Link
+                  key={item.label}
+                  href={item.href || "/"}
+                  className="nav-dance text-sm font-semibold text-black/75 transition hover:text-black"
+                >
+                  {toLabelCase(item.label)}
+                </Link>
+              )
+            )}
+          </nav>
 
-            <div className="flex items-center gap-2">
-              <Link
-                href="/contact"
-                className="btn-water hidden sm:inline-flex items-center justify-center rounded-full bg-brand px-6 py-3 text-sm font-extrabold text-white"
-              >
-                Book Free Consultation
-              </Link>
+          <div className="flex items-center gap-2">
+            <Link
+              href="/contact#book"
+              className="btn-water hidden rounded-full bg-[rgb(var(--brand))] px-5 py-3 text-sm font-extrabold text-white sm:inline-flex"
+            >
+              Book Consultation
+            </Link>
 
-              <button
-                onClick={() => setMobileOpen(true)}
-                className="water-hover inline-flex items-center justify-center rounded-full border border-border bg-white/70 p-2 backdrop-blur transition hover:bg-white lg:hidden"
-                aria-label="Open menu"
-              >
-                <Menu size={20} />
-              </button>
-            </div>
+            <button
+              type="button"
+              onClick={() => setMobileOpen(true)}
+              className="water-hover inline-flex items-center justify-center rounded-full border border-border bg-white/85 p-2 lg:hidden"
+              aria-label="Open menu"
+            >
+              <Menu className="h-5 w-5" />
+            </button>
           </div>
-
-          {/* subtle separator */}
-          <div className="h-[1px] w-full bg-black/5" />
         </div>
-      </motion.header>
+      </motion.div>
 
-      {/* Mobile menu */}
       <AnimatePresence>
-        {mobileOpen && (
+        {mobileOpen ? (
           <>
             <motion.div
-              className="fixed inset-0 z-[60] bg-black/30 backdrop-blur-sm"
+              className="fixed inset-0 z-[70] bg-black/35 backdrop-blur-sm"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setMobileOpen(false)}
             />
             <motion.aside
-              className="fixed right-0 top-0 z-[70] h-full w-[86%] max-w-[380px] border-l border-border bg-white/92 backdrop-blur-xl"
+              className="fixed right-0 top-0 z-[80] h-full w-[90%] max-w-[380px] border-l border-border bg-white p-5"
               initial={{ x: 30, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: 30, opacity: 0 }}
               transition={{ duration: 0.25, ease: "easeOut" }}
             >
-              <div className="flex items-center justify-between border-b border-border px-5 py-4">
-                <div className="relative h-20 w-20">
-                  <Image
-                    src="/bridge-the-gap-icon.svg"
-                    alt="Bridge The Gap"
-                    fill
-                    priority
-                    className="object-contain"
-                  />
-                </div>
-
+              <div className="flex items-center justify-between border-b border-border pb-4">
+                <p className="text-sm font-extrabold tracking-tight text-black/80">Menu</p>
                 <button
+                  type="button"
                   onClick={() => setMobileOpen(false)}
-                  className="water-hover rounded-full border border-border bg-white/60 p-2 transition hover:bg-white"
+                  className="water-hover rounded-full border border-border p-2"
                   aria-label="Close menu"
                 >
-                  <X size={18} />
+                  <X className="h-4 w-4" />
                 </button>
               </div>
 
-              <div className="px-5 py-4">
-                <p className="mb-3 text-xs font-semibold text-black/50">Menu</p>
-                <div className="space-y-2">
-                  {nav.map((item) =>
-                    item.children ? (
-                      <MobileAccordion
-                        key={item.label}
-                        title={titleCase(item.label)}
-                        items={item.children}
-                        onNavigate={() => setMobileOpen(false)}
-                      />
-                    ) : (
-                      <Link
-                        key={item.label}
-                        href={item.href || "/"}
-                        onClick={() => setMobileOpen(false)}
-                        className="water-hover flex items-center justify-between rounded-xl border border-border bg-white/60 px-4 py-3 text-sm font-semibold text-black/80 transition hover:bg-brand/5"
+              <div className="mt-4 space-y-2">
+                {nav.map((item) =>
+                  item.children ? (
+                    <div key={item.label} className="rounded-xl border border-border bg-white/80">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setExpandedMobile((prev) => (prev === item.label ? null : item.label))
+                        }
+                        className="flex w-full items-center justify-between px-4 py-3 text-sm font-semibold text-black/75"
                       >
-                        {titleCase(item.label)}
-                        <span className="h-2 w-2 rounded-full bg-brand/25" />
-                      </Link>
-                    )
-                  )}
-                </div>
+                        {item.label}
+                        <ChevronDown
+                          className={`h-4 w-4 transition ${
+                            expandedMobile === item.label ? "rotate-180" : ""
+                          }`}
+                        />
+                      </button>
+                      <AnimatePresence initial={false}>
+                        {expandedMobile === item.label ? (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            className="overflow-hidden px-2 pb-2"
+                          >
+                            {item.children.map((child) => (
+                              <Link
+                                key={child.href}
+                                href={child.href}
+                                onClick={() => setMobileOpen(false)}
+                                className="water-hover block rounded-lg px-3 py-2 text-sm font-medium text-black/75 transition hover:bg-brand/5"
+                              >
+                                {child.label}
+                              </Link>
+                            ))}
+                          </motion.div>
+                        ) : null}
+                      </AnimatePresence>
+                    </div>
+                  ) : (
+                    <Link
+                      key={item.label}
+                      href={item.href || "/"}
+                      onClick={() => setMobileOpen(false)}
+                      className="water-hover block rounded-xl border border-border bg-white/80 px-4 py-3 text-sm font-semibold text-black/75 transition hover:bg-brand/5"
+                    >
+                      {toLabelCase(item.label)}
+                    </Link>
+                  )
+                )}
               </div>
+
+              <Link
+                href="/contact#book"
+                onClick={() => setMobileOpen(false)}
+                className="btn-water mt-5 inline-flex w-full items-center justify-center rounded-full bg-[rgb(var(--brand))] px-5 py-3 text-sm font-extrabold text-white"
+              >
+                Book Consultation
+              </Link>
             </motion.aside>
           </>
-        )}
+        ) : null}
       </AnimatePresence>
     </>
-  );
-}
-
-function MobileAccordion({
-  title,
-  items,
-  onNavigate,
-}: {
-  title: string;
-  items: { label: string; href: string; desc?: string }[];
-  onNavigate: () => void;
-}) {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <div className="rounded-xl border border-border bg-white/60">
-      <button
-        type="button"
-        onClick={() => setOpen((s) => !s)}
-        className="flex w-full items-center justify-between px-4 py-3 text-sm font-semibold text-black/80"
-      >
-        {title}
-        <span className="text-black/40">{open ? "−" : "+"}</span>
-      </button>
-
-      <AnimatePresence initial={false}>
-        {open && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.22, ease: "easeOut" }}
-            className="overflow-hidden"
-          >
-            <div className="px-2 pb-2">
-              {items.map((c) => (
-                <Link
-                  key={c.href}
-                  href={c.href}
-                  onClick={onNavigate}
-                  className="water-hover block rounded-lg px-3 py-2 text-sm font-medium text-black/75 transition hover:bg-brand/5"
-                >
-                  {c.label}
-                </Link>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
   );
 }

@@ -5,11 +5,15 @@ import ConsultationFormSection from "@/components/home/ConsultationFormSection";
 import { SUBJECTS } from "@/data/subjects";
 
 export function generateStaticParams() {
-  return SUBJECTS.map((s) => ({ slug: s.slug }));
+  return SUBJECTS.map((subject) => ({ slug: subject.slug }));
 }
 
-export default function SubjectDetailPage({ params }: { params: { slug: string } }) {
-  const subject = SUBJECTS.find((s) => s.slug === params.slug);
+export default function SubjectDetailPage({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  const subject = SUBJECTS.find((item) => item.slug === params.slug);
   if (!subject) return notFound();
 
   return (
@@ -23,7 +27,6 @@ export default function SubjectDetailPage({ params }: { params: { slug: string }
           { label: subject.name },
         ]}
       />
-
       <SubjectDetailContent
         introTitle={subject.introTitle}
         introText={subject.introText}
@@ -33,9 +36,11 @@ export default function SubjectDetailPage({ params }: { params: { slug: string }
         faqs={subject.faqs}
         images={subject.images}
       />
-
-      {/* ✅ MUST end with consultation form */}
-      <ConsultationFormSection />
+      <ConsultationFormSection
+        title={`Book support for ${subject.name}`}
+        subtitle="Select your preferred date and service model and we will confirm the best support structure."
+        presetService="Tutoring Services"
+      />
     </>
   );
 }

@@ -2,26 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ---------------------------
-   Bridge The Gap Design Tokens
-   --------------------------- */
-
 :root {
   --bg: 255 255 255;
-  --fg: 10 10 10;
-
-  /* Brand */
-  --brand: 250 78 27; /* #fa4e1b */
-  --brand-2: 248 135 24; /* #f88718 */
-  --ink: 0 0 0; /* #000000 */
-
-  /* Surfaces */
+  --fg: 12 12 14;
+  --brand: 250 78 27;
+  --brand-2: 248 135 24;
+  --ink: 0 0 0;
   --card: 255 255 255;
-  --muted: 246 247 249;
-  --border: 229 231 235;
-
-  /* Radius */
+  --muted: 245 246 248;
+  --border: 228 230 235;
   --radius: 18px;
+  --hdr: 132px;
+}
+
+@media (max-width: 640px) {
+  :root {
+    --hdr: 126px;
+  }
 }
 
 html,
@@ -35,30 +32,28 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Smooth scrolling */
 html {
   scroll-behavior: smooth;
 }
 
-/* Selection highlight */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 ::selection {
   background: rgba(250, 78, 27, 0.22);
 }
 
-/* Utility: premium container spacing */
 .container-tight {
-  @apply mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8;
+  @apply mx-auto w-full max-w-[1220px] px-4 sm:px-6 lg:px-8;
 }
 
-/* Subtle grain for premium feel */
 .bg-grain {
   background-image: radial-gradient(rgba(0, 0, 0, 0.035) 1px, transparent 1px);
   background-size: 18px 18px;
 }
-
-/* ---------------------------
-   Premium Water Hover Effect (ONE COPY)
-   --------------------------- */
 
 .btn-water,
 .water-hover {
@@ -66,7 +61,7 @@ html {
   overflow: hidden;
   transform: translateZ(0);
   transition: transform 220ms ease, filter 220ms ease, background 220ms ease,
-    border-color 220ms ease;
+    border-color 220ms ease, box-shadow 220ms ease;
 }
 
 .btn-water:hover,
@@ -82,7 +77,7 @@ html {
   inset: -40%;
   background: radial-gradient(
     circle at var(--x, 50%) var(--y, 50%),
-    rgba(255, 255, 255, 0.55),
+    rgba(255, 255, 255, 0.6),
     transparent 45%
   );
   opacity: 0;
@@ -95,10 +90,6 @@ html {
   opacity: 1;
 }
 
-/* ---------------------------
-   Smooth "Dance" hover
-   --------------------------- */
-
 .nav-dance {
   display: inline-block;
   will-change: transform;
@@ -106,19 +97,20 @@ html {
 }
 
 .nav-dance:hover {
-  transform: translateY(-2px);
-  letter-spacing: 0.2px;
-  animation: nav-bounce 420ms ease;
+  transform: translateY(-1px);
+  letter-spacing: 0.1px;
 }
 
-@keyframes nav-bounce {
-  0% {
+@keyframes bob {
+  0%,
+  100% {
     transform: translateY(0);
   }
-  45% {
+  50% {
     transform: translateY(-3px);
   }
-  100% {
-    transform: translateY(-2px);
-  }
+}
+
+.floating-bob {
+  animation: bob 2.6s ease-in-out infinite;
 }

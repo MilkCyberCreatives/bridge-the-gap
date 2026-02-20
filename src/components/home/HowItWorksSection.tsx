@@ -1,132 +1,108 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
-import { CheckCircle } from "lucide-react";
 import Link from "next/link";
-
-/* ✅ IMPORT THE SHARED EASING */
+import { motion, useReducedMotion } from "framer-motion";
+import { CalendarCheck2, ClipboardList, MessageCircleReply, UsersRound } from "lucide-react";
 import { EASE_OUT } from "@/lib/motion";
+import { CONTACT_DETAILS } from "@/data/site";
+
+const STEPS = [
+  {
+    title: "1. Submit your booking request",
+    description:
+      "Select service area, audience type, subjects/focus areas, and preferred slot.",
+    Icon: ClipboardList,
+  },
+  {
+    title: "2. Availability is checked",
+    description:
+      "When calendar credentials are enabled, available times sync with the bookings mailbox and calendar.",
+    Icon: CalendarCheck2,
+  },
+  {
+    title: "3. We confirm scope and format",
+    description:
+      "We align on delivery model: one-on-one, group intervention, workshop, or coaching.",
+    Icon: UsersRound,
+  },
+  {
+    title: "4. Support starts with clear milestones",
+    description:
+      "You receive practical next steps and communication channels for progress tracking.",
+    Icon: MessageCircleReply,
+  },
+];
 
 export default function HowItWorksSection() {
   const reduceMotion = useReducedMotion();
 
-  const container = {
-    hidden: {},
-    show: {
-      transition: reduceMotion
-        ? { duration: 0 }
-        : { staggerChildren: 0.2, delayChildren: 0.15 },
-    },
-  };
-
-  const item = {
-    hidden: reduceMotion
-      ? { opacity: 1, y: 0, filter: "blur(0px)" }
-      : { opacity: 0, y: 40, filter: "blur(10px)" },
-
-    show: reduceMotion
-      ? { opacity: 1, y: 0, filter: "blur(0px)" }
-      : {
-          opacity: 1,
-          y: 0,
-          filter: "blur(0px)",
-          transition: {
-            duration: 0.9,
-            ease: EASE_OUT, // ✅ FIXED (typed easing)
-          },
-        },
-  };
-
   return (
-    <section className="relative w-full overflow-hidden">
-      {/* Background image */}
-      <motion.div
-        initial={{ scale: 1.08 }}
-        whileInView={{ scale: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 2.5, ease: "easeOut" }}
-        className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage: "url('/images/how-it-works.webp')",
-        }}
-      />
-
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/45 to-black/65" />
-
-      {/* Content */}
-      <div className="relative z-10">
-        <div className="container-tight py-24 sm:py-32">
+    <section className="relative w-full py-16 sm:py-20">
+      <div className="container-tight">
+        <div className="rounded-[32px] border border-border bg-black p-7 text-white sm:p-10">
           <motion.div
-            variants={container}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.3 }}
+            initial={reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.7, ease: EASE_OUT }}
             className="max-w-3xl"
           >
-            <motion.p
-              variants={item}
-              className="text-sm font-semibold uppercase tracking-wide text-white/70"
-            >
-              How It Works
-            </motion.p>
-
-            <motion.h2
-              variants={item}
-              className="mt-3 text-3xl font-extrabold tracking-tight text-white sm:text-4xl"
-            >
-              Simple. Structured. Results-Driven.
-            </motion.h2>
-
-            <motion.p
-              variants={item}
-              className="mt-4 text-base leading-relaxed text-white/85"
-            >
-              Our tutoring process is designed to support learners step by step,
-              build confidence, and deliver measurable academic improvement —
-              aligned to CAPS and IEB standards.
-            </motion.p>
-
-            {/* Steps */}
-            <motion.div variants={container} className="mt-10 space-y-5">
-              {[
-                {
-                  title: "Assessment & Consultation",
-                  desc: "We assess the learner’s current level and identify gaps through a structured consultation.",
-                },
-                {
-                  title: "Focused Tutoring Programme",
-                  desc: "Learners receive targeted subject support aligned to their grade and curriculum.",
-                },
-                {
-                  title: "Progress Tracking & Feedback",
-                  desc: "Ongoing feedback ensures improvement, confidence, and academic growth.",
-                },
-              ].map((step, i) => (
-                <motion.div
-                  key={i}
-                  variants={item}
-                  className="flex items-start gap-4"
-                >
-                  <CheckCircle className="mt-1 h-6 w-6 text-[rgb(var(--brand))]" />
-                  <div>
-                    <p className="font-bold text-white">{step.title}</p>
-                    <p className="mt-1 text-sm text-white/80">{step.desc}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-
-            {/* CTA */}
-            <motion.div variants={item} className="mt-10">
-              <Link
-                href="/contact"
-                className="btn-water inline-flex items-center justify-center rounded-full bg-[rgb(var(--brand))] px-8 py-4 text-sm font-extrabold text-white"
-              >
-                Book Free Consultation
-              </Link>
-            </motion.div>
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-white/60">
+              Booking Journey
+            </p>
+            <h2 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
+              Clear process from first enquiry to delivery.
+            </h2>
+            <p className="mt-3 text-base leading-relaxed text-white/78">
+              Bookings are routed to {CONTACT_DETAILS.bookingsEmail}. If you enable
+              Google Calendar integration in Vercel, unavailable slots are blocked
+              automatically.
+            </p>
           </motion.div>
+
+          <div className="mt-8 grid gap-4 md:grid-cols-2">
+            {STEPS.map((step) => (
+              <motion.article
+                key={step.title}
+                initial={reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.6, ease: EASE_OUT }}
+                className="water-hover rounded-2xl border border-white/10 bg-white/5 p-5"
+              >
+                <div className="flex items-start gap-3">
+                  <div className="rounded-xl border border-white/15 bg-white/10 p-2">
+                    <step.Icon className="h-5 w-5 text-[rgb(var(--brand-2))]" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-extrabold tracking-tight text-white/95">
+                      {step.title}
+                    </p>
+                    <p className="mt-1 text-sm leading-relaxed text-white/78">
+                      {step.description}
+                    </p>
+                  </div>
+                </div>
+              </motion.article>
+            ))}
+          </div>
+
+          <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+            <Link
+              href="/contact#book"
+              className="btn-water inline-flex items-center justify-center rounded-full bg-[rgb(var(--brand))] px-7 py-3 text-sm font-extrabold text-white"
+            >
+              Start Booking
+            </Link>
+            <a
+              href={CONTACT_DETAILS.whatsappUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="water-hover inline-flex items-center justify-center rounded-full border border-white/20 bg-white/10 px-7 py-3 text-sm font-semibold text-white"
+            >
+              WhatsApp {CONTACT_DETAILS.phoneLocal}
+            </a>
+          </div>
         </div>
       </div>
     </section>

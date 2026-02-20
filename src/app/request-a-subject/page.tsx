@@ -1,23 +1,21 @@
 import BreadcrumbHero from "@/components/ui/BreadcrumbHero";
-import RequestSubjectFormSection from "./RequestSubjectFormSection";
-import FooterSection from "@/components/layout/FooterSection";
+import ConsultationFormSection from "@/components/home/ConsultationFormSection";
 
 export default function RequestASubjectPage() {
   return (
     <>
       <BreadcrumbHero
-        title="request a subject"
-        subtitle="Can’t find your subject on the list? Tell us what you need and we’ll recommend the best support plan — aligned to CAPS & IEB."
+        title="Request a Subject"
+        subtitle="Select the service area and choose Other if the subject or focus area is not listed."
         crumbs={[
-          { label: "home", href: "/" },
-          { label: "request a subject" },
+          { label: "Home", href: "/" },
+          { label: "Request a Subject" },
         ]}
-        image="/images/breadcrumbs/master.jpg"
       />
-
-      <RequestSubjectFormSection />
-
-      <FooterSection />
+      <ConsultationFormSection
+        title="Request a custom subject or focus area"
+        subtitle="Use the expandable focus list and Other field to submit specific needs across CAPS and IB."
+      />
     </>
   );
 }

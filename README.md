@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Bridge The Gap Website
 
-## Getting Started
+Premium, mobile-first Next.js website for Bridge The Gap Educational Services.
 
-First, run the development server:
+## Core Service Positioning
+
+- Tutoring Services (CAPS and IB)
+- Matric Support Services
+- Teacher Professional Development
+- Coaching Services
+
+## Local Development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Quality Checks
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run lint
+npm run build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Booking and Availability
 
-## Learn More
+The booking form posts to `POST /api/consultation` and loads available slots from
+`GET /api/availability?date=YYYY-MM-DD`.
 
-To learn more about Next.js, take a look at the following resources:
+### Required for notifications
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `RESEND_API_KEY`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Optional booking mailbox routing
 
-## Deploy on Vercel
+- `BOOKING_RECIPIENT_EMAIL` (defaults to `londiwem@bridgethegapeducationalservices.co.za`)
+- `BOOKING_FROM_EMAIL`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Optional Google Calendar sync (to block unavailable slots)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `GOOGLE_CALENDAR_ID`
+- `GOOGLE_SERVICE_ACCOUNT_EMAIL`
+- `GOOGLE_PRIVATE_KEY` (escaped with `\n` in Vercel env UI)
+
+When Calendar env vars are set, selected booking slots are checked against calendar
+busy windows and events are created automatically.
+
+## Routing Notes
+
+Legacy routes are redirected in `next.config.mjs`:
+
+- `/programmes/learner-support` -> `/programmes/tutoring-services`
+- `/programmes/educator-development` -> `/programmes/teacher-professional-development`
+- `/programmes/study-skills` -> `/programmes/coaching-services`
+- `/subjects/request` -> `/request-a-subject`
+- `/subjects/sciences` -> `/subjects/physical-sciences`

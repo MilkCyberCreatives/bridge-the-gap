@@ -1,9 +1,9 @@
 import HeroSection from "@/components/home/HeroSection";
 import ProgrammesSection from "@/components/home/ProgrammesSection";
-import SubjectsSection from "@/components/home/SubjectsSection";
-import HowItWorksSection from "@/components/home/HowItWorksSection";
-import ResultsSection from "@/components/home/ResultsSection";
 import SupportPromiseSection from "@/components/home/SupportPromiseSection";
+import SubjectsSection from "@/components/home/SubjectsSection";
+import ResultsSection from "@/components/home/ResultsSection";
+import HowItWorksSection from "@/components/home/HowItWorksSection";
 import WhyChooseSection from "@/components/home/WhyChooseSection";
 import FAQSection from "@/components/home/FAQSection";
 import ConsultationFormSection from "@/components/home/ConsultationFormSection";
@@ -14,13 +14,11 @@ export default function HomePage() {
     <main className="w-full">
       <HeroSection />
       <ProgrammesSection />
-      <SubjectsSection />
-      <HowItWorksSection />
-      <ResultsSection />
       <SupportPromiseSection />
+      <SubjectsSection />
+      <ResultsSection />
+      <HowItWorksSection />
       <WhyChooseSection />
-
-      {/* ✅ Requested: FAQ then Consultation Form then Footer */}
       <FAQSection />
       <ConsultationFormSection />
       <BlogPreviewSection />
