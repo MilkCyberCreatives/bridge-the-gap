@@ -49,10 +49,12 @@ export async function sendConsultationNotification(
   }
 
   const resend = new Resend(apiKey);
-  const recipient =
-    process.env.BOOKING_RECIPIENT_EMAIL || CONTACT_DETAILS.bookingsEmail;
-  const from =
-    process.env.BOOKING_FROM_EMAIL || "Bridge The Gap <bookings@updates.bridgethegap.co.za>";
+  const recipient = (
+    process.env.BOOKING_RECIPIENT_EMAIL || CONTACT_DETAILS.bookingsEmail
+  ).trim();
+  const from = (
+    process.env.BOOKING_FROM_EMAIL || "Bridge The Gap <bookings@updates.bridgethegap.co.za>"
+  ).trim();
 
   await resend.emails.send({
     from,

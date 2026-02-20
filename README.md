@@ -34,7 +34,7 @@ The booking form posts to `POST /api/consultation` and loads available slots fro
 
 ### Optional booking mailbox routing
 
-- `BOOKING_RECIPIENT_EMAIL` (defaults to `londiwem@bridgethegapeducationalservices.co.za`)
+- `BOOKING_RECIPIENT_EMAIL` (defaults to `info@bridgethegapeducationalservices.co.za`)
 - `BOOKING_FROM_EMAIL`
 
 ### Optional Google Calendar sync (to block unavailable slots)

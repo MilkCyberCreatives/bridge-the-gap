@@ -19,7 +19,7 @@ export const CONTACT_DETAILS = {
   phoneLocal: "084 233 1687",
   phoneIntl: "+27842331687",
   whatsappUrl: "https://wa.me/27842331687",
-  bookingsEmail: "londiwem@bridgethegapeducationalservices.co.za",
+  bookingsEmail: "info@bridgethegapeducationalservices.co.za",
   generalEmail: "info@bridgethegapeducationalservices.co.za",
   addressLine: "Kempton Park, Birchleigh North, Gauteng, South Africa",
   timezone: "SAST (UTC+2)",
