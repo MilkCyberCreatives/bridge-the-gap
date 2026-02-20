@@ -105,6 +105,8 @@ export default function HeroSection() {
           </div>
         </div>
       </div>
+
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-transparent via-[rgb(var(--bg))/0.7] to-[rgb(var(--bg))] sm:h-36" />
     </section>
   );
 }
