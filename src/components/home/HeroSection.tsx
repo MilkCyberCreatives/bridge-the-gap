@@ -22,7 +22,7 @@ export default function HeroSection() {
   ];
 
   return (
-    <section className="relative overflow-hidden bg-slate-50">
+    <section className="relative -mt-[var(--hdr)] overflow-hidden bg-slate-50 pt-[var(--hdr)]">
       <div className="absolute inset-0">
         <div className="absolute inset-0">
           <Image
