@@ -3,16 +3,18 @@
 @tailwind utilities;
 
 :root {
-  --bg: 255 255 255;
-  --fg: 12 12 14;
-  --brand: 250 78 27;
-  --brand-2: 248 135 24;
-  --ink: 0 0 0;
+  --bg: 247 243 237;
+  --fg: 27 24 22;
+  --brand: 233 88 39;
+  --brand-2: 196 132 61;
+  --ink: 18 15 13;
   --card: 255 255 255;
-  --muted: 245 246 248;
-  --border: 228 230 235;
-  --radius: 18px;
+  --muted: 239 233 225;
+  --border: 223 215 204;
+  --radius: 20px;
   --hdr: 132px;
+  --surface-shadow: 0 14px 40px rgba(28, 22, 14, 0.08);
+  --surface-shadow-hover: 0 18px 48px rgba(28, 22, 14, 0.12);
 }
 
 @media (max-width: 640px) {
@@ -27,9 +29,38 @@ body {
 }
 
 body {
+  position: relative;
   color: rgb(var(--fg));
-  background: rgb(var(--bg));
+  background:
+    radial-gradient(circle at 12% 6%, rgba(233, 88, 39, 0.08), transparent 34%),
+    radial-gradient(circle at 88% 10%, rgba(196, 132, 61, 0.09), transparent 34%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.45), rgba(247, 243, 237, 0.95));
+  font-family: var(--font-sans), "Segoe UI", sans-serif;
+  line-height: 1.55;
+  letter-spacing: 0.005em;
   text-rendering: optimizeLegibility;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.45;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.25) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.22) 1px, transparent 1px);
+  background-size: 24px 24px, 24px 24px;
+}
+
+h1,
+h2,
+h3 {
+  color: rgb(var(--ink));
+  font-family: var(--font-display), "Times New Roman", serif;
+  letter-spacing: -0.018em;
+  line-height: 1.05;
 }
 
 html {
@@ -47,27 +78,30 @@ html {
 }
 
 .container-tight {
-  @apply mx-auto w-full max-w-[1220px] px-4 sm:px-6 lg:px-8;
+  @apply mx-auto w-full max-w-[1260px] px-4 sm:px-6 lg:px-8;
 }
 
 .bg-grain {
-  background-image: radial-gradient(rgba(0, 0, 0, 0.035) 1px, transparent 1px);
-  background-size: 18px 18px;
+  background-image: radial-gradient(rgba(0, 0, 0, 0.03) 0.9px, transparent 0.9px);
+  background-size: 20px 20px;
 }
 
 .btn-water,
 .water-hover {
   position: relative;
+  isolation: isolate;
   overflow: hidden;
   transform: translateZ(0);
+  box-shadow: var(--surface-shadow);
   transition: transform 220ms ease, filter 220ms ease, background 220ms ease,
-    border-color 220ms ease, box-shadow 220ms ease;
+    border-color 220ms ease, box-shadow 220ms ease, opacity 220ms ease;
 }
 
 .btn-water:hover,
 .water-hover:hover {
-  transform: translateY(-1px);
-  filter: saturate(1.05);
+  transform: translateY(-2px);
+  filter: saturate(1.08);
+  box-shadow: var(--surface-shadow-hover);
 }
 
 .btn-water::before,
@@ -77,11 +111,21 @@ html {
   inset: -40%;
   background: radial-gradient(
     circle at var(--x, 50%) var(--y, 50%),
-    rgba(255, 255, 255, 0.6),
+    rgba(255, 255, 255, 0.55),
     transparent 45%
   );
   opacity: 0;
   transition: opacity 220ms ease;
+  pointer-events: none;
+}
+
+.btn-water::after,
+.water-hover::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.22);
   pointer-events: none;
 }
 
@@ -93,12 +137,13 @@ html {
 .nav-dance {
   display: inline-block;
   will-change: transform;
-  transition: transform 260ms ease, letter-spacing 260ms ease;
+  transition: transform 260ms ease, letter-spacing 260ms ease, opacity 260ms ease;
 }
 
 .nav-dance:hover {
   transform: translateY(-1px);
-  letter-spacing: 0.1px;
+  letter-spacing: 0.16px;
+  opacity: 1;
 }
 
 @keyframes bob {
@@ -129,6 +174,16 @@ html {
 
 .hero-bg-motion {
   animation: hero-pan 18s ease-in-out infinite;
+}
+
+.hero-service-card {
+  border: 1px solid rgb(var(--border) / 0.95);
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.9), rgba(246, 240, 233, 0.86));
+  box-shadow: var(--surface-shadow);
+}
+
+.hero-service-card:nth-child(2n) {
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.95), rgba(245, 236, 224, 0.88));
 }
 
 @media (prefers-reduced-motion: reduce) {

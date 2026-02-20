@@ -46,14 +46,14 @@ export default function MainHeader() {
   const headerBackground = useTransform(
     scrollY,
     [0, 120],
-    ["rgba(255,255,255,0.82)", "rgba(255,255,255,0.96)"]
+    ["rgba(250,247,241,0.82)", "rgba(255,255,255,0.95)"]
   );
 
   return (
     <>
       <motion.div
         style={{ backgroundColor: headerBackground }}
-        className="w-full border-b border-black/5 backdrop-blur-xl"
+        className="w-full border-b border-black/6 backdrop-blur-xl shadow-[0_8px_24px_rgba(15,12,10,0.05)]"
       >
         <div className="container-tight flex min-h-[88px] items-center justify-between py-2 sm:min-h-[104px] sm:py-3">
           <Link href="/" className="flex items-center gap-3" aria-label="Bridge The Gap">
@@ -67,10 +67,10 @@ export default function MainHeader() {
               />
             </div>
             <div className="hidden sm:block">
-              <p className="text-sm font-extrabold tracking-tight text-black/80">
+              <p className="text-sm font-extrabold tracking-[0.03em] text-black/85">
                 Bridge The Gap
               </p>
-              <p className="text-xs text-black/60">
+              <p className="text-xs tracking-[0.02em] text-black/58">
                 Educational Services and Professional Development
               </p>
             </div>
@@ -88,12 +88,12 @@ export default function MainHeader() {
                     <ChevronDown className="h-4 w-4 text-black/55 transition group-hover:rotate-180" />
                   </button>
                   <div className="pointer-events-none absolute left-0 top-full mt-3 w-[380px] opacity-0 transition group-hover:pointer-events-auto group-hover:opacity-100">
-                    <div className="rounded-2xl border border-border bg-white/95 p-2 shadow-soft backdrop-blur-xl">
+                    <div className="rounded-2xl border border-border bg-[linear-gradient(165deg,rgba(255,255,255,0.96),rgba(249,244,238,0.94))] p-2 shadow-soft backdrop-blur-xl">
                       {item.children.map((child) => (
                         <Link
                           key={child.href}
                           href={child.href}
-                          className="water-hover flex rounded-xl px-4 py-3 transition hover:bg-brand/5"
+                          className="water-hover flex rounded-xl px-4 py-3 transition hover:bg-brand/8"
                         >
                           <div>
                             <p className="text-sm font-semibold text-black/80">{child.label}</p>
@@ -125,7 +125,7 @@ export default function MainHeader() {
               href="/contact#book"
               data-track="header_book_consultation"
               data-track-location="header"
-              className="btn-water hidden rounded-full bg-[rgb(var(--brand))] px-5 py-3 text-sm font-extrabold text-white sm:inline-flex"
+              className="btn-water hidden rounded-full bg-[linear-gradient(120deg,rgb(var(--brand)),rgb(var(--brand-2)))] px-5 py-3 text-sm font-extrabold text-white sm:inline-flex"
             >
               Book Consultation
             </Link>
@@ -133,7 +133,7 @@ export default function MainHeader() {
             <button
               type="button"
               onClick={() => setMobileOpen(true)}
-              className="water-hover inline-flex items-center justify-center rounded-full border border-border bg-white/85 p-2 lg:hidden"
+              className="water-hover inline-flex items-center justify-center rounded-full border border-border bg-white/92 p-2 lg:hidden"
               aria-label="Open menu"
             >
               <Menu className="h-5 w-5" />
@@ -153,7 +153,7 @@ export default function MainHeader() {
               onClick={() => setMobileOpen(false)}
             />
             <motion.aside
-              className="fixed right-0 top-0 z-[80] h-full w-[90%] max-w-[380px] border-l border-border bg-white p-5"
+              className="fixed right-0 top-0 z-[80] h-full w-[90%] max-w-[380px] border-l border-border bg-[linear-gradient(180deg,#f8f4ee,#ffffff)] p-5"
               initial={{ x: 30, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: 30, opacity: 0 }}
@@ -216,7 +216,7 @@ export default function MainHeader() {
                       key={item.label}
                       href={item.href || "/"}
                       onClick={() => setMobileOpen(false)}
-                      className="water-hover block rounded-xl border border-border bg-white/80 px-4 py-3 text-sm font-semibold text-black/75 transition hover:bg-brand/5"
+                      className="water-hover block rounded-xl border border-border bg-white/80 px-4 py-3 text-sm font-semibold text-black/75 transition hover:bg-brand/7"
                     >
                       {toLabelCase(item.label)}
                     </Link>
@@ -229,7 +229,7 @@ export default function MainHeader() {
                 onClick={() => setMobileOpen(false)}
                 data-track="mobile_header_book_consultation"
                 data-track-location="mobile_menu"
-                className="btn-water mt-5 inline-flex w-full items-center justify-center rounded-full bg-[rgb(var(--brand))] px-5 py-3 text-sm font-extrabold text-white"
+                className="btn-water mt-5 inline-flex w-full items-center justify-center rounded-full bg-[linear-gradient(120deg,rgb(var(--brand)),rgb(var(--brand-2)))] px-5 py-3 text-sm font-extrabold text-white"
               >
                 Book Consultation
               </Link>

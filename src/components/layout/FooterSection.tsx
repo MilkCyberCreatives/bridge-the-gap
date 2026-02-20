@@ -32,14 +32,17 @@ export default function FooterSection() {
   };
 
   return (
-    <footer id="site-footer" className="relative w-full bg-black text-white">
+    <footer
+      id="site-footer"
+      className="relative w-full bg-[linear-gradient(145deg,#121111,#0f0f0f_45%,#171513)] text-white"
+    >
       <div className="container-tight pt-10">
         <motion.div
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.25 }}
           variants={wrap}
-          className="overflow-hidden rounded-[28px] border border-white/10 bg-white/10 px-6 py-6 backdrop-blur-xl sm:px-8"
+          className="overflow-hidden rounded-[28px] border border-white/12 bg-white/8 px-6 py-6 backdrop-blur-xl sm:px-8"
         >
           <motion.p variants={item} className="text-sm font-semibold text-white/80">
             Need a custom school intervention plan?
@@ -50,7 +53,7 @@ export default function FooterSection() {
           <motion.div variants={item} className="mt-5 flex flex-col gap-3 sm:flex-row">
             <Link
               href="/contact#book"
-              className="btn-water inline-flex items-center justify-center rounded-full bg-[rgb(var(--brand))] px-6 py-3 text-sm font-extrabold text-white"
+              className="btn-water inline-flex items-center justify-center rounded-full bg-[linear-gradient(120deg,rgb(var(--brand)),rgb(var(--brand-2)))] px-6 py-3 text-sm font-extrabold text-white"
             >
               Book Consultation
             </Link>
@@ -58,7 +61,7 @@ export default function FooterSection() {
               href={CONTACT_DETAILS.whatsappUrl}
               target="_blank"
               rel="noreferrer"
-              className="water-hover inline-flex items-center justify-center rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-semibold text-white"
+              className="water-hover inline-flex items-center justify-center rounded-full border border-white/20 bg-white/8 px-6 py-3 text-sm font-semibold text-white"
             >
               WhatsApp {CONTACT_DETAILS.phoneLocal}
             </a>
@@ -145,7 +148,7 @@ export default function FooterSection() {
               href={CONTACT_DETAILS.whatsappUrl}
               target="_blank"
               rel="noreferrer"
-              className="btn-water mt-5 inline-flex items-center gap-2 rounded-full bg-[rgb(var(--brand))] px-5 py-2.5 text-sm font-semibold text-white"
+              className="btn-water mt-5 inline-flex items-center gap-2 rounded-full bg-[linear-gradient(120deg,rgb(var(--brand)),rgb(var(--brand-2)))] px-5 py-2.5 text-sm font-semibold text-white"
             >
               <MessageCircle className="h-4 w-4" />
               WhatsApp Us
@@ -171,7 +174,7 @@ export default function FooterSection() {
 
         <div className="mt-10 border-t border-white/10 pt-6 text-xs text-white/55">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-            <p>© 2026 Bridge The Gap Educational Services. All rights reserved.</p>
+            <p>(c) 2026 Bridge The Gap Educational Services. All rights reserved.</p>
             <p>Bookings are managed in {CONTACT_DETAILS.timezone}.</p>
           </div>
         </div>

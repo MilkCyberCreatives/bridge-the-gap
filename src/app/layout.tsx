@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Cormorant_Garamond, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
 import TopHeader from "@/components/layout/TopHeader";
@@ -42,6 +42,11 @@ const font = Plus_Jakarta_Sans({
   weight: ["400", "500", "700"],
   variable: "--font-sans",
 });
+const displayFont = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["600", "700"],
+  variable: "--font-display",
+});
 
 const baseMetadata = buildPageMetadata({
   title: "Education Support and Professional Development",
@@ -70,7 +75,10 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en-ZA" className={`${font.variable} antialiased`}>
+    <html
+      lang="en-ZA"
+      className={`${font.variable} ${displayFont.variable} antialiased`}
+    >
       <body className="relative flex min-h-screen flex-col bg-[rgb(var(--bg))] text-[rgb(var(--fg))]">
         <ScrollProgressBar />
         <WaterCursor />
