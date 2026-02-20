@@ -7,9 +7,11 @@ import { ArrowRight } from "lucide-react";
 import { INSIGHT_POSTS } from "@/data/insights";
 
 const EASE_OUT = [0.22, 1, 0.36, 1] as const;
+const HOME_INSIGHT_LIMIT = 3;
 
 export default function BlogPreviewSection() {
   const reduceMotion = useReducedMotion();
+  const previewPosts = INSIGHT_POSTS.slice(0, HOME_INSIGHT_LIMIT);
 
   return (
     <section className="relative w-full py-16 sm:py-20">
@@ -27,7 +29,7 @@ export default function BlogPreviewSection() {
         </div>
 
         <div className="mt-10 grid gap-4 md:auto-rows-fr md:grid-cols-3">
-          {INSIGHT_POSTS.map((post) => (
+          {previewPosts.map((post) => (
             <motion.article
               key={post.slug}
               initial={reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}

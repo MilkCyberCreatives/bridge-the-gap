@@ -58,4 +58,52 @@ export const INSIGHT_POSTS: InsightPost[] = [
       "In both systems, high-quality support is diagnostic, targeted, and tracked over time rather than generic.",
     ],
   },
+  {
+    slug: "group-tutoring-interventions",
+    title: "How Group Tutoring Interventions Improve School Outcomes",
+    excerpt:
+      "A practical model for school leaders to structure group tutoring for measurable impact.",
+    publishedAt: "2026-02-12",
+    readingMinutes: 6,
+    category: "School Leadership",
+    image: "/images/blog/blog-1.webp",
+    content: [
+      "Group tutoring can deliver strong gains when it is tightly linked to school performance data and timetable realities.",
+      "Start by identifying specific learner groups and target topics that will produce the largest marks improvement in a short cycle.",
+      "Use fixed intervention windows, weekly progress checks, and feedback loops between tutors, teachers, and leadership.",
+      "The highest-impact programmes are consistent, measurable, and aligned to curriculum pacing and assessment dates.",
+    ],
+  },
+  {
+    slug: "teacher-development-that-sticks",
+    title: "Teacher Professional Development That Sticks",
+    excerpt:
+      "How schools can move from one-off workshops to sustained classroom improvement.",
+    publishedAt: "2026-02-14",
+    readingMinutes: 7,
+    category: "Teacher Development",
+    image: "/images/blog/blog-2.webp",
+    content: [
+      "Many training sessions create momentum but fail to produce sustained classroom change.",
+      "A stronger model combines workshops with coaching cycles, clear implementation targets, and classroom follow-through.",
+      "Leaders should prioritize a few high-value practices, then measure adoption through lesson observation and learner evidence.",
+      "Professional development works best when it is practical, contextualized, and reinforced over time.",
+    ],
+  },
+  {
+    slug: "coaching-for-learners-and-educators",
+    title: "Coaching for Learners and Educators: What Works",
+    excerpt:
+      "Coaching builds accountability, confidence, and performance when goals are specific and tracked.",
+    publishedAt: "2026-02-16",
+    readingMinutes: 5,
+    category: "Coaching",
+    image: "/images/blog/blog-3.webp",
+    content: [
+      "Coaching is most effective when goals are concrete, time-bound, and connected to real outcomes.",
+      "For learners, coaching improves consistency, focus, and follow-through on study plans and exam preparation.",
+      "For educators and school leaders, coaching supports reflective practice, communication, and leadership execution.",
+      "Short, structured coaching check-ins with progress measures create momentum and long-term behavioural change.",
+    ],
+  },
 ];
