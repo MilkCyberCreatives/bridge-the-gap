@@ -83,7 +83,7 @@ export default function ProgrammesSection() {
               <p className="mt-3 text-sm font-medium text-black/65">
                 Target clients: {service.audience}
               </p>
-              <ul className="mt-4 space-y-2 text-sm text-black/70">
+              <ul className="mt-4 flex-1 space-y-2 text-sm text-black/70">
                 {service.focusAreas.slice(0, 3).map((focus) => (
                   <li key={focus} className="flex items-start gap-2">
                     <span className="mt-2 h-1.5 w-1.5 rounded-full bg-[rgb(var(--brand))]" />
@@ -93,7 +93,7 @@ export default function ProgrammesSection() {
               </ul>
               <Link
                 href={`/programmes/${service.slug}`}
-                className="btn-water mt-auto inline-flex items-center gap-2 self-start rounded-full border border-border bg-white/90 px-4 py-2 text-sm font-semibold text-black/80"
+                className="btn-water card-cta inline-flex items-center gap-2 self-start rounded-full border border-border bg-white/90 px-4 py-2 text-sm font-semibold text-black/80"
               >
                 View service details <ArrowRight className="h-4 w-4" />
               </Link>

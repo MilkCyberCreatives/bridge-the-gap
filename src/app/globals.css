@@ -109,6 +109,10 @@ html {
   transform: translateY(-1px);
 }
 
+.card-cta {
+  margin-top: 1.5rem;
+}
+
 @keyframes bob {
   0%,
   100% {

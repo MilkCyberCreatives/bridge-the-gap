@@ -47,7 +47,7 @@ export default function SupportPromiseSection() {
               </ul>
               <Link
                 href={`/programmes/${service.slug}`}
-                className="btn-water mt-6 inline-flex self-start rounded-full border border-border bg-white/90 px-4 py-2 text-sm font-semibold text-black/80"
+                className="btn-water card-cta inline-flex self-start rounded-full border border-border bg-white/90 px-4 py-2 text-sm font-semibold text-black/80"
               >
                 Learn more
               </Link>

@@ -62,7 +62,7 @@ export default function BlogPreviewSection() {
                   <p className="mt-2 flex-1 text-sm leading-relaxed text-black/70">
                     {post.excerpt}
                   </p>
-                  <span className="mt-4 inline-flex items-center gap-2 text-sm font-extrabold text-black/78">
+                  <span className="card-cta inline-flex items-center gap-2 text-sm font-extrabold text-black/78">
                     Read article
                     <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
                   </span>

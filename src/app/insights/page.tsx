@@ -81,7 +81,7 @@ export default function InsightsPage() {
                 <p className="mt-2 text-sm leading-relaxed text-black/70">{post.excerpt}</p>
                 <Link
                   href={`/insights/${post.slug}`}
-                  className="mt-4 inline-flex text-sm font-semibold text-[rgb(var(--brand))]"
+                  className="card-cta inline-flex text-sm font-semibold text-[rgb(var(--brand))]"
                 >
                   Read article
                 </Link>
