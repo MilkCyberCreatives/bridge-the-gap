@@ -75,7 +75,7 @@ export default function MainHeader() {
                   <button
                     type="button"
                     aria-haspopup="menu"
-                    className="nav-dance inline-flex items-center gap-1 text-sm font-semibold text-slate-700 hover:text-slate-900"
+                    className="nav-dance !inline-flex items-center gap-1 whitespace-nowrap text-sm font-semibold text-slate-700 hover:text-slate-900"
                   >
                     {item.label}
                     <ChevronDown className="h-4 w-4 text-slate-500 transition group-hover:rotate-180" />
