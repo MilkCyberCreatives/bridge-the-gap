@@ -74,21 +74,22 @@ export default function MainHeader() {
                 <div key={item.label} className="group relative">
                   <button
                     type="button"
+                    aria-haspopup="menu"
                     className="nav-dance inline-flex items-center gap-1 text-sm font-semibold text-black/75 transition hover:text-black"
                   >
                     {item.label}
                     <ChevronDown className="h-4 w-4 text-black/55 transition group-hover:rotate-180" />
                   </button>
-                  <div className="pointer-events-none absolute left-0 top-full mt-3 w-[380px] opacity-0 transition group-hover:pointer-events-auto group-hover:opacity-100">
-                    <div className="rounded-2xl border border-border bg-[linear-gradient(165deg,rgba(255,255,255,0.96),rgba(249,244,238,0.94))] p-2 shadow-soft backdrop-blur-xl">
+                  <div className="pointer-events-none absolute left-1/2 top-full z-40 w-[420px] -translate-x-1/2 translate-y-1 scale-[0.98] pt-3 opacity-0 transition duration-150 ease-out group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:scale-100 group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:translate-y-0 group-focus-within:scale-100 group-focus-within:opacity-100">
+                    <div className="rounded-2xl border border-border/90 bg-white p-2 shadow-[0_20px_50px_rgba(0,0,0,0.12)]">
                       {item.children.map((child) => (
                         <Link
                           key={child.href}
                           href={child.href}
-                          className="water-hover flex rounded-xl px-4 py-3 transition hover:bg-brand/8"
+                          className="block rounded-xl px-4 py-3 transition hover:bg-black/5 focus-visible:bg-black/5"
                         >
                           <div>
-                            <p className="text-sm font-semibold text-black/80">{child.label}</p>
+                            <p className="text-sm font-semibold text-black/82">{child.label}</p>
                             {child.desc ? (
                               <p className="mt-1 text-xs leading-relaxed text-black/55">
                                 {child.desc}
