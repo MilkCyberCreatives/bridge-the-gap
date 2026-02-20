@@ -37,7 +37,7 @@ export default function SupportPromiseSection() {
               <h3 className="text-xl font-extrabold tracking-tight text-black/85">
                 Benefits of {service.shortTitle}
               </h3>
-              <ul className="mt-4 space-y-2 text-sm text-black/70">
+              <ul className="mt-4 flex-1 space-y-2 text-sm text-black/70">
                 {service.benefits.map((benefit) => (
                   <li key={benefit} className="flex items-start gap-2">
                     <span className="mt-2 h-1.5 w-1.5 rounded-full bg-[rgb(var(--brand))]" />
@@ -47,7 +47,7 @@ export default function SupportPromiseSection() {
               </ul>
               <Link
                 href={`/programmes/${service.slug}`}
-                className="btn-water mt-auto inline-flex self-start rounded-full border border-border bg-white/90 px-4 py-2 text-sm font-semibold text-black/80"
+                className="btn-water mt-6 inline-flex self-start rounded-full border border-border bg-white/90 px-4 py-2 text-sm font-semibold text-black/80"
               >
                 Learn more
               </Link>
