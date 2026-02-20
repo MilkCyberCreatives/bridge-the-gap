@@ -36,8 +36,9 @@ export default function ScrollToTopButton() {
       style={{
         ...dockStyle,
         left: "auto",
+        right: "24px",
       }}
-      className={`btn-water fixed left-auto !right-4 z-[90] grid h-12 w-12 place-items-center rounded-full border border-transparent bg-[rgb(var(--brand))] text-white shadow-[0_10px_24px_rgba(15,23,42,0.22)] transition-all duration-200 sm:!right-6 ${
+      className={`btn-water fixed left-auto z-[90] grid h-12 w-12 place-items-center rounded-full border border-transparent bg-[rgb(var(--brand))] text-white shadow-[0_10px_24px_rgba(15,23,42,0.22)] transition-all duration-200 ${
         visible
           ? "pointer-events-auto translate-y-0 opacity-100"
           : "pointer-events-none translate-y-2 opacity-0"
