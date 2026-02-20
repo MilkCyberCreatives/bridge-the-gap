@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { CONTACT_DETAILS } from "@/data/site";
 
 export default function HeroSection() {
   return (
@@ -80,9 +79,6 @@ export default function HeroSection() {
               </Link>
             </motion.div>
 
-            <p className="mt-6 text-xs text-black/60">
-              WhatsApp {CONTACT_DETAILS.phoneLocal} | {CONTACT_DETAILS.addressLine}
-            </p>
           </div>
 
           <motion.div
