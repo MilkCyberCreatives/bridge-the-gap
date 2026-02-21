@@ -20,6 +20,9 @@ import {
 const ScrollProgressBar = dynamic(() => import("@/components/ui/ScrollProgressBar"), {
   ssr: false,
 });
+const WaterCursor = dynamic(() => import("@/components/ui/WaterCursor"), {
+  ssr: false,
+});
 const CookieBanner = dynamic(() => import("@/components/ui/CookieBanner"), {
   ssr: false,
 });
@@ -71,6 +74,7 @@ export default function RootLayout({
     >
       <body className="relative flex min-h-screen flex-col bg-[rgb(var(--bg))] text-[rgb(var(--fg))]">
         <ScrollProgressBar />
+        <WaterCursor />
 
         <header className="fixed inset-x-0 top-0 z-[70]">
           <TopHeader />

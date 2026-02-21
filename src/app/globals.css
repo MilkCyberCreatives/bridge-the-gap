@@ -116,6 +116,34 @@ html {
   margin-top: 1.5rem;
 }
 
+@keyframes cursor-ring-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgb(var(--brand) / 0.34);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgb(var(--brand) / 0);
+  }
+}
+
+@keyframes cursor-dot-breathe {
+  0%,
+  100% {
+    opacity: 0.95;
+  }
+  50% {
+    opacity: 0.56;
+  }
+}
+
+.cursor-ring-animate {
+  animation: cursor-ring-pulse 1.8s ease-in-out infinite;
+}
+
+.cursor-dot-animate {
+  animation: cursor-dot-breathe 1.2s ease-in-out infinite;
+}
+
 @keyframes bob {
   0%,
   100% {

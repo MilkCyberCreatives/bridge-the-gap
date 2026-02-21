@@ -13,6 +13,8 @@ export default function WaterCursor() {
   const [enabled, setEnabled] = useState(false);
   const dotRef = useRef<HTMLDivElement | null>(null);
   const ringRef = useRef<HTMLDivElement | null>(null);
+  const RING_SIZE = 34;
+  const DOT_SIZE = 8;
 
   useEffect(() => {
     const supportsDesktopCursor = window.matchMedia(
@@ -30,13 +32,13 @@ export default function WaterCursor() {
     let pressed = false;
 
     const updateCursor = (x: number, y: number) => {
-      dot.style.transform = `translate3d(${x - 4}px, ${y - 4}px, 0) scale(${
+      dot.style.transform = `translate3d(${x - DOT_SIZE / 2}px, ${y - DOT_SIZE / 2}px, 0) scale(${
         pressed ? 0.9 : hover ? 1.12 : 1
       })`;
-      ring.style.transform = `translate3d(${x - 18}px, ${y - 18}px, 0) scale(${
-        pressed ? 0.85 : hover ? 1.28 : 1
-      }) rotateY(${hover ? 180 : 0}deg)`;
-      ring.style.opacity = hover ? "0.92" : "0.7";
+      ring.style.transform = `translate3d(${x - RING_SIZE / 2}px, ${y - RING_SIZE / 2}px, 0) scale(${
+        pressed ? 0.88 : hover ? 1.22 : 1
+      }) rotate(${hover ? 16 : 0}deg)`;
+      ring.style.opacity = hover ? "0.94" : "0.75";
     };
 
     const onMouseMove = (event: MouseEvent) => {
@@ -72,18 +74,31 @@ export default function WaterCursor() {
     };
   }, [enabled]);
 
-  if (!enabled) return null;
+    if (!enabled) return null;
 
   return (
     <>
       <div
         ref={ringRef}
-        className="pointer-events-none fixed left-0 top-0 z-[120] h-9 w-9 rounded-full border border-brand/60 bg-brand/10 shadow-glow transition-transform duration-150 will-change-transform"
+        className="cursor-ring-animate pointer-events-none fixed left-0 top-0 z-[120] rounded-full border transition-transform duration-150 will-change-transform"
+        style={{
+          width: `${RING_SIZE}px`,
+          height: `${RING_SIZE}px`,
+          borderColor: "rgb(var(--brand) / 0.7)",
+          backgroundColor: "rgb(var(--brand) / 0.12)",
+          boxShadow: "0 0 0 1px rgb(var(--brand) / 0.15)",
+        }}
         aria-hidden
       />
       <div
         ref={dotRef}
-        className="pointer-events-none fixed left-0 top-0 z-[121] h-2 w-2 rounded-full bg-brand transition-transform duration-75 will-change-transform"
+        className="cursor-dot-animate pointer-events-none fixed left-0 top-0 z-[121] rounded-full transition-transform duration-75 will-change-transform"
+        style={{
+          width: `${DOT_SIZE}px`,
+          height: `${DOT_SIZE}px`,
+          backgroundColor: "rgb(var(--brand))",
+          boxShadow: "0 0 12px rgb(var(--brand) / 0.55)",
+        }}
         aria-hidden
       />
     </>
