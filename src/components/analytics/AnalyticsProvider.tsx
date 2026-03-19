@@ -11,7 +11,6 @@ import { trackEvent, trackPageView } from "@/lib/tracking";
 export default function AnalyticsProvider() {
   const [allowAnalytics, setAllowAnalytics] = useState(false);
   const gaId = process.env.NEXT_PUBLIC_GA_ID || "";
-  const gtmId = process.env.NEXT_PUBLIC_GTM_ID || "";
   const metaPixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID || "";
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -87,24 +86,6 @@ export default function AnalyticsProvider() {
               window.gtag('config', '${gaId}', { anonymize_ip: true, send_page_view: false });
             `}
           </Script>
-        </>
-      ) : null}
-
-      {gtmId ? (
-        <>
-          <Script
-            id="gtm-base"
-            strategy="afterInteractive"
-            dangerouslySetInnerHTML={{
-              __html: `
-                (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-                'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-                })(window,document,'script','dataLayer','${gtmId}');
-              `,
-            }}
-          />
         </>
       ) : null}
 

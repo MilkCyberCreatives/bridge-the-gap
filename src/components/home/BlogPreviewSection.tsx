@@ -59,10 +59,10 @@ export default function BlogPreviewSection() {
                   <h3 className="mt-2 text-lg font-extrabold tracking-tight text-black/85">
                     {post.title}
                   </h3>
-                  <p className="mt-2 flex-1 text-sm leading-relaxed text-black/70">
+                  <p className="mt-2 text-sm leading-relaxed text-black/70">
                     {post.excerpt}
                   </p>
-                  <span className="card-cta inline-flex items-center gap-2 text-sm font-extrabold text-black/78">
+                  <span className="mt-3 inline-flex items-center gap-2 text-sm font-extrabold text-black/78">
                     Read article
                     <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
                   </span>

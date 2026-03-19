@@ -43,12 +43,8 @@ export default function HeroSection() {
       <div className="container-tight relative min-h-[calc(100svh-var(--hdr))] py-12 sm:py-16">
         <div className="grid min-h-[calc(100svh-var(--hdr)-3rem)] items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
-            <p className="inline-flex items-center gap-2 rounded-full border border-border bg-white px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-600">
-              Bridge The Gap Educational Services
-            </p>
-
-            <h1 className="mt-5 max-w-3xl text-4xl font-bold tracking-tight sm:text-5xl lg:text-[58px]">
-              Education support and professional development that moves real outcomes.
+            <h1 className="max-w-3xl text-4xl font-bold tracking-tight sm:text-5xl lg:text-[58px]">
+              Education support and professional development.
             </h1>
 
             <p className="mt-5 max-w-2xl text-base leading-relaxed text-slate-700 sm:text-[1.05rem]">
