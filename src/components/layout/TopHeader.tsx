@@ -9,7 +9,7 @@ export default function TopHeader() {
 
         <div className="flex shrink-0 items-center gap-2 sm:gap-3">
           <a
-            href="https://instagram.com"
+            href="https://www.instagram.com/bridgethegap_education"
             target="_blank"
             rel="noreferrer"
             aria-label="Instagram"
