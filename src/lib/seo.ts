@@ -10,7 +10,7 @@ export const SITE_DESCRIPTION =
 const BRAND_KEYWORDS = [
   "Bridge The Gap",
   "Bridge The Gap Educational Services",
-  "RushedTech Educational Services",
+  "Bridge The Gap services",
   "Bridge The Gap tutoring",
   "Bridge The Gap matric support",
   "Bridge The Gap teacher development",
@@ -256,7 +256,7 @@ export function getOrganizationSchema() {
     "@type": "EducationalOrganization",
     "@id": absoluteUrl("#organization"),
     name: SITE_NAME,
-    legalName: "RushedTech Educational Services",
+    legalName: "Bridge The Gap Educational Services",
     url: SITE_URL,
     logo: absoluteUrl("/bridge-the-gap-icon.svg"),
     image: absoluteUrl(DEFAULT_OG_IMAGE),

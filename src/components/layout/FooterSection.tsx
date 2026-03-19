@@ -55,9 +55,8 @@ export default function FooterSection() {
               />
             </div>
             <p className="mt-4 text-sm leading-relaxed text-white/75">
-              RushedTech Educational Services trading as Bridge The Gap Educational
-              Services offers tutoring, matric support, teacher professional development,
-              and coaching services.
+              Bridge The Gap Educational Services offers tutoring, matric support,
+              teacher professional development, and coaching services.
             </p>
             <div className="mt-4 space-y-3 text-sm text-slate-300">
               <p className="flex items-start gap-2">

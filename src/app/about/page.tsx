@@ -13,7 +13,7 @@ export const metadata: Metadata = buildPageMetadata({
   description:
     "Learn how Bridge The Gap Educational Services supports school leaders, parents, learners, and educators through integrated education services.",
   path: "/about",
-  keywords: ["about Bridge The Gap", "education support provider", "RushedTech services"],
+  keywords: ["about Bridge The Gap", "education support provider", "Bridge The Gap services"],
 });
 
 export default function AboutPage() {
@@ -35,7 +35,7 @@ export default function AboutPage() {
       />
       <BreadcrumbHero
         title="About Bridge The Gap"
-        subtitle="Bridge The Gap Educational Services is an education support and professional development provider under RushedTech Educational Services."
+        subtitle="Bridge The Gap Educational Services is an education support and professional development provider for learners, schools, and education professionals."
         crumbs={[
           { label: "Home", href: "/" },
           { label: "About" },

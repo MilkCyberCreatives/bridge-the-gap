@@ -1,6 +1,6 @@
 # Bridge The Gap Educational Services
 
-Bridge The Gap Educational Services is an education support and professional development provider under RushedTech Educational Services.
+Bridge The Gap Educational Services is an education support and professional development provider for learners, schools, and education professionals.
 
 ## Core services
 - Tutoring Services: Academic tutoring across CAPS and IB curricula (individual and group intervention models).
