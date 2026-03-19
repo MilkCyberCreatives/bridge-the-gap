@@ -21,6 +21,8 @@ export const CONTACT_DETAILS = {
   whatsappUrl: "https://wa.me/27842331687",
   bookingsEmail: "info@bridgethegapeducationalservices.co.za",
   generalEmail: "info@bridgethegapeducationalservices.co.za",
+  googleReviewUrl: "https://g.page/r/CQq_ysh0ZI1EEBM/review",
+  googleProfileUrl: "https://share.google/aX6FYYiKawGfrb2LN",
   timezone: "SAST (UTC+2)",
 };
 

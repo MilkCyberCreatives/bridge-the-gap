@@ -80,6 +80,28 @@ export default function ContactPage() {
                   {CONTACT_DETAILS.phoneLocal}
                 </a>
               </div>
+
+              <div className="water-hover h-full rounded-3xl border border-border bg-white/75 p-6 backdrop-blur-xl">
+                <p className="text-sm font-extrabold text-black/85">Google Reviews</p>
+                <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                  <a
+                    href={CONTACT_DETAILS.googleReviewUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="btn-water inline-flex items-center justify-center rounded-full bg-[rgb(var(--brand))] px-5 py-2.5 text-sm font-semibold text-white"
+                  >
+                    Leave a Review
+                  </a>
+                  <a
+                    href={CONTACT_DETAILS.googleProfileUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="water-hover inline-flex items-center justify-center rounded-full border border-border bg-white px-5 py-2.5 text-sm font-semibold text-slate-800"
+                  >
+                    Open Google Profile
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </div>

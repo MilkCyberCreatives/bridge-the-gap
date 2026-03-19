@@ -116,6 +116,16 @@ export default function FooterSection() {
                   Contact
                 </Link>
               </li>
+              <li>
+                <a
+                  className="water-hover inline-block hover:text-white"
+                  href={CONTACT_DETAILS.googleReviewUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Leave a Google Review
+                </a>
+              </li>
             </ul>
 
             <a
@@ -126,6 +136,15 @@ export default function FooterSection() {
             >
               <MessageCircle className="h-4 w-4" />
               WhatsApp Us
+            </a>
+
+            <a
+              href={CONTACT_DETAILS.googleProfileUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="water-hover mt-3 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.05] px-5 py-2.5 text-sm font-semibold text-slate-100"
+            >
+              View Google Profile
             </a>
           </motion.div>
 
