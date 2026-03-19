@@ -15,7 +15,15 @@ export const metadata: Metadata = buildPageMetadata({
   description:
     "Contact Bridge The Gap Educational Services for tutoring, matric support, teacher professional development, and coaching bookings.",
   path: "/contact",
-  keywords: ["book consultation", "education support contact"],
+  keywords: [
+    "book consultation",
+    "education support contact",
+    "tutoring enquiry South Africa",
+    "matric support booking",
+    "teacher development consultation",
+    "coaching services contact",
+  ],
+  section: "Contact",
 });
 
 export default function ContactPage() {
@@ -27,6 +35,7 @@ export default function ContactPage() {
     email: CONTACT_DETAILS.bookingsEmail,
     telephone: CONTACT_DETAILS.phoneIntl,
     areaServed: "South Africa",
+    availableLanguage: ["English"],
   };
 
   return (

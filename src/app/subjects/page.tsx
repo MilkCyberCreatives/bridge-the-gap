@@ -20,7 +20,11 @@ export const metadata: Metadata = buildPageMetadata({
     "CAPS subjects support",
     "IB subjects support",
     "subjects and focus areas",
+    "mathematics tutoring",
+    "english tutoring",
+    "physical sciences tutoring",
   ],
+  section: "Subjects",
 });
 
 export default function SubjectsPage() {

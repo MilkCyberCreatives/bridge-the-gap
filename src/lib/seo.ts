@@ -180,6 +180,9 @@ type BuildMetadataInput = {
   noIndex?: boolean;
   type?: "website" | "article";
   image?: string;
+  publishedTime?: string;
+  modifiedTime?: string;
+  section?: string;
 };
 
 export function absoluteUrl(path = "/"): string {
@@ -194,6 +197,9 @@ export function buildPageMetadata({
   noIndex = false,
   type = "website",
   image = DEFAULT_OG_IMAGE,
+  publishedTime,
+  modifiedTime,
+  section,
 }: BuildMetadataInput): Metadata {
   const fullTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
   const fullUrl = absoluteUrl(path);
@@ -218,6 +224,13 @@ export function buildPageMetadata({
       locale: "en_ZA",
       title: fullTitle,
       description,
+      ...(type === "article"
+        ? {
+            publishedTime,
+            modifiedTime: modifiedTime || publishedTime,
+            section,
+          }
+        : {}),
       images: [
         {
           url: imageUrl,
@@ -233,6 +246,11 @@ export function buildPageMetadata({
       description,
       images: [imageUrl],
     },
+    authors: [{ name: SITE_NAME, url: SITE_URL }],
+    creator: SITE_NAME,
+    publisher: SITE_NAME,
+    category: section || "Education",
+    referrer: "origin-when-cross-origin",
     robots: {
       index: !noIndex,
       follow: !noIndex,
@@ -247,6 +265,12 @@ export function buildPageMetadata({
     verification: {
       google: googleVerification,
       other: bingVerification ? { "msvalidate.01": bingVerification } : undefined,
+    },
+    other: {
+      "geo.region": "ZA-GP",
+      "geo.placename": "South Africa",
+      "geo.position": "-26.1367;28.2410",
+      ICBM: "-26.1367, 28.2410",
     },
   };
 }
@@ -282,8 +306,10 @@ export function getOrganizationSchema() {
     ],
     knowsAbout: KNOWS_ABOUT_TOPICS,
     sameAs: [
-      "https://www.bridgethegapeducationalservices.co.za",
-      "https://bridge-the-gap-delta.vercel.app",
+      CONTACT_DETAILS.instagramUrl,
+      CONTACT_DETAILS.facebookUrl,
+      CONTACT_DETAILS.linkedinUrl,
+      CONTACT_DETAILS.googleProfileUrl,
     ],
   };
 }
@@ -299,6 +325,11 @@ export function getWebsiteSchema() {
     description: SITE_DESCRIPTION,
     publisher: {
       "@id": absoluteUrl("#organization"),
+    },
+    potentialAction: {
+      "@type": "CommunicateAction",
+      target: absoluteUrl("/contact#book"),
+      name: "Book a consultation",
     },
   };
 }

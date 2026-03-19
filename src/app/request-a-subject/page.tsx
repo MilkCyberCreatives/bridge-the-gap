@@ -13,7 +13,15 @@ export const metadata: Metadata = buildPageMetadata({
   description:
     "Request additional subjects or focus areas across CAPS and IB curricula for tutoring, matric support, and professional development.",
   path: "/request-a-subject",
-  keywords: ["request a subject", "custom education support", "CAPS and IB subjects"],
+  keywords: [
+    "request a subject",
+    "custom education support",
+    "CAPS and IB subjects",
+    "request tutoring subject",
+    "custom matric support subjects",
+    "teacher development focus areas",
+  ],
+  section: "Subjects",
 });
 
 export default function RequestASubjectPage() {

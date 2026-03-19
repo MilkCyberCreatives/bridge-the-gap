@@ -20,7 +20,10 @@ export const metadata: Metadata = buildPageMetadata({
     "education service areas",
     "teacher professional development workshops",
     "matric tutoring and rewrites",
+    "group tutoring for schools",
+    "coaching for learners and educators",
   ],
+  section: "Services",
 });
 
 export default function ProgrammesPage() {

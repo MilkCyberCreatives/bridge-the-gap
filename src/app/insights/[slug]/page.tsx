@@ -41,6 +41,9 @@ export async function generateMetadata({
     keywords: [post.category, "education insight", "Bridge The Gap article"],
     type: "article",
     image: post.image,
+    publishedTime: post.publishedAt,
+    modifiedTime: post.publishedAt,
+    section: post.category,
   });
 }
 
@@ -56,6 +59,7 @@ export default function InsightDetailPage({ params }: InsightDetailProps) {
     dateModified: post.publishedAt,
     description: post.excerpt,
     articleSection: post.category,
+    keywords: [post.category, post.title, "education insights"],
     image: [absoluteUrl(post.image)],
     author: {
       "@type": "Organization",
@@ -70,6 +74,7 @@ export default function InsightDetailPage({ params }: InsightDetailProps) {
       },
     },
     mainEntityOfPage: absoluteUrl(`/insights/${post.slug}`),
+    url: absoluteUrl(`/insights/${post.slug}`),
   };
 
   return (

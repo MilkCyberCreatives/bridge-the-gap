@@ -30,6 +30,7 @@ export const metadata: Metadata = buildPageMetadata({
     "teacher development programmes",
     "coaching for learners and educators",
   ],
+  section: "Home",
 });
 
 export default function HomePage() {

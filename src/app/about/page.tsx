@@ -14,6 +14,7 @@ export const metadata: Metadata = buildPageMetadata({
     "Learn how Bridge The Gap Educational Services supports school leaders, parents, learners, and educators through integrated education services.",
   path: "/about",
   keywords: ["about Bridge The Gap", "education support provider", "Bridge The Gap services"],
+  section: "About",
 });
 
 export default function AboutPage() {

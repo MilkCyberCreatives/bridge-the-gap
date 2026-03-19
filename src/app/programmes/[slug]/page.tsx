@@ -40,7 +40,14 @@ export async function generateMetadata({
     title: service.title,
     description: service.summary,
     path: `/programmes/${service.slug}`,
-    keywords: [service.title, ...service.focusAreas],
+    keywords: [
+      service.title,
+      service.shortTitle,
+      service.audience,
+      ...service.focusAreas,
+      ...service.subjectLists.flatMap((list) => list.items),
+    ],
+    section: "Services",
   });
 }
 

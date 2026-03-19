@@ -36,7 +36,8 @@ export async function generateMetadata({
     title: `${subject.name} Support`,
     description: subject.tagline,
     path: `/subjects/${subject.slug}`,
-    keywords: [subject.name, ...subject.topics],
+    keywords: [subject.name, subject.tagline, ...subject.topics],
+    section: "Subjects",
   });
 }
 
@@ -61,6 +62,7 @@ export default function SubjectDetailPage({
     provider: {
       "@type": "EducationalOrganization",
       name: "Bridge The Gap Educational Services",
+      url: absoluteUrl("/"),
     },
     about: subject.topics,
     url: absoluteUrl(`/subjects/${subject.slug}`),

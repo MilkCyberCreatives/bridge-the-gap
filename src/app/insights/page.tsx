@@ -16,7 +16,15 @@ export const metadata: Metadata = buildPageMetadata({
   description:
     "Practical education insights for school leaders, parents, learners, and education professionals.",
   path: "/insights",
-  keywords: ["education insights", "matric preparation tips", "study habits"],
+  keywords: [
+    "education insights",
+    "matric preparation tips",
+    "study habits",
+    "teacher professional development insights",
+    "school intervention strategies",
+    "learner coaching advice",
+  ],
+  section: "Insights",
 });
 
 export default function InsightsPage() {

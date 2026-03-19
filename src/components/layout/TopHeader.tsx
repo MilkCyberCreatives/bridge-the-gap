@@ -1,4 +1,6 @@
 import { Facebook, Instagram, Linkedin } from "lucide-react";
+import { CONTACT_DETAILS } from "@/data/site";
+
 export default function TopHeader() {
   return (
     <div className="w-full border-b border-[#1f2937] bg-[#101828] text-white">
@@ -9,7 +11,7 @@ export default function TopHeader() {
 
         <div className="flex shrink-0 items-center gap-2 sm:gap-3">
           <a
-            href="https://www.instagram.com/bridgethegap_education"
+            href={CONTACT_DETAILS.instagramUrl}
             target="_blank"
             rel="noreferrer"
             aria-label="Instagram"
@@ -21,7 +23,7 @@ export default function TopHeader() {
           </a>
 
           <a
-            href="https://web.facebook.com/bridgethegapeducationalservices"
+            href={CONTACT_DETAILS.facebookUrl}
             target="_blank"
             rel="noreferrer"
             aria-label="Facebook"
@@ -33,7 +35,7 @@ export default function TopHeader() {
           </a>
 
           <a
-            href="https://www.linkedin.com/company/bridge-the-gap-educational-services"
+            href={CONTACT_DETAILS.linkedinUrl}
             target="_blank"
             rel="noreferrer"
             aria-label="LinkedIn"
