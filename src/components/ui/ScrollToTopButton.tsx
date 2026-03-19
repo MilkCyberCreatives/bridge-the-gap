@@ -32,14 +32,16 @@ export default function ScrollToTopButton() {
       }
       aria-label="Scroll to top"
       style={{
+        position: "fixed",
         left: "auto",
         right: "24px",
-        bottom: "96px",
+        bottom: "120px",
         width: "48px",
         height: "48px",
         borderRadius: "9999px",
+        zIndex: 140,
       }}
-      className={`btn-water fixed z-[90] grid place-items-center border border-transparent bg-[rgb(var(--brand))] text-white shadow-[0_10px_24px_rgba(15,23,42,0.22)] transition-all duration-200 ${
+      className={`btn-water grid place-items-center border border-transparent bg-[rgb(var(--brand))] text-white shadow-[0_10px_24px_rgba(15,23,42,0.22)] transition-all duration-200 ${
         visible
           ? "pointer-events-auto translate-y-0 opacity-100"
           : "pointer-events-none translate-y-2 opacity-0"
