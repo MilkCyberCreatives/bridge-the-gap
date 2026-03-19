@@ -35,7 +35,7 @@ export default function HeroSection() {
             sizes="100vw"
           />
         </div>
-        <div className="absolute inset-0 bg-white/76" />
+        <div className="absolute inset-0 bg-white/72" />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.25),rgba(243,246,250,0.92)_72%,rgb(var(--bg)))]" />
         <div className="pointer-events-none absolute inset-x-0 -bottom-px h-14 bg-gradient-to-b from-transparent to-[rgb(var(--bg))]" />
       </div>

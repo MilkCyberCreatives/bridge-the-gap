@@ -15,8 +15,9 @@
   --hdr: 152px;
   --tophdr: 52px;
   --mainhdr: calc(var(--hdr) - var(--tophdr));
-  --surface-shadow: 0 10px 28px rgba(16, 24, 40, 0.07);
-  --surface-shadow-hover: 0 14px 34px rgba(16, 24, 40, 0.1);
+  --surface-shadow: 0 14px 34px rgba(15, 23, 42, 0.06), 0 2px 8px rgba(15, 23, 42, 0.04);
+  --surface-shadow-hover: 0 20px 42px rgba(15, 23, 42, 0.08), 0 8px 18px rgba(15, 23, 42, 0.05);
+  --surface-shadow-strong: 0 24px 54px rgba(15, 23, 42, 0.12), 0 10px 22px rgba(15, 23, 42, 0.06);
 }
 
 @media (max-width: 640px) {
@@ -33,11 +34,13 @@ body {
 
 body {
   color: rgb(var(--fg));
-  background: rgb(var(--bg));
+  background: linear-gradient(180deg, rgb(248 250 252) 0%, rgb(var(--bg)) 20%, rgb(var(--bg)) 100%);
   font-family: var(--font-sans), "Segoe UI", sans-serif;
   line-height: 1.6;
   letter-spacing: 0;
   text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 h1,
@@ -76,14 +79,22 @@ html {
 .water-hover {
   position: relative;
   transform: translateZ(0);
-  transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease,
-    color 180ms ease, box-shadow 180ms ease, opacity 180ms ease;
+  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    color 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.btn-water {
+  letter-spacing: 0.005em;
 }
 
 .btn-water:hover,
 .water-hover:hover {
-  transform: translateY(-1px);
-  box-shadow: var(--surface-shadow);
+  transform: translateY(-1.5px);
+  box-shadow: var(--surface-shadow-hover);
 }
 
 .btn-water::before,
@@ -105,7 +116,8 @@ html {
 .nav-dance {
   display: inline-block;
   will-change: transform;
-  transition: transform 220ms ease, color 220ms ease;
+  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    color 220ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .nav-dance:hover {
@@ -176,7 +188,7 @@ html {
 
 .hero-service-card {
   border: 1px solid rgb(var(--border) / 0.96);
-  background: rgb(var(--card));
+  background: rgb(var(--card) / 0.92);
   box-shadow: var(--surface-shadow);
 }
 

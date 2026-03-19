@@ -54,7 +54,7 @@ export default function MainHeader() {
     <>
       <motion.div
         style={{ backgroundColor: headerBackground }}
-        className="w-full border-b border-slate-200/90 shadow-[0_8px_20px_rgba(15,23,42,0.06)]"
+        className="w-full border-b border-slate-200/85 shadow-[0_12px_28px_rgba(15,23,42,0.07)]"
       >
         <div className="container-tight flex min-h-[96px] items-center justify-between py-2 sm:min-h-[112px] sm:py-3">
           <Link href="/" className="flex items-center" aria-label="Bridge The Gap">
@@ -82,7 +82,7 @@ export default function MainHeader() {
                     <ChevronDown className="h-4 w-4 text-slate-500 transition group-hover:rotate-180" />
                   </button>
                   <div className="pointer-events-none absolute left-1/2 top-full z-40 w-[430px] -translate-x-1/2 translate-y-1 scale-[0.98] pt-3 opacity-0 transition duration-150 ease-out group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:scale-100 group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:translate-y-0 group-focus-within:scale-100 group-focus-within:opacity-100">
-                    <div className="rounded-2xl border border-slate-200 bg-white p-2 shadow-[0_20px_45px_rgba(15,23,42,0.12)]">
+                    <div className="rounded-2xl border border-slate-200/90 bg-white p-2 shadow-[0_24px_54px_rgba(15,23,42,0.12)]">
                       {item.children.map((child) => (
                         <Link
                           key={child.href}
@@ -147,7 +147,7 @@ export default function MainHeader() {
               onClick={() => setMobileOpen(false)}
             />
             <motion.aside
-              className="fixed right-0 top-0 z-[80] h-full w-[90%] max-w-[380px] border-l border-slate-200 bg-white p-5"
+              className="fixed right-0 top-0 z-[80] h-full w-[90%] max-w-[380px] border-l border-slate-200 bg-white p-5 shadow-[-18px_0_48px_rgba(15,23,42,0.12)]"
               initial={{ x: 30, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: 30, opacity: 0 }}
