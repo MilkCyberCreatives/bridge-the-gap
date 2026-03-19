@@ -21,7 +21,7 @@ export default function TopHeader() {
           </a>
 
           <a
-            href="https://facebook.com"
+            href="https://web.facebook.com/bridgethegapeducationalservices"
             target="_blank"
             rel="noreferrer"
             aria-label="Facebook"
