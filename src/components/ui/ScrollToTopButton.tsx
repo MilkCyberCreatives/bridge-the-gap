@@ -2,12 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { ArrowUp } from "lucide-react";
-import { useFooterDockOffset } from "@/hooks/useFooterDockOffset";
 
 export default function ScrollToTopButton() {
   const [visible, setVisible] = useState(false);
   const [reduceMotion, setReduceMotion] = useState(false);
-  const dockStyle = useFooterDockOffset(24);
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -34,9 +32,9 @@ export default function ScrollToTopButton() {
       }
       aria-label="Scroll to top"
       style={{
-        ...dockStyle,
         left: "auto",
         right: "24px",
+        bottom: "96px",
         width: "48px",
         height: "48px",
         borderRadius: "9999px",
