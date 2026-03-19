@@ -3,7 +3,8 @@ import { CONTACT_DETAILS, SERVICE_AREAS } from "@/data/site";
 
 export const SITE_NAME = "Bridge The Gap Educational Services";
 export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://bridge-the-gap-delta.vercel.app";
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  "https://www.bridgethegapeducationalservices.co.za";
 export const SITE_DESCRIPTION =
   "Bridge The Gap Educational Services delivers tutoring services, matric support, teacher professional development, and coaching across CAPS and IB curricula.";
 
@@ -281,8 +282,8 @@ export function getOrganizationSchema() {
     ],
     knowsAbout: KNOWS_ABOUT_TOPICS,
     sameAs: [
-      "https://bridge-the-gap-delta.vercel.app",
       "https://www.bridgethegapeducationalservices.co.za",
+      "https://bridge-the-gap-delta.vercel.app",
     ],
   };
 }
