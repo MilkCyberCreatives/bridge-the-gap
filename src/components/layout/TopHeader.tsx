@@ -33,7 +33,7 @@ export default function TopHeader() {
           </a>
 
           <a
-            href="https://linkedin.com"
+            href="https://www.linkedin.com/company/bridge-the-gap-educational-services"
             target="_blank"
             rel="noreferrer"
             aria-label="LinkedIn"
