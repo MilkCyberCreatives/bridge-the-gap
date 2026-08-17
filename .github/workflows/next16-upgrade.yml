@@ -1,0 +1,52 @@
+name: Upgrade Runtime Dependencies
+
+on:
+  push:
+    branches: [agent/production-hardening]
+
+permissions:
+  contents: write
+
+jobs:
+  upgrade:
+    if: github.actor != 'github-actions[bot]' && !contains(github.event.head_commit.message, '[skip-next16-upgrade]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: agent/production-hardening
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install current dependencies
+        run: npm ci
+
+      - name: Upgrade framework and mail SDK
+        run: npm install --save-exact next@16.3.1 resend@6.18.1
+
+      - name: Upgrade lint tooling
+        run: npm install --save-dev --save-exact eslint@latest eslint-config-next@16.3.1
+
+      - name: Apply compatible audit fixes
+        run: npm audit fix
+
+      - name: Commit dependency updates
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- package.json package-lock.json; then
+            echo "No dependency changes were generated."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package.json package-lock.json
+          git commit -m "Upgrade runtime dependencies to patched releases"
+          git push origin HEAD:agent/production-hardening
