@@ -51,11 +51,10 @@ export async function sendConsultationNotification(
 ): Promise<NotificationResult> {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
-    console.log("Consultation request (email disabled):", payload);
+    console.warn("Consultation notification skipped: RESEND_API_KEY is not configured.");
     return {
       delivered: false,
-      reason:
-        "RESEND_API_KEY is not configured. Request was accepted and logged on the server.",
+      reason: "RESEND_API_KEY is not configured.",
     };
   }
 
