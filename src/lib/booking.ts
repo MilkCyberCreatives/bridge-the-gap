@@ -1,7 +1,9 @@
 import { SERVICE_AREAS } from "@/data/site";
 
 export const SOUTH_AFRICA_OFFSET = "+02:00";
+export const SOUTH_AFRICA_TIME_ZONE = "Africa/Johannesburg";
 export const BOOKING_SLOT_MINUTES = 60;
+export const BOOKING_WINDOW_DAYS = 21;
 export const BUSINESS_HOURS = {
   start: 8,
   end: 17,
@@ -78,15 +80,23 @@ export function createTimeLabel(time: string): string {
     .padStart(2, "0")} ${suffix}`;
 }
 
+export function buildSouthAfricaIsoDate(date: string, time: string): string {
+  return `${date}T${time}:00${SOUTH_AFRICA_OFFSET}`;
+}
+
 export function getSlotsForDate(date: string): AvailabilitySlot[] {
   if (!isIsoDateString(date)) return [];
 
   const weekday = getDayOfWeek(date);
   if (weekday === 0) return [];
 
+  const now = Date.now();
   const slots: AvailabilitySlot[] = [];
   for (let hour = BUSINESS_HOURS.start; hour < BUSINESS_HOURS.end; hour += 1) {
     const time = `${hour.toString().padStart(2, "0")}:00`;
+    const slotStart = new Date(buildSouthAfricaIsoDate(date, time)).getTime();
+    if (!Number.isFinite(slotStart) || slotStart <= now) continue;
+
     slots.push({
       time,
       label: createTimeLabel(time),
@@ -97,10 +107,30 @@ export function getSlotsForDate(date: string): AvailabilitySlot[] {
   return slots;
 }
 
-function formatLocalIsoDate(date: Date): string {
-  const year = date.getFullYear();
-  const month = (date.getMonth() + 1).toString().padStart(2, "0");
-  const day = date.getDate().toString().padStart(2, "0");
+function getSouthAfricaDateParts(date: Date): {
+  year: number;
+  month: number;
+  day: number;
+} {
+  const parts = new Intl.DateTimeFormat("en-ZA", {
+    timeZone: SOUTH_AFRICA_TIME_ZONE,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(date);
+
+  const values = new Map(parts.map((part) => [part.type, part.value]));
+  return {
+    year: Number(values.get("year")),
+    month: Number(values.get("month")),
+    day: Number(values.get("day")),
+  };
+}
+
+function formatUtcIsoDate(date: Date): string {
+  const year = date.getUTCFullYear();
+  const month = (date.getUTCMonth() + 1).toString().padStart(2, "0");
+  const day = date.getUTCDate().toString().padStart(2, "0");
   return `${year}-${month}-${day}`;
 }
 
@@ -115,26 +145,29 @@ export function isBusinessHourTime(time: string): boolean {
   return hour >= BUSINESS_HOURS.start && hour < BUSINESS_HOURS.end;
 }
 
-export function getSelectableDates(numberOfDays = 21): string[] {
+export function getSelectableDates(numberOfDays = BOOKING_WINDOW_DAYS): string[] {
   const result: string[] = [];
-  const now = new Date();
+  const today = getSouthAfricaDateParts(new Date());
+  const start = new Date(Date.UTC(today.year, today.month - 1, today.day));
 
   for (let i = 0; i < numberOfDays; i += 1) {
-    const date = new Date(now);
-    date.setDate(now.getDate() + i);
+    const date = new Date(start);
+    date.setUTCDate(start.getUTCDate() + i);
 
-    const day = date.getDay();
-    if (day === 0) continue;
-
-    const isoDate = formatLocalIsoDate(date);
+    if (date.getUTCDay() === 0) continue;
+    const isoDate = formatUtcIsoDate(date);
+    if (getSlotsForDate(isoDate).length === 0) continue;
     result.push(isoDate);
   }
 
   return result;
 }
 
-export function buildSouthAfricaIsoDate(date: string, time: string): string {
-  return `${date}T${time}:00${SOUTH_AFRICA_OFFSET}`;
+export function isSelectableBookingDate(
+  value: string,
+  numberOfDays = BOOKING_WINDOW_DAYS
+): boolean {
+  return isIsoDateString(value) && getSelectableDates(numberOfDays).includes(value);
 }
 
 export function validateConsultationPayload(input: unknown): ConsultationValidationResult {
@@ -143,36 +176,27 @@ export function validateConsultationPayload(input: unknown): ConsultationValidat
   }
 
   const payload = input as Partial<ConsultationPayload>;
-  const requiredFields: Array<keyof ConsultationPayload> = [
-    "fullName",
-    "email",
-    "phone",
-    "audience",
-    "service",
-    "curriculum",
-    "message",
-  ];
+  const fullName = typeof payload.fullName === "string" ? payload.fullName.trim() : "";
+  const email = typeof payload.email === "string" ? payload.email.trim() : "";
+  const phone = typeof payload.phone === "string" ? payload.phone.trim() : "";
+  const audience = typeof payload.audience === "string" ? payload.audience.trim() : "";
+  const service = typeof payload.service === "string" ? payload.service.trim() : "";
+  const curriculum =
+    typeof payload.curriculum === "string" ? payload.curriculum.trim() : "";
+  const message = typeof payload.message === "string" ? payload.message.trim() : "";
+  const organisation =
+    typeof payload.organisation === "string" ? payload.organisation.trim() : "";
+  const otherSubject =
+    typeof payload.otherSubject === "string" ? payload.otherSubject.trim() : "";
 
-  for (const field of requiredFields) {
-    if (!payload[field] || typeof payload[field] !== "string") {
-      return { ok: false, message: `Missing required field: ${field}.` };
-    }
+  if (!fullName || !email || !phone || !audience || !service || !curriculum || !message) {
+    return { ok: false, message: "Please complete all required fields." };
   }
 
-  const email = payload.email?.trim() ?? "";
   const basicEmailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!basicEmailRegex.test(email)) {
+  if (email.length > 254 || !basicEmailRegex.test(email)) {
     return { ok: false, message: "Please provide a valid email address." };
   }
-
-  const fullName = payload.fullName?.trim() ?? "";
-  const phone = payload.phone?.trim() ?? "";
-  const audience = payload.audience?.trim() ?? "";
-  const service = payload.service?.trim() ?? "";
-  const curriculum = payload.curriculum?.trim() ?? "";
-  const message = payload.message?.trim() ?? "";
-  const organisation = payload.organisation?.trim() ?? "";
-  const otherSubject = payload.otherSubject?.trim() ?? "";
 
   if (fullName.length > 120) {
     return { ok: false, message: "Full name is too long." };
@@ -190,8 +214,16 @@ export function validateConsultationPayload(input: unknown): ConsultationValidat
     return { ok: false, message: "Some optional fields are too long." };
   }
 
-  if (audience.length > 80 || service.length > 120 || curriculum.length > 40) {
-    return { ok: false, message: "Invalid service selection fields." };
+  if (!AUDIENCE_OPTIONS.includes(audience)) {
+    return { ok: false, message: "Please select a valid audience type." };
+  }
+
+  if (!SERVICE_OPTIONS.some((option) => option.value === service)) {
+    return { ok: false, message: "Please select a valid service." };
+  }
+
+  if (!CURRICULUM_OPTIONS.includes(curriculum)) {
+    return { ok: false, message: "Please select a valid curriculum." };
   }
 
   if (
@@ -209,8 +241,11 @@ export function validateConsultationPayload(input: unknown): ConsultationValidat
     return { ok: false, message: "Please choose a preferred date." };
   }
 
-  if (payload.preferredDate && getDayOfWeek(payload.preferredDate) === 0) {
-    return { ok: false, message: "Bookings are not available on Sundays." };
+  if (payload.preferredDate && !isSelectableBookingDate(payload.preferredDate)) {
+    return {
+      ok: false,
+      message: "Please select a date within the available booking window.",
+    };
   }
 
   if (payload.preferredTime && !isBusinessHourTime(payload.preferredTime)) {

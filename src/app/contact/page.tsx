@@ -7,7 +7,6 @@ import {
   absoluteUrl,
   buildPageMetadata,
   getBreadcrumbSchema,
-  getWebPageSchema,
 } from "@/lib/seo";
 
 export const metadata: Metadata = buildPageMetadata({
@@ -27,32 +26,29 @@ export const metadata: Metadata = buildPageMetadata({
 });
 
 export default function ContactPage() {
-  const contactSchema = {
+  const contactPageSchema = {
     "@context": "https://schema.org",
     "@type": "ContactPage",
+    "@id": absoluteUrl("/contact#webpage"),
     name: "Contact and Bookings",
     url: absoluteUrl("/contact"),
-    email: CONTACT_DETAILS.bookingsEmail,
-    telephone: CONTACT_DETAILS.phoneIntl,
-    areaServed: "South Africa",
-    availableLanguage: ["English"],
+    description:
+      "Contact Bridge The Gap for bookings, consultations, and service enquiries.",
+    inLanguage: "en-ZA",
+    isPartOf: { "@id": absoluteUrl("/#website") },
+    about: { "@id": absoluteUrl("/#organization") },
+    mainEntity: { "@id": absoluteUrl("/#organization") },
   };
 
   return (
     <>
       <StructuredData
         data={[
-          getWebPageSchema({
-            name: "Contact and Bookings",
-            path: "/contact",
-            description:
-              "Contact Bridge The Gap for bookings, consultations, and service enquiries.",
-          }),
+          contactPageSchema,
           getBreadcrumbSchema([
             { name: "Home", path: "/" },
             { name: "Contact", path: "/contact" },
           ]),
-          contactSchema,
         ]}
       />
       <BreadcrumbHero

@@ -22,11 +22,11 @@ Bridge The Gap Educational Services is an education support and professional dev
 - Phone/WhatsApp: +27 84 233 1687
 
 ## Canonical website
-- https://bridge-the-gap-delta.vercel.app/
+- https://www.bridgethegapeducationalservices.co.za/
 
 ## Key pages
-- Home: https://bridge-the-gap-delta.vercel.app/
-- Services: https://bridge-the-gap-delta.vercel.app/programmes
-- Subjects: https://bridge-the-gap-delta.vercel.app/subjects
-- Insights: https://bridge-the-gap-delta.vercel.app/insights
-- Contact: https://bridge-the-gap-delta.vercel.app/contact
+- Home: https://www.bridgethegapeducationalservices.co.za/
+- Services: https://www.bridgethegapeducationalservices.co.za/programmes
+- Subjects: https://www.bridgethegapeducationalservices.co.za/subjects
+- Insights: https://www.bridgethegapeducationalservices.co.za/insights
+- Contact: https://www.bridgethegapeducationalservices.co.za/contact

@@ -56,13 +56,15 @@ export default function SubjectDetailPage({
 
   const subjectSchema = {
     "@context": "https://schema.org",
-    "@type": "Course",
+    "@type": "Service",
+    "@id": absoluteUrl(`/subjects/${subject.slug}#service`),
     name: `${subject.name} Academic Support`,
+    serviceType: `${subject.name} tutoring and academic support`,
     description: subject.tagline,
-    provider: {
-      "@type": "EducationalOrganization",
-      name: "Bridge The Gap Educational Services",
-      url: absoluteUrl("/"),
+    provider: { "@id": absoluteUrl("/#organization") },
+    areaServed: {
+      "@type": "Country",
+      name: "South Africa",
     },
     about: subject.topics,
     url: absoluteUrl(`/subjects/${subject.slug}`),
