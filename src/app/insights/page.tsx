@@ -31,14 +31,18 @@ export default function InsightsPage() {
   const blogListingSchema = {
     "@context": "https://schema.org",
     "@type": "Blog",
+    "@id": absoluteUrl("/insights#blog"),
     name: "Bridge The Gap Insights",
     url: absoluteUrl("/insights"),
+    publisher: { "@id": absoluteUrl("/#organization") },
     blogPost: INSIGHT_POSTS.map((post) => ({
       "@type": "BlogPosting",
+      "@id": absoluteUrl(`/insights/${post.slug}#article`),
       headline: post.title,
       datePublished: post.publishedAt,
       description: post.excerpt,
       url: absoluteUrl(`/insights/${post.slug}`),
+      publisher: { "@id": absoluteUrl("/#organization") },
     })),
   };
 
@@ -76,7 +80,13 @@ export default function InsightsPage() {
               className="water-hover overflow-hidden rounded-3xl border border-border bg-white/75 backdrop-blur-xl"
             >
               <div className="relative aspect-[16/10] w-full">
-                <Image src={post.image} alt={post.title} fill className="object-cover" />
+                <Image
+                  src={post.image}
+                  alt={post.title}
+                  fill
+                  sizes="(max-width: 767px) 100vw, 33vw"
+                  className="object-cover"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
               </div>
               <div className="p-6">
