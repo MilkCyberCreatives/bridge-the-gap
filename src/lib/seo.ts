@@ -8,165 +8,25 @@ export const SITE_URL =
 export const SITE_DESCRIPTION =
   "Bridge The Gap Educational Services delivers tutoring services, matric support, teacher professional development, and coaching across CAPS and IB curricula.";
 
-const BRAND_KEYWORDS = [
-  "Bridge The Gap",
+// Kept as a compact, factual reference for any internal consumers. Search engines do
+// not need a large legacy meta-keywords tag, so buildPageMetadata does not emit one.
+export const SITE_KEYWORDS = [
   "Bridge The Gap Educational Services",
-  "Bridge The Gap services",
-  "Bridge The Gap tutoring",
-  "Bridge The Gap matric support",
-  "Bridge The Gap teacher development",
-  "Bridge The Gap coaching",
-];
-
-const DIRECT_SERVICE_KEYWORDS = [
   "tutoring services",
-  "academic tutoring",
-  "private tutoring",
-  "one-on-one tutoring",
-  "one to one tutoring",
-  "group tutoring",
-  "school intervention tutoring",
-  "learner support services",
-  "study support services",
-  "homework support",
-  "exam preparation tutoring",
-  "online tutoring",
-  "in-person tutoring",
-  "CAPS tutoring",
-  "IB tutoring",
-  "CAPS and IB tutoring",
-  "matric support services",
-  "matric tutoring",
-  "matric rewrite support",
-  "matric exam support",
-  "subject addition support",
-  "SBA portfolio support",
+  "matric support",
   "teacher professional development",
-  "teacher training workshops",
-  "teacher coaching",
-  "educator development programmes",
-  "instructional coaching",
-  "professional learning for teachers",
   "coaching services",
-  "learner coaching",
-  "student coaching",
-  "educator coaching",
-  "school leadership coaching",
-  "education support services",
-  "education intervention services",
-];
-
-const CURRICULUM_AND_SUBJECT_KEYWORDS = [
-  "CAPS curriculum support",
-  "IB curriculum support",
-  "CAPS exam prep",
-  "IB exam prep",
-  "curriculum aligned tutoring",
-  "mathematics tutoring",
-  "maths tutoring",
-  "English tutoring",
-  "physical sciences tutoring",
-  "science tutoring",
-  "life sciences tutoring",
-  "accounting tutoring",
-  "business studies tutoring",
-  "economics tutoring",
-  "IB mathematics tutoring",
-  "IB science tutoring",
-  "IB English tutoring",
-  "mathematics exam preparation",
-  "English exam preparation",
-  "science exam preparation",
-  "past paper practice",
-  "assessment preparation support",
-];
-
-const AUDIENCE_AND_INTENT_KEYWORDS = [
-  "support for school leaders",
-  "support for parents and learners",
-  "support for teachers",
-  "support for education professionals",
-  "school academic intervention programmes",
-  "school performance improvement support",
-  "parent learner support programme",
-  "learner confidence building",
-  "study habits coaching",
-  "exam confidence coaching",
-  "marks improvement support",
-  "academic recovery support",
-  "academic progress tracking",
-  "education consulting support",
-  "education strategy support",
-];
-
-const INDIRECT_COMPETITION_KEYWORDS = [
-  "learning centre",
-  "study centre",
-  "after school programme",
-  "after school tutoring",
-  "homework club",
-  "exam prep center",
-  "test prep services",
-  "academic enrichment programme",
-  "academic mentorship",
-  "student mentoring programme",
-  "educational consulting",
-  "education consultancy",
-  "education solutions provider",
-  "edtech support services",
-  "supplemental education services",
-  "remedial education support",
-  "academic support company",
-  "learning support company",
-  "teacher upskilling programme",
-  "teacher capacity building",
-  "classroom support programme",
-  "school improvement consultancy",
-  "student success programme",
-  "career and study coaching",
-  "personal development coaching for students",
-];
-
-const GEO_AND_CHANNEL_KEYWORDS = [
-  "South Africa tutoring services",
+  "CAPS curriculum",
+  "IB curriculum",
   "South Africa education support",
-  "online education support",
-  "online teacher development",
-  "online coaching for learners",
-  "hybrid tutoring model",
-  "in person and online tutoring",
 ];
-
-const CONVERSION_KEYWORDS = [
-  "book tutoring consultation",
-  "book matric support consultation",
-  "book teacher development workshop",
-  "book coaching consultation",
-  "education consultation services",
-  "academic support consultation",
-  "school intervention consultation",
-  "free education consultation",
-];
-
-export const SITE_KEYWORDS = Array.from(
-  new Set([
-    ...BRAND_KEYWORDS,
-    ...DIRECT_SERVICE_KEYWORDS,
-    ...CURRICULUM_AND_SUBJECT_KEYWORDS,
-    ...AUDIENCE_AND_INTENT_KEYWORDS,
-    ...INDIRECT_COMPETITION_KEYWORDS,
-    ...GEO_AND_CHANNEL_KEYWORDS,
-    ...CONVERSION_KEYWORDS,
-  ])
-);
 
 const KNOWS_ABOUT_TOPICS = Array.from(
   new Set([
     ...SERVICE_AREAS.map((service) => service.title),
     ...SERVICE_AREAS.flatMap((service) => service.focusAreas),
-    ...CURRICULUM_AND_SUBJECT_KEYWORDS,
-    ...AUDIENCE_AND_INTENT_KEYWORDS,
-    ...INDIRECT_COMPETITION_KEYWORDS,
+    "CAPS curriculum",
+    "IB curriculum",
   ])
 );
 
@@ -176,6 +36,8 @@ type BuildMetadataInput = {
   title?: string;
   description?: string;
   path?: string;
+  // Retained for backwards compatibility with existing page declarations. Modern
+  // search engines do not use meta keywords, so this is intentionally not emitted.
   keywords?: string[];
   noIndex?: boolean;
   type?: "website" | "article";
@@ -193,7 +55,6 @@ export function buildPageMetadata({
   title,
   description = SITE_DESCRIPTION,
   path = "/",
-  keywords = [],
   noIndex = false,
   type = "website",
   image = DEFAULT_OG_IMAGE,
@@ -201,16 +62,18 @@ export function buildPageMetadata({
   modifiedTime,
   section,
 }: BuildMetadataInput): Metadata {
-  const fullTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
+  const pageTitle = title || SITE_NAME;
+  const socialTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
   const fullUrl = absoluteUrl(path);
   const imageUrl = absoluteUrl(image);
   const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
   const bingVerification = process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION;
 
   return {
-    title: fullTitle,
+    // The root layout applies the site-name template once. Supplying an already
+    // branded title here caused duplicate brand text in rendered page titles.
+    title: pageTitle,
     description,
-    keywords: Array.from(new Set([...SITE_KEYWORDS, ...keywords])),
     alternates: {
       canonical: fullUrl,
       languages: {
@@ -222,7 +85,7 @@ export function buildPageMetadata({
       url: fullUrl,
       siteName: SITE_NAME,
       locale: "en_ZA",
-      title: fullTitle,
+      title: socialTitle,
       description,
       ...(type === "article"
         ? {
@@ -242,7 +105,7 @@ export function buildPageMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: fullTitle,
+      title: socialTitle,
       description,
       images: [imageUrl],
     },
@@ -265,12 +128,6 @@ export function buildPageMetadata({
     verification: {
       google: googleVerification,
       other: bingVerification ? { "msvalidate.01": bingVerification } : undefined,
-    },
-    other: {
-      "geo.region": "ZA-GP",
-      "geo.placename": "South Africa",
-      "geo.position": "-26.1367;28.2410",
-      ICBM: "-26.1367, 28.2410",
     },
   };
 }
