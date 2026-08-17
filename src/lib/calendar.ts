@@ -17,6 +17,11 @@ type CalendarClient = {
   calendarId: string;
 };
 
+export type CalendarBookingResult =
+  | { status: "created"; link: string | null }
+  | { status: "not-configured"; link: null }
+  | { status: "conflict"; link: null };
+
 function getCalendarClient(): CalendarClient | null {
   const calendarId = process.env.GOOGLE_CALENDAR_ID;
   const clientEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
@@ -48,6 +53,10 @@ function overlapsBusyWindow(startIso: string, endIso: string, busyWindows: BusyW
     const busyEnd = new Date(window.end).getTime();
     return start < busyEnd && end > busyStart;
   });
+}
+
+function getSlotEventId(date: string, time: string): string {
+  return `btg${date.replace(/-/g, "")}${time.replace(":", "")}`;
 }
 
 export async function getAvailabilityForDate(date: string): Promise<AvailabilitySlot[]> {
@@ -98,9 +107,11 @@ export async function isSlotAvailable(date: string, time: string): Promise<boole
 
 export async function createBookingCalendarEvent(
   payload: ConsultationPayload
-): Promise<string | null> {
+): Promise<CalendarBookingResult> {
   const client = getCalendarClient();
-  if (!client || !payload.preferredDate || !payload.preferredTime) return null;
+  if (!client || !payload.preferredDate || !payload.preferredTime) {
+    return { status: "not-configured", link: null };
+  }
 
   const { calendar, calendarId } = client;
   const startIso = buildSouthAfricaIsoDate(payload.preferredDate, payload.preferredTime);
@@ -108,35 +119,49 @@ export async function createBookingCalendarEvent(
     new Date(startIso).getTime() + BOOKING_SLOT_MINUTES * 60 * 1000
   ).toISOString();
 
-  const event = await calendar.events.insert({
-    calendarId,
-    requestBody: {
-      summary: `Consultation: ${payload.service} - ${payload.fullName}`,
-      description: [
-        `Audience: ${payload.audience}`,
-        `Curriculum: ${payload.curriculum}`,
-        `Phone: ${payload.phone}`,
-        payload.organisation ? `Organisation: ${payload.organisation}` : "",
-        payload.subjects.length > 0 ? `Subjects: ${payload.subjects.join(", ")}` : "",
-        payload.otherSubject ? `Other subject/focus area: ${payload.otherSubject}` : "",
-        "",
-        "Client message:",
-        payload.message,
-      ]
-        .filter(Boolean)
-        .join("\n"),
-      start: {
-        dateTime: new Date(startIso).toISOString(),
-        timeZone: "Africa/Johannesburg",
+  try {
+    const event = await calendar.events.insert({
+      calendarId,
+      requestBody: {
+        id: getSlotEventId(payload.preferredDate, payload.preferredTime),
+        summary: `Consultation: ${payload.service} - ${payload.fullName}`,
+        description: [
+          `Audience: ${payload.audience}`,
+          `Curriculum: ${payload.curriculum}`,
+          `Phone: ${payload.phone}`,
+          payload.organisation ? `Organisation: ${payload.organisation}` : "",
+          payload.subjects.length > 0 ? `Subjects: ${payload.subjects.join(", ")}` : "",
+          payload.otherSubject ? `Other subject/focus area: ${payload.otherSubject}` : "",
+          "",
+          "Client message:",
+          payload.message,
+        ]
+          .filter(Boolean)
+          .join("\n"),
+        start: {
+          dateTime: new Date(startIso).toISOString(),
+          timeZone: "Africa/Johannesburg",
+        },
+        end: {
+          dateTime: endIso,
+          timeZone: "Africa/Johannesburg",
+        },
+        attendees: [{ email: payload.email }],
+        visibility: "private",
       },
-      end: {
-        dateTime: endIso,
-        timeZone: "Africa/Johannesburg",
-      },
-      attendees: [{ email: payload.email }],
-    },
-    sendUpdates: "all",
-  });
+      sendUpdates: "all",
+    });
 
-  return event.data.htmlLink ?? null;
+    return { status: "created", link: event.data.htmlLink ?? null };
+  } catch (error) {
+    const status =
+      (error as { code?: number; response?: { status?: number } })?.code ??
+      (error as { response?: { status?: number } })?.response?.status;
+
+    if (status === 409) {
+      return { status: "conflict", link: null };
+    }
+
+    throw error;
+  }
 }

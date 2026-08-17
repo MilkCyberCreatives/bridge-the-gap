@@ -54,7 +54,7 @@ export async function sendConsultationNotification(
     console.warn("Consultation notification skipped: RESEND_API_KEY is not configured.");
     return {
       delivered: false,
-      reason: "RESEND_API_KEY is not configured.",
+      reason: "not-configured",
     };
   }
 
@@ -66,13 +66,21 @@ export async function sendConsultationNotification(
     process.env.BOOKING_FROM_EMAIL || "Bridge The Gap <bookings@updates.bridgethegap.co.za>"
   ).trim();
 
-  await resend.emails.send({
+  const result = await resend.emails.send({
     from,
     to: [recipient],
     replyTo: payload.email,
     subject: `New booking: ${payload.service} - ${payload.fullName}`,
     text: buildEmailBody(payload, calendarLink),
   });
+
+  if (result.error || !result.data?.id) {
+    console.error("Consultation notification delivery failed.");
+    return {
+      delivered: false,
+      reason: "delivery-failed",
+    };
+  }
 
   return { delivered: true };
 }
