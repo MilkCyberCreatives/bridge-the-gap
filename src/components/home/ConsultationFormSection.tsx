@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import {
   AUDIENCE_OPTIONS,
@@ -67,8 +67,8 @@ export default function ConsultationFormSection({
   presetService,
 }: ConsultationFormSectionProps) {
   const reduceMotion = useReducedMotion();
-  const selectableDates = useMemo(() => getSelectableDates(21), []);
 
+  const [selectableDates, setSelectableDates] = useState<string[]>([]);
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
@@ -76,7 +76,7 @@ export default function ConsultationFormSection({
   const [audience, setAudience] = useState(AUDIENCE_OPTIONS[0]);
   const [service, setService] = useState(presetService || SERVICE_OPTIONS[0]?.value || "");
   const [curriculum, setCurriculum] = useState(CURRICULUM_OPTIONS[0]);
-  const [preferredDate, setPreferredDate] = useState(selectableDates[0] ?? "");
+  const [preferredDate, setPreferredDate] = useState("");
   const [preferredTime, setPreferredTime] = useState("");
   const [message, setMessage] = useState("");
   const [otherSubject, setOtherSubject] = useState("");
@@ -89,20 +89,29 @@ export default function ConsultationFormSection({
   const [attribution, setAttribution] = useState<AttributionState>(INITIAL_ATTRIBUTION_STATE);
 
   useEffect(() => {
+    const dates = getSelectableDates(21);
+    setSelectableDates(dates);
+    setPreferredDate((current) => current || dates[0] || "");
+  }, []);
+
+  useEffect(() => {
     if (!preferredDate) {
       setSlots([]);
       setPreferredTime("");
       return;
     }
 
-    let mounted = true;
+    const controller = new AbortController();
     setLoadingSlots(true);
     setSubmitState(INITIAL_SUBMIT_STATE);
 
-    fetch(`/api/availability?date=${preferredDate}`)
+    fetch(`/api/availability?date=${preferredDate}`, {
+      signal: controller.signal,
+      cache: "no-store",
+    })
       .then(async (response) => {
         const data = await response.json();
-        if (!mounted) return;
+        if (controller.signal.aborted) return;
 
         if (!response.ok || !data.ok) {
           setSlots([]);
@@ -116,17 +125,18 @@ export default function ConsultationFormSection({
         const firstAvailable = availableSlots.find((slot) => slot.available);
         setPreferredTime(firstAvailable?.time || "");
       })
-      .catch(() => {
-        if (!mounted) return;
+      .catch((error: unknown) => {
+        if (error instanceof Error && error.name === "AbortError") return;
+        if (controller.signal.aborted) return;
         setSlots([]);
         setPreferredTime("");
       })
       .finally(() => {
-        if (mounted) setLoadingSlots(false);
+        if (!controller.signal.aborted) setLoadingSlots(false);
       });
 
     return () => {
-      mounted = false;
+      controller.abort();
     };
   }, [preferredDate]);
 
@@ -308,6 +318,9 @@ export default function ConsultationFormSection({
         >
           <div className="grid gap-4 lg:grid-cols-3">
             <input
+              name="fullName"
+              aria-label="Full Name"
+              autoComplete="name"
               className="water-hover h-12 rounded-full border border-border bg-white/80 px-5 text-sm outline-none placeholder:text-black/45 focus:border-black/25"
               placeholder="Full Name"
               value={fullName}
@@ -315,6 +328,10 @@ export default function ConsultationFormSection({
               required
             />
             <input
+              name="phone"
+              aria-label="Phone / WhatsApp"
+              autoComplete="tel"
+              inputMode="tel"
               className="water-hover h-12 rounded-full border border-border bg-white/80 px-5 text-sm outline-none placeholder:text-black/45 focus:border-black/25"
               placeholder="Phone / WhatsApp"
               value={phone}
@@ -322,6 +339,9 @@ export default function ConsultationFormSection({
               required
             />
             <input
+              name="email"
+              aria-label="Email Address"
+              autoComplete="email"
               type="email"
               className="water-hover h-12 rounded-full border border-border bg-white/80 px-5 text-sm outline-none placeholder:text-black/45 focus:border-black/25"
               placeholder="Email Address"
@@ -331,6 +351,9 @@ export default function ConsultationFormSection({
             />
 
             <input
+              name="organisation"
+              aria-label="School / Organisation (Optional)"
+              autoComplete="organization"
               className="water-hover h-12 rounded-full border border-border bg-white/80 px-5 text-sm outline-none placeholder:text-black/45 focus:border-black/25"
               placeholder="School / Organisation (Optional)"
               value={organisation}
@@ -338,6 +361,8 @@ export default function ConsultationFormSection({
             />
 
             <select
+              name="audience"
+              aria-label="Audience type"
               className="water-hover h-12 rounded-full border border-border bg-white/80 px-5 text-sm outline-none focus:border-black/25"
               value={audience}
               onChange={(event) => setAudience(event.target.value)}
@@ -350,6 +375,8 @@ export default function ConsultationFormSection({
             </select>
 
             <select
+              name="service"
+              aria-label="Service"
               className="water-hover h-12 rounded-full border border-border bg-white/80 px-5 text-sm outline-none focus:border-black/25"
               value={service}
               onChange={(event) => setService(event.target.value)}
@@ -362,6 +389,8 @@ export default function ConsultationFormSection({
             </select>
 
             <select
+              name="curriculum"
+              aria-label="Curriculum"
               className="water-hover h-12 rounded-full border border-border bg-white/80 px-5 text-sm outline-none focus:border-black/25"
               value={curriculum}
               onChange={(event) => setCurriculum(event.target.value)}
@@ -374,15 +403,22 @@ export default function ConsultationFormSection({
             </select>
 
             <select
+              name="preferredDate"
+              aria-label="Preferred booking date"
               className="water-hover h-12 rounded-full border border-border bg-white/80 px-5 text-sm outline-none focus:border-black/25"
               value={preferredDate}
               onChange={(event) => setPreferredDate(event.target.value)}
+              disabled={selectableDates.length === 0}
             >
-              {selectableDates.map((date) => (
-                <option key={date} value={date}>
-                  {formatDateLabel(date)}
-                </option>
-              ))}
+              {selectableDates.length === 0 ? (
+                <option value="">Loading dates...</option>
+              ) : (
+                selectableDates.map((date) => (
+                  <option key={date} value={date}>
+                    {formatDateLabel(date)}
+                  </option>
+                ))
+              )}
             </select>
 
             <div className="rounded-2xl border border-border bg-white/75 px-4 py-3 text-xs text-black/60">
@@ -406,6 +442,7 @@ export default function ConsultationFormSection({
                     key={slot.time}
                     type="button"
                     disabled={!slot.available}
+                    aria-pressed={preferredTime === slot.time}
                     onClick={() => setPreferredTime(slot.time)}
                     className={`rounded-full border px-4 py-2 text-xs font-semibold transition ${
                       preferredTime === slot.time
@@ -433,6 +470,7 @@ export default function ConsultationFormSection({
                   <button
                     key={option}
                     type="button"
+                    aria-pressed={selected}
                     onClick={() => toggleSubject(option)}
                     className={`rounded-full border px-4 py-2 text-left text-xs font-semibold transition ${
                       selected
@@ -446,6 +484,8 @@ export default function ConsultationFormSection({
               })}
             </div>
             <input
+              name="otherSubject"
+              aria-label="Other subject or focus area"
               className="water-hover mt-4 h-11 w-full rounded-full border border-border bg-white/90 px-4 text-sm outline-none placeholder:text-black/45 focus:border-black/25"
               placeholder="Other subject or focus area"
               value={otherSubject}
@@ -454,6 +494,8 @@ export default function ConsultationFormSection({
           </details>
 
           <textarea
+            name="message"
+            aria-label="Goals, challenges, preferred session format, and deadlines"
             className="water-hover mt-5 min-h-[160px] w-full rounded-3xl border border-border bg-white/80 px-5 py-4 text-sm outline-none placeholder:text-black/45 focus:border-black/25"
             placeholder="Please share your goals, challenges, preferred session format, and deadlines."
             value={message}
@@ -464,7 +506,7 @@ export default function ConsultationFormSection({
           <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-between">
             <button
               type="submit"
-              disabled={submitting}
+              disabled={submitting || !preferredDate || !preferredTime}
               data-track="consultation_submit"
               data-track-location="consultation_form"
               className="btn-water inline-flex h-12 items-center justify-center rounded-full bg-[rgb(var(--brand))] px-8 text-sm font-extrabold text-white disabled:cursor-not-allowed disabled:opacity-70"
@@ -478,6 +520,8 @@ export default function ConsultationFormSection({
 
           {submitState.status !== "idle" ? (
             <p
+              role={submitState.status === "error" ? "alert" : "status"}
+              aria-live="polite"
               className={`mt-4 rounded-2xl border px-4 py-3 text-sm ${
                 submitState.status === "success"
                   ? "border-emerald-200 bg-emerald-50 text-emerald-800"
