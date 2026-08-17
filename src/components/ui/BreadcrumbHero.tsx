@@ -50,7 +50,7 @@ export default function BreadcrumbHero({
         <div className="relative z-10">
           <div className="container-tight flex min-h-[300px] flex-col justify-end pb-10 sm:min-h-[340px] sm:pb-12">
             {crumbs?.length ? (
-              <div className="mb-5 flex flex-wrap items-center gap-2">
+              <nav aria-label="Breadcrumb" className="mb-5 flex flex-wrap items-center gap-2">
                 <div className="inline-flex flex-wrap items-center gap-2 rounded-full border border-white/15 bg-black/25 px-4 py-2 text-xs text-white/80">
                   {crumbs.map((c, i) => (
                     <span key={`${c.label}-${i}`} className="inline-flex items-center gap-2">
@@ -62,15 +62,17 @@ export default function BreadcrumbHero({
                           {c.label}
                         </Link>
                       ) : (
-                        <span className="font-semibold text-white">{c.label}</span>
+                        <span className="font-semibold text-white" aria-current="page">
+                          {c.label}
+                        </span>
                       )}
                       {i < crumbs.length - 1 ? (
-                        <span className="text-white/45">/</span>
+                        <span className="text-white/45" aria-hidden="true">/</span>
                       ) : null}
                     </span>
                   ))}
                 </div>
-              </div>
+              </nav>
             ) : null}
 
             <motion.h1
