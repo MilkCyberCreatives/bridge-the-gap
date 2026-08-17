@@ -13,16 +13,19 @@ import {
   getWebPageSchema,
 } from "@/lib/seo";
 
+type SubjectDetailProps = {
+  params: Promise<{ slug: string }>;
+};
+
 export function generateStaticParams() {
   return SUBJECTS.map((subject) => ({ slug: subject.slug }));
 }
 
 export async function generateMetadata({
   params,
-}: {
-  params: { slug: string };
-}): Promise<Metadata> {
-  const subject = SUBJECTS.find((item) => item.slug === params.slug);
+}: SubjectDetailProps): Promise<Metadata> {
+  const { slug } = await params;
+  const subject = SUBJECTS.find((item) => item.slug === slug);
   if (!subject) {
     return buildPageMetadata({
       title: "Subject Not Found",
@@ -41,12 +44,9 @@ export async function generateMetadata({
   });
 }
 
-export default function SubjectDetailPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
-  const subject = SUBJECTS.find((item) => item.slug === params.slug);
+export default async function SubjectDetailPage({ params }: SubjectDetailProps) {
+  const { slug } = await params;
+  const subject = SUBJECTS.find((item) => item.slug === slug);
   if (!subject) return notFound();
 
   const subjectFaqs = subject.faqs.map((faq) => ({

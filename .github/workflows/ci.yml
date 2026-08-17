@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [main]
   push:
-    branches: [main]
+    branches: [main, agent/production-hardening]
 
 permissions:
   contents: read
@@ -12,7 +12,7 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -26,8 +26,61 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=high
+
+      - name: Typecheck
+        run: npm run typecheck
+
       - name: Lint
         run: npm run lint
 
       - name: Production build
         run: npm run build
+
+      - name: Production smoke test
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm start > /tmp/bridge-the-gap-next.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+
+          READY=0
+          for attempt in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:3000/api/health > /tmp/health.json; then
+              READY=1
+              break
+            fi
+            sleep 1
+          done
+
+          if [ "$READY" -ne 1 ]; then
+            cat /tmp/bridge-the-gap-next.log
+            exit 1
+          fi
+
+          for path in / /about /programmes /subjects /insights /contact /robots.txt /sitemap.xml /llms.txt; do
+            curl -fsS "http://127.0.0.1:3000${path}" > /dev/null
+          done
+
+          STATUS=$(curl -sS -o /tmp/invalid-availability.json -w "%{http_code}" \
+            "http://127.0.0.1:3000/api/availability?date=1900-01-01")
+          test "$STATUS" = "400"
+
+          STATUS=$(curl -sS -o /tmp/invalid-consultation.json -w "%{http_code}" \
+            -H "Content-Type: application/json" \
+            -d '{}' \
+            "http://127.0.0.1:3000/api/consultation")
+          test "$STATUS" = "400"
+
+          STATUS=$(curl -sS -o /tmp/not-found.html -w "%{http_code}" \
+            "http://127.0.0.1:3000/definitely-not-a-real-page")
+          test "$STATUS" = "404"
+
+          curl -fsSI http://127.0.0.1:3000/ | grep -qi '^x-content-type-options: nosniff'
+          curl -fsSI http://127.0.0.1:3000/ | grep -qi '^x-frame-options: DENY'
+
+          ! curl -fsS http://127.0.0.1:3000/llms.txt | grep -q 'vercel.app'
+          ! curl -fsS http://127.0.0.1:3000/subjects | \
+            grep -q 'Bridge The Gap Educational Services | Bridge The Gap Educational Services'

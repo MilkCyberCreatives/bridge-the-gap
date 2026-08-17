@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import {
   AUDIENCE_OPTIONS,
@@ -86,24 +86,26 @@ export default function ConsultationFormSection({
   const [loadingSlots, setLoadingSlots] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitState, setSubmitState] = useState<SubmitState>(INITIAL_SUBMIT_STATE);
-  const [attribution, setAttribution] = useState<AttributionState>(INITIAL_ATTRIBUTION_STATE);
+  const attributionRef = useRef<AttributionState>(INITIAL_ATTRIBUTION_STATE);
 
   useEffect(() => {
-    const dates = getSelectableDates(21);
-    setSelectableDates(dates);
-    setPreferredDate((current) => current || dates[0] || "");
+    const frame = window.requestAnimationFrame(() => {
+      const dates = getSelectableDates(21);
+      setSelectableDates(dates);
+      setPreferredDate((current) => current || dates[0] || "");
+    });
+
+    return () => window.cancelAnimationFrame(frame);
   }, []);
 
   useEffect(() => {
-    if (!preferredDate) {
-      setSlots([]);
-      setPreferredTime("");
-      return;
-    }
+    if (!preferredDate) return;
 
     const controller = new AbortController();
-    setLoadingSlots(true);
-    setSubmitState(INITIAL_SUBMIT_STATE);
+    const frame = window.requestAnimationFrame(() => {
+      setLoadingSlots(true);
+      setSubmitState(INITIAL_SUBMIT_STATE);
+    });
 
     fetch(`/api/availability?date=${preferredDate}`, {
       signal: controller.signal,
@@ -136,18 +138,12 @@ export default function ConsultationFormSection({
       });
 
     return () => {
+      window.cancelAnimationFrame(frame);
       controller.abort();
     };
   }, [preferredDate]);
 
   useEffect(() => {
-    if (!presetService) return;
-    setService(presetService);
-  }, [presetService]);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
     const params = new URLSearchParams(window.location.search);
     const safeValue = (value: string | null, max = 120) =>
       (value ?? "").trim().slice(0, max);
@@ -181,7 +177,7 @@ export default function ConsultationFormSection({
       referrer: safeValue(document.referrer, 240) || stored.referrer,
     };
 
-    setAttribution(nextAttribution);
+    attributionRef.current = nextAttribution;
     window.localStorage.setItem(
       ATTRIBUTION_STORAGE_KEY,
       JSON.stringify(nextAttribution)
@@ -200,6 +196,7 @@ export default function ConsultationFormSection({
     setSubmitState(INITIAL_SUBMIT_STATE);
 
     try {
+      const attribution = attributionRef.current;
       const response = await fetch("/api/consultation", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -407,7 +404,11 @@ export default function ConsultationFormSection({
               aria-label="Preferred booking date"
               className="water-hover h-12 rounded-full border border-border bg-white/80 px-5 text-sm outline-none focus:border-black/25"
               value={preferredDate}
-              onChange={(event) => setPreferredDate(event.target.value)}
+              onChange={(event) => {
+                setPreferredDate(event.target.value);
+                setSlots([]);
+                setPreferredTime("");
+              }}
               disabled={selectableDates.length === 0}
             >
               {selectableDates.length === 0 ? (

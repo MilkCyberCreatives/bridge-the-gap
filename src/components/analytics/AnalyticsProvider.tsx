@@ -9,7 +9,7 @@ import { getCookieConsent } from "@/components/ui/CookieBanner";
 import { trackEvent, trackPageView } from "@/lib/tracking";
 
 export default function AnalyticsProvider() {
-  const [allowAnalytics, setAllowAnalytics] = useState(false);
+  const [allowAnalytics] = useState(() => getCookieConsent() === "granted");
   const gaId = process.env.NEXT_PUBLIC_GA_ID || "";
   const gtmId = process.env.NEXT_PUBLIC_GTM_ID || "GTM-W92N8LBX";
   const metaPixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID || "";
@@ -20,10 +20,6 @@ export default function AnalyticsProvider() {
     const query = searchParams?.toString();
     return query ? `${pathname}?${query}` : pathname;
   }, [pathname, searchParams]);
-
-  useEffect(() => {
-    setAllowAnalytics(getCookieConsent() === "granted");
-  }, []);
 
   useEffect(() => {
     if (!allowAnalytics) return;
