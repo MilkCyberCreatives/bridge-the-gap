@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const KEY = "btg_cookie_consent"; // "granted" | "denied"
 
@@ -12,12 +12,7 @@ export function getCookieConsent(): "granted" | "denied" | null {
 }
 
 export default function CookieBanner() {
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const existing = getCookieConsent();
-    setVisible(existing === null);
-  }, []);
+  const [visible, setVisible] = useState(() => getCookieConsent() === null);
 
   function setConsent(value: "granted" | "denied") {
     window.localStorage.setItem(KEY, value);
