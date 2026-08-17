@@ -9,8 +9,6 @@ import {
   buildPageMetadata,
   getBreadcrumbSchema,
   getWebPageSchema,
-  SITE_NAME,
-  SITE_URL,
 } from "@/lib/seo";
 
 type ServicePageProps = {
@@ -58,6 +56,7 @@ export default function ServiceDetailPage({ params }: ServicePageProps) {
   const serviceSchema = {
     "@context": "https://schema.org",
     "@type": "Service",
+    "@id": absoluteUrl(`/programmes/${service.slug}#service`),
     name: service.title,
     serviceType: service.title,
     description: service.summary,
@@ -65,11 +64,7 @@ export default function ServiceDetailPage({ params }: ServicePageProps) {
       "@type": "Country",
       name: "South Africa",
     },
-    provider: {
-      "@type": "EducationalOrganization",
-      name: SITE_NAME,
-      url: SITE_URL,
-    },
+    provider: { "@id": absoluteUrl("/#organization") },
     audience: {
       "@type": "Audience",
       audienceType: service.audience,
