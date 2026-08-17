@@ -12,9 +12,9 @@ import {
 } from "@/lib/seo";
 
 type InsightDetailProps = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
 export function generateStaticParams() {
@@ -24,7 +24,8 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: InsightDetailProps): Promise<Metadata> {
-  const post = INSIGHT_POSTS.find((item) => item.slug === params.slug);
+  const { slug } = await params;
+  const post = INSIGHT_POSTS.find((item) => item.slug === slug);
   if (!post) {
     return buildPageMetadata({
       title: "Article Not Found",
@@ -47,8 +48,9 @@ export async function generateMetadata({
   });
 }
 
-export default function InsightDetailPage({ params }: InsightDetailProps) {
-  const post = INSIGHT_POSTS.find((item) => item.slug === params.slug);
+export default async function InsightDetailPage({ params }: InsightDetailProps) {
+  const { slug } = await params;
+  const post = INSIGHT_POSTS.find((item) => item.slug === slug);
   if (!post) return notFound();
 
   const articleSchema = {

@@ -12,9 +12,9 @@ import {
 } from "@/lib/seo";
 
 type ServicePageProps = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
 export function generateStaticParams() {
@@ -24,7 +24,8 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: ServicePageProps): Promise<Metadata> {
-  const service = SERVICE_AREAS.find((item) => item.slug === params.slug);
+  const { slug } = await params;
+  const service = SERVICE_AREAS.find((item) => item.slug === slug);
   if (!service) {
     return buildPageMetadata({
       title: "Service Not Found",
@@ -49,8 +50,9 @@ export async function generateMetadata({
   });
 }
 
-export default function ServiceDetailPage({ params }: ServicePageProps) {
-  const service = SERVICE_AREAS.find((item) => item.slug === params.slug);
+export default async function ServiceDetailPage({ params }: ServicePageProps) {
+  const { slug } = await params;
+  const service = SERVICE_AREAS.find((item) => item.slug === slug);
   if (!service) return notFound();
 
   const serviceSchema = {
