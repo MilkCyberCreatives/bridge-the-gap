@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
 import { Montserrat, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
 import TopHeader from "@/components/layout/TopHeader";
 import MainHeader from "@/components/layout/MainHeader";
 import FooterSection from "@/components/layout/FooterSection";
+import ClientEnhancements from "@/components/layout/ClientEnhancements";
 import StructuredData from "@/components/seo/StructuredData";
 import { CONTACT_DETAILS } from "@/data/site";
 import {
@@ -16,22 +16,6 @@ import {
   SITE_NAME,
   SITE_URL,
 } from "@/lib/seo";
-
-const ScrollProgressBar = dynamic(() => import("@/components/ui/ScrollProgressBar"), {
-  ssr: false,
-});
-const ScrollToTopButton = dynamic(() => import("@/components/ui/ScrollToTopButton"), {
-  ssr: false,
-});
-const WaterCursor = dynamic(() => import("@/components/ui/WaterCursor"), {
-  ssr: false,
-});
-const CookieBanner = dynamic(() => import("@/components/ui/CookieBanner"), {
-  ssr: false,
-});
-const AnalyticsProvider = dynamic(() => import("@/components/analytics/AnalyticsProvider"), {
-  ssr: false,
-});
 
 const font = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -76,8 +60,7 @@ export default function RootLayout({
       className={`${font.variable} ${displayFont.variable} antialiased`}
     >
       <body className="relative flex min-h-screen flex-col bg-[rgb(var(--bg))] text-[rgb(var(--fg))]">
-        <ScrollProgressBar />
-        <WaterCursor />
+        <ClientEnhancements />
 
         <header className="fixed inset-x-0 top-0 z-[70]">
           <TopHeader />
@@ -87,9 +70,6 @@ export default function RootLayout({
         <main className="flex-1 pt-[var(--hdr)]">{children}</main>
 
         <FooterSection />
-        <ScrollToTopButton />
-        <CookieBanner />
-        <AnalyticsProvider />
         <StructuredData data={[getOrganizationSchema(), getWebsiteSchema()]} />
 
         <span className="sr-only">Contact: {CONTACT_DETAILS.phoneLocal}</span>
