@@ -80,15 +80,23 @@ export function createTimeLabel(time: string): string {
     .padStart(2, "0")} ${suffix}`;
 }
 
+export function buildSouthAfricaIsoDate(date: string, time: string): string {
+  return `${date}T${time}:00${SOUTH_AFRICA_OFFSET}`;
+}
+
 export function getSlotsForDate(date: string): AvailabilitySlot[] {
   if (!isIsoDateString(date)) return [];
 
   const weekday = getDayOfWeek(date);
   if (weekday === 0) return [];
 
+  const now = Date.now();
   const slots: AvailabilitySlot[] = [];
   for (let hour = BUSINESS_HOURS.start; hour < BUSINESS_HOURS.end; hour += 1) {
     const time = `${hour.toString().padStart(2, "0")}:00`;
+    const slotStart = new Date(buildSouthAfricaIsoDate(date, time)).getTime();
+    if (!Number.isFinite(slotStart) || slotStart <= now) continue;
+
     slots.push({
       time,
       label: createTimeLabel(time),
@@ -147,7 +155,9 @@ export function getSelectableDates(numberOfDays = BOOKING_WINDOW_DAYS): string[]
     date.setUTCDate(start.getUTCDate() + i);
 
     if (date.getUTCDay() === 0) continue;
-    result.push(formatUtcIsoDate(date));
+    const isoDate = formatUtcIsoDate(date);
+    if (getSlotsForDate(isoDate).length === 0) continue;
+    result.push(isoDate);
   }
 
   return result;
@@ -158,10 +168,6 @@ export function isSelectableBookingDate(
   numberOfDays = BOOKING_WINDOW_DAYS
 ): boolean {
   return isIsoDateString(value) && getSelectableDates(numberOfDays).includes(value);
-}
-
-export function buildSouthAfricaIsoDate(date: string, time: string): string {
-  return `${date}T${time}:00${SOUTH_AFRICA_OFFSET}`;
 }
 
 export function validateConsultationPayload(input: unknown): ConsultationValidationResult {
