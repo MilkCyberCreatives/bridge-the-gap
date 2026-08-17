@@ -17,10 +17,14 @@ export default function WaterCursor() {
   const DOT_SIZE = 8;
 
   useEffect(() => {
-    const supportsDesktopCursor = window.matchMedia(
-      "(hover: hover) and (pointer: fine)"
-    ).matches;
-    setEnabled(supportsDesktopCursor);
+    const media = window.matchMedia(
+      "(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)"
+    );
+    const update = () => setEnabled(media.matches);
+
+    update();
+    media.addEventListener?.("change", update);
+    return () => media.removeEventListener?.("change", update);
   }, []);
 
   useEffect(() => {
@@ -30,37 +34,59 @@ export default function WaterCursor() {
     const ring = ringRef.current;
     let hover = false;
     let pressed = false;
+    let frameId = 0;
+    let pointerX = 0;
+    let pointerY = 0;
+    let pointerTarget: EventTarget | null = null;
+    let hasPointer = false;
 
-    const updateCursor = (x: number, y: number) => {
-      dot.style.transform = `translate3d(${x - DOT_SIZE / 2}px, ${y - DOT_SIZE / 2}px, 0) scale(${
-        pressed ? 0.9 : hover ? 1.12 : 1
-      })`;
-      ring.style.transform = `translate3d(${x - RING_SIZE / 2}px, ${y - RING_SIZE / 2}px, 0) scale(${
-        pressed ? 0.88 : hover ? 1.22 : 1
-      }) rotate(${hover ? 16 : 0}deg)`;
-      ring.style.opacity = hover ? "0.94" : "0.75";
-    };
+    const renderCursor = () => {
+      frameId = 0;
+      if (!hasPointer) return;
 
-    const onMouseMove = (event: MouseEvent) => {
-      const interactive = findInteractiveElement(event.target);
+      const interactive = findInteractiveElement(pointerTarget);
       hover = Boolean(interactive);
-      updateCursor(event.clientX, event.clientY);
+
+      dot.style.transform = `translate3d(${pointerX - DOT_SIZE / 2}px, ${
+        pointerY - DOT_SIZE / 2
+      }px, 0) scale(${pressed ? 0.9 : hover ? 1.12 : 1})`;
+      ring.style.transform = `translate3d(${pointerX - RING_SIZE / 2}px, ${
+        pointerY - RING_SIZE / 2
+      }px, 0) scale(${pressed ? 0.88 : hover ? 1.22 : 1}) rotate(${hover ? 16 : 0}deg)`;
+      ring.style.opacity = hover ? "0.94" : "0.75";
 
       if (interactive) {
         const bounds = interactive.getBoundingClientRect();
-        const x = ((event.clientX - bounds.left) / bounds.width) * 100;
-        const y = ((event.clientY - bounds.top) / bounds.height) * 100;
-        interactive.style.setProperty("--x", `${Math.max(0, Math.min(100, x))}%`);
-        interactive.style.setProperty("--y", `${Math.max(0, Math.min(100, y))}%`);
+        if (bounds.width > 0 && bounds.height > 0) {
+          const x = ((pointerX - bounds.left) / bounds.width) * 100;
+          const y = ((pointerY - bounds.top) / bounds.height) * 100;
+          interactive.style.setProperty("--x", `${Math.max(0, Math.min(100, x))}%`);
+          interactive.style.setProperty("--y", `${Math.max(0, Math.min(100, y))}%`);
+        }
       }
+    };
+
+    const scheduleRender = () => {
+      if (frameId) return;
+      frameId = window.requestAnimationFrame(renderCursor);
+    };
+
+    const onMouseMove = (event: MouseEvent) => {
+      pointerX = event.clientX;
+      pointerY = event.clientY;
+      pointerTarget = event.target;
+      hasPointer = true;
+      scheduleRender();
     };
 
     const onMouseDown = () => {
       pressed = true;
+      scheduleRender();
     };
 
     const onMouseUp = () => {
       pressed = false;
+      scheduleRender();
     };
 
     window.addEventListener("mousemove", onMouseMove, { passive: true });
@@ -71,10 +97,11 @@ export default function WaterCursor() {
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("mousedown", onMouseDown);
       window.removeEventListener("mouseup", onMouseUp);
+      if (frameId) window.cancelAnimationFrame(frameId);
     };
   }, [enabled]);
 
-    if (!enabled) return null;
+  if (!enabled) return null;
 
   return (
     <>
