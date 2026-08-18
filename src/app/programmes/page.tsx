@@ -4,10 +4,11 @@ import ProgrammesSection from "@/components/home/ProgrammesSection";
 import SupportPromiseSection from "@/components/home/SupportPromiseSection";
 import ConsultationFormSection from "@/components/home/ConsultationFormSection";
 import StructuredData from "@/components/seo/StructuredData";
+import { getCmsProgrammes } from "@/lib/cms";
 import {
+  absoluteUrl,
   buildPageMetadata,
   getBreadcrumbSchema,
-  getServiceCatalogSchema,
   getWebPageSchema,
 } from "@/lib/seo";
 
@@ -26,7 +27,22 @@ export const metadata: Metadata = buildPageMetadata({
   section: "Services",
 });
 
-export default function ProgrammesPage() {
+export default async function ProgrammesPage() {
+  const programmes = await getCmsProgrammes();
+
+  const serviceCatalogSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Bridge The Gap Service Areas",
+    itemListElement: programmes.map((programme, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: programme.title,
+      description: programme.summary,
+      url: absoluteUrl(`/programmes/${programme.slug}`),
+    })),
+  };
+
   return (
     <>
       <StructuredData
@@ -41,7 +57,7 @@ export default function ProgrammesPage() {
             { name: "Home", path: "/" },
             { name: "Services", path: "/programmes" },
           ]),
-          getServiceCatalogSchema(),
+          serviceCatalogSchema,
         ]}
       />
       <BreadcrumbHero
@@ -52,7 +68,7 @@ export default function ProgrammesPage() {
           { label: "Services" },
         ]}
       />
-      <ProgrammesSection />
+      <ProgrammesSection programmes={programmes} />
       <SupportPromiseSection />
       <ConsultationFormSection
         title="Book a service consultation"
