@@ -2,16 +2,27 @@ import "server-only";
 
 import type { ConsultationPayload } from "@/lib/booking";
 
+type BackendBookingStatus = "reserved" | "confirmed" | "failed" | "cancelled";
+type BackendCalendarStatus = "pending" | "created" | "skipped" | "conflict" | "failed";
+type BackendNotificationStatus = "pending" | "delivered" | "skipped" | "failed";
+
 type ReservationResult =
   | { status: "disabled" }
-  | { status: "reserved"; bookingId: string; duplicate: boolean }
+  | {
+      status: "reserved";
+      bookingId: string;
+      duplicate: boolean;
+      bookingStatus: BackendBookingStatus;
+      calendarStatus: BackendCalendarStatus;
+      notificationStatus: BackendNotificationStatus;
+    }
   | { status: "conflict" }
   | { status: "unavailable" };
 
 type BookingSync = {
-  status?: "reserved" | "confirmed" | "failed" | "cancelled";
-  calendarStatus?: "pending" | "created" | "skipped" | "conflict" | "failed";
-  notificationStatus?: "pending" | "delivered" | "skipped" | "failed";
+  status?: BackendBookingStatus;
+  calendarStatus?: BackendCalendarStatus;
+  notificationStatus?: BackendNotificationStatus;
   providerReference?: string | null;
 };
 
@@ -49,10 +60,19 @@ export async function reserveLaravelBooking(
     const data = (await response.json()) as {
       ok?: boolean;
       bookingId?: string;
+      status?: BackendBookingStatus;
+      calendarStatus?: BackendCalendarStatus;
+      notificationStatus?: BackendNotificationStatus;
       duplicate?: boolean;
     };
 
-    if (data.ok !== true || typeof data.bookingId !== "string") {
+    if (
+      data.ok !== true ||
+      typeof data.bookingId !== "string" ||
+      !data.status ||
+      !data.calendarStatus ||
+      !data.notificationStatus
+    ) {
       return { status: "unavailable" };
     }
 
@@ -60,6 +80,9 @@ export async function reserveLaravelBooking(
       status: "reserved",
       bookingId: data.bookingId,
       duplicate: Boolean(data.duplicate),
+      bookingStatus: data.status,
+      calendarStatus: data.calendarStatus,
+      notificationStatus: data.notificationStatus,
     };
   } catch {
     return { status: "unavailable" };
