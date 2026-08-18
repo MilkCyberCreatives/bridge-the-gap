@@ -7,7 +7,7 @@ import MainHeader from "@/components/layout/MainHeader";
 import FooterSection from "@/components/layout/FooterSection";
 import ClientEnhancements from "@/components/layout/ClientEnhancements";
 import StructuredData from "@/components/seo/StructuredData";
-import { CONTACT_DETAILS } from "@/data/site";
+import { getCmsBootstrap, resolveCmsContactDetails } from "@/lib/cms";
 import {
   buildPageMetadata,
   getOrganizationSchema,
@@ -51,9 +51,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const cms = await getCmsBootstrap();
+  const contactDetails = resolveCmsContactDetails(cms.settings);
+
   return (
     <html
       lang="en-ZA"
@@ -63,16 +66,20 @@ export default function RootLayout({
         <ClientEnhancements />
 
         <header className="fixed inset-x-0 top-0 z-[70]">
-          <TopHeader />
+          <TopHeader contactDetails={contactDetails} />
           <MainHeader />
         </header>
 
         <main className="flex-1 pt-[var(--hdr)]">{children}</main>
 
-        <FooterSection />
+        <FooterSection
+          contactDetails={contactDetails}
+          programmes={cms.programmes}
+          posts={cms.insights}
+        />
         <StructuredData data={[getOrganizationSchema(), getWebsiteSchema()]} />
 
-        <span className="sr-only">Contact: {CONTACT_DETAILS.phoneLocal}</span>
+        <span className="sr-only">Contact: {contactDetails.phoneLocal}</span>
       </body>
     </html>
   );

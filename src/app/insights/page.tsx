@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import BreadcrumbHero from "@/components/ui/BreadcrumbHero";
 import StructuredData from "@/components/seo/StructuredData";
-import { INSIGHT_POSTS } from "@/data/insights";
+import { getCmsInsights } from "@/lib/cms";
 import {
   absoluteUrl,
   buildPageMetadata,
@@ -27,7 +27,9 @@ export const metadata: Metadata = buildPageMetadata({
   section: "Insights",
 });
 
-export default function InsightsPage() {
+export default async function InsightsPage() {
+  const posts = await getCmsInsights();
+
   const blogListingSchema = {
     "@context": "https://schema.org",
     "@type": "Blog",
@@ -35,7 +37,7 @@ export default function InsightsPage() {
     name: "Bridge The Gap Insights",
     url: absoluteUrl("/insights"),
     publisher: { "@id": absoluteUrl("/#organization") },
-    blogPost: INSIGHT_POSTS.map((post) => ({
+    blogPost: posts.map((post) => ({
       "@type": "BlogPosting",
       "@id": absoluteUrl(`/insights/${post.slug}#article`),
       headline: post.title,
@@ -74,7 +76,7 @@ export default function InsightsPage() {
 
       <section className="relative w-full py-16 sm:py-20">
         <div className="container-tight grid gap-5 md:grid-cols-3">
-          {INSIGHT_POSTS.map((post) => (
+          {posts.map((post) => (
             <article
               key={post.slug}
               className="water-hover overflow-hidden rounded-3xl border border-border bg-white/75 backdrop-blur-xl"

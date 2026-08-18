@@ -4,6 +4,10 @@ import { isSlotAvailable, createBookingCalendarEvent } from "@/lib/calendar";
 import { sendConsultationNotification } from "@/lib/notifications";
 import { validateConsultationPayload } from "@/lib/booking";
 import { consumeRateLimit } from "@/lib/rate-limit";
+import {
+  reserveLaravelBooking,
+  syncLaravelBooking,
+} from "@/lib/laravel-backend";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -26,6 +30,7 @@ function responseHeaders(requestId: string, extra: Record<string, string> = {}) 
 
 export async function POST(req: Request) {
   const requestId = randomUUID();
+  let backendBookingId: string | null = null;
 
   const rateLimit = consumeRateLimit(
     req,
@@ -84,6 +89,66 @@ export async function POST(req: Request) {
     }
 
     const payload = validation.data;
+    const suppliedIdempotencyKey = req.headers.get("idempotency-key")?.trim();
+    const idempotencyKey = suppliedIdempotencyKey || requestId;
+
+    const reservation = await reserveLaravelBooking(payload, idempotencyKey);
+
+    if (reservation.status === "conflict") {
+      return NextResponse.json(
+        {
+          ok: false,
+          message:
+            "The selected slot is no longer available. Please select another time.",
+        },
+        { status: 409, headers: responseHeaders(requestId) }
+      );
+    }
+
+    if (reservation.status === "unavailable") {
+      console.warn("Laravel booking persistence temporarily unavailable", { requestId });
+    }
+
+    if (reservation.status === "reserved") {
+      backendBookingId = reservation.bookingId;
+
+      if (reservation.duplicate) {
+        if (reservation.bookingStatus === "failed") {
+          return NextResponse.json(
+            {
+              ok: false,
+              message:
+                "The previous booking attempt could not be completed. Please try again.",
+            },
+            { status: 503, headers: responseHeaders(requestId) }
+          );
+        }
+
+        if (reservation.bookingStatus === "cancelled") {
+          return NextResponse.json(
+            {
+              ok: false,
+              message: "This booking request was cancelled. Please submit a new request.",
+            },
+            { status: 409, headers: responseHeaders(requestId) }
+          );
+        }
+
+        return NextResponse.json(
+          {
+            ok: true,
+            bookingId: reservation.bookingId,
+            notificationDelivered: reservation.notificationStatus === "delivered",
+            calendarLinked: reservation.calendarStatus === "created",
+            bookingPending: reservation.bookingStatus === "reserved",
+          },
+          {
+            status: reservation.bookingStatus === "reserved" ? 202 : 200,
+            headers: responseHeaders(requestId),
+          }
+        );
+      }
+    }
 
     if (payload.preferredDate && payload.preferredTime) {
       const available = await isSlotAvailable(
@@ -91,6 +156,12 @@ export async function POST(req: Request) {
         payload.preferredTime
       );
       if (!available) {
+        await syncLaravelBooking(backendBookingId, {
+          status: "failed",
+          calendarStatus: "conflict",
+          notificationStatus: "skipped",
+        });
+
         return NextResponse.json(
           {
             ok: false,
@@ -104,6 +175,12 @@ export async function POST(req: Request) {
 
     const calendar = await createBookingCalendarEvent(payload);
     if (calendar.status === "conflict") {
+      await syncLaravelBooking(backendBookingId, {
+        status: "failed",
+        calendarStatus: "conflict",
+        notificationStatus: "skipped",
+      });
+
       return NextResponse.json(
         {
           ok: false,
@@ -115,8 +192,20 @@ export async function POST(req: Request) {
     }
 
     const notification = await sendConsultationNotification(payload, calendar.link);
+    const calendarStatus = calendar.status === "created" ? "created" : "skipped";
+    const notificationStatus = notification.delivered
+      ? "delivered"
+      : notification.reason === "not-configured"
+        ? "skipped"
+        : "failed";
 
     if (calendar.status !== "created" && !notification.delivered) {
+      await syncLaravelBooking(backendBookingId, {
+        status: "failed",
+        calendarStatus,
+        notificationStatus,
+      });
+
       return NextResponse.json(
         {
           ok: false,
@@ -127,15 +216,28 @@ export async function POST(req: Request) {
       );
     }
 
+    await syncLaravelBooking(backendBookingId, {
+      status: "confirmed",
+      calendarStatus,
+      notificationStatus,
+    });
+
     return NextResponse.json(
       {
         ok: true,
+        bookingId: backendBookingId,
         notificationDelivered: notification.delivered,
         calendarLinked: calendar.status === "created",
       },
       { headers: responseHeaders(requestId) }
     );
   } catch (error) {
+    await syncLaravelBooking(backendBookingId, {
+      status: "failed",
+      calendarStatus: "failed",
+      notificationStatus: "skipped",
+    });
+
     console.error("Consultation API error", {
       requestId,
       errorType: error instanceof Error ? error.name : "unknown",

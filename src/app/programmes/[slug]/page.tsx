@@ -4,6 +4,7 @@ import BreadcrumbHero from "@/components/ui/BreadcrumbHero";
 import ConsultationFormSection from "@/components/home/ConsultationFormSection";
 import StructuredData from "@/components/seo/StructuredData";
 import { SERVICE_AREAS } from "@/data/site";
+import { getCmsProgramme } from "@/lib/cms";
 import {
   absoluteUrl,
   buildPageMetadata,
@@ -25,7 +26,7 @@ export async function generateMetadata({
   params,
 }: ServicePageProps): Promise<Metadata> {
   const { slug } = await params;
-  const service = SERVICE_AREAS.find((item) => item.slug === slug);
+  const service = await getCmsProgramme(slug);
   if (!service) {
     return buildPageMetadata({
       title: "Service Not Found",
@@ -52,7 +53,7 @@ export async function generateMetadata({
 
 export default async function ServiceDetailPage({ params }: ServicePageProps) {
   const { slug } = await params;
-  const service = SERVICE_AREAS.find((item) => item.slug === slug);
+  const service = await getCmsProgramme(slug);
   if (!service) return notFound();
 
   const serviceSchema = {

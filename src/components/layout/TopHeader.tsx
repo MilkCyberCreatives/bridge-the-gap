@@ -1,7 +1,14 @@
 import { Facebook, Instagram, Linkedin } from "lucide-react";
 import { CONTACT_DETAILS } from "@/data/site";
+import type { CmsContactDetails } from "@/lib/cms-types";
 
-export default function TopHeader() {
+type TopHeaderProps = {
+  contactDetails?: CmsContactDetails;
+};
+
+export default function TopHeader({
+  contactDetails = CONTACT_DETAILS as unknown as CmsContactDetails,
+}: TopHeaderProps) {
   return (
     <div className="w-full border-b border-[#1f2937] bg-[#101828] text-white">
       <div className="container-tight flex items-center justify-end gap-3 py-2 text-xs sm:justify-between sm:py-2.5 sm:text-sm">
@@ -11,7 +18,7 @@ export default function TopHeader() {
 
         <div className="flex shrink-0 items-center gap-2 sm:gap-3">
           <a
-            href={CONTACT_DETAILS.instagramUrl}
+            href={contactDetails.instagramUrl}
             target="_blank"
             rel="noreferrer"
             aria-label="Instagram"
@@ -23,7 +30,7 @@ export default function TopHeader() {
           </a>
 
           <a
-            href={CONTACT_DETAILS.facebookUrl}
+            href={contactDetails.facebookUrl}
             target="_blank"
             rel="noreferrer"
             aria-label="Facebook"
@@ -35,7 +42,7 @@ export default function TopHeader() {
           </a>
 
           <a
-            href={CONTACT_DETAILS.linkedinUrl}
+            href={contactDetails.linkedinUrl}
             target="_blank"
             rel="noreferrer"
             aria-label="LinkedIn"

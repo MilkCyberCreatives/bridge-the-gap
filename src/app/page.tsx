@@ -10,8 +10,8 @@ import FAQSection from "@/components/home/FAQSection";
 import ConsultationFormSection from "@/components/home/ConsultationFormSection";
 import BlogPreviewSection from "@/components/home/BlogPreviewSection";
 import StructuredData from "@/components/seo/StructuredData";
-import { HOME_FAQS } from "@/data/faqs";
 import { TARGET_AUDIENCES } from "@/data/site";
+import { getCmsBootstrap } from "@/lib/cms";
 import {
   buildPageMetadata,
   getFaqSchema,
@@ -33,7 +33,9 @@ export const metadata: Metadata = buildPageMetadata({
   section: "Home",
 });
 
-export default function HomePage() {
+export default async function HomePage() {
+  const cms = await getCmsBootstrap();
+
   const audienceSchema = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -57,21 +59,21 @@ export default function HomePage() {
               "Education support and professional development services across tutoring, matric support, teacher development, and coaching.",
           }),
           getServiceCatalogSchema(),
-          getFaqSchema(HOME_FAQS),
+          getFaqSchema(cms.faqs),
           audienceSchema,
         ]}
       />
       <div className="w-full">
         <HeroSection />
-        <ProgrammesSection />
+        <ProgrammesSection programmes={cms.programmes} />
         <SupportPromiseSection />
-        <SubjectsSection />
+        <SubjectsSection programmes={cms.programmes} />
         <ResultsSection />
         <HowItWorksSection />
         <WhyChooseSection />
-        <FAQSection />
+        <FAQSection faqs={cms.faqs} />
         <ConsultationFormSection />
-        <BlogPreviewSection />
+        <BlogPreviewSection posts={cms.insights} />
       </div>
     </>
   );

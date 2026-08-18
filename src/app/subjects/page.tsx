@@ -3,7 +3,7 @@ import BreadcrumbHero from "@/components/ui/BreadcrumbHero";
 import SubjectsSection from "@/components/home/SubjectsSection";
 import ConsultationFormSection from "@/components/home/ConsultationFormSection";
 import StructuredData from "@/components/seo/StructuredData";
-import { SUBJECTS } from "@/data/subjects";
+import { getCmsProgrammes, getCmsSubjects } from "@/lib/cms";
 import {
   absoluteUrl,
   buildPageMetadata,
@@ -27,12 +27,17 @@ export const metadata: Metadata = buildPageMetadata({
   section: "Subjects",
 });
 
-export default function SubjectsPage() {
+export default async function SubjectsPage() {
+  const [subjects, programmes] = await Promise.all([
+    getCmsSubjects(),
+    getCmsProgrammes(),
+  ]);
+
   const subjectSchema = {
     "@context": "https://schema.org",
     "@type": "ItemList",
     name: "Subjects and Focus Areas",
-    itemListElement: SUBJECTS.map((subject, index) => ({
+    itemListElement: subjects.map((subject, index) => ({
       "@type": "ListItem",
       position: index + 1,
       name: subject.name,
@@ -66,7 +71,7 @@ export default function SubjectsPage() {
           { label: "Subjects" },
         ]}
       />
-      <SubjectsSection />
+      <SubjectsSection programmes={programmes} />
       <ConsultationFormSection
         title="Discuss subject requirements"
         subtitle="Select service type and subject requirements and we will recommend the right support model."

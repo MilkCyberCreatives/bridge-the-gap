@@ -6,8 +6,23 @@ import { Mail, MessageCircle, Phone } from "lucide-react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { CONTACT_DETAILS, SERVICE_AREAS } from "@/data/site";
 import { INSIGHT_POSTS } from "@/data/insights";
+import type {
+  CmsContactDetails,
+  CmsInsight,
+  CmsProgramme,
+} from "@/lib/cms-types";
 
-export default function FooterSection() {
+type FooterSectionProps = {
+  contactDetails?: CmsContactDetails;
+  programmes?: CmsProgramme[];
+  posts?: CmsInsight[];
+};
+
+export default function FooterSection({
+  contactDetails = CONTACT_DETAILS as unknown as CmsContactDetails,
+  programmes = SERVICE_AREAS as unknown as CmsProgramme[],
+  posts = INSIGHT_POSTS as unknown as CmsInsight[],
+}: FooterSectionProps) {
   const reduceMotion = useReducedMotion();
 
   const wrap: Variants = {
@@ -61,17 +76,17 @@ export default function FooterSection() {
             <div className="mt-4 space-y-3 text-sm text-slate-300">
               <p className="flex items-start gap-2">
                 <Phone className="mt-0.5 h-4 w-4 shrink-0 text-[rgb(var(--brand))]" />
-                <a className="hover:text-white" href={`tel:${CONTACT_DETAILS.phoneIntl}`}>
-                  {CONTACT_DETAILS.phoneLocal}
+                <a className="hover:text-white" href={`tel:${contactDetails.phoneIntl}`}>
+                  {contactDetails.phoneLocal}
                 </a>
               </p>
               <p className="flex items-start gap-2">
                 <Mail className="mt-0.5 h-4 w-4 shrink-0 text-[rgb(var(--brand))]" />
                 <a
                   className="break-all hover:text-white"
-                  href={`mailto:${CONTACT_DETAILS.bookingsEmail}`}
+                  href={`mailto:${contactDetails.bookingsEmail}`}
                 >
-                  {CONTACT_DETAILS.bookingsEmail}
+                  {contactDetails.bookingsEmail}
                 </a>
               </p>
             </div>
@@ -80,7 +95,7 @@ export default function FooterSection() {
           <motion.div variants={item}>
             <h4 className="text-sm font-extrabold tracking-tight text-white">Service Areas</h4>
             <ul className="mt-4 space-y-3 text-sm text-slate-300">
-              {SERVICE_AREAS.map((service) => (
+              {programmes.map((service) => (
                 <li key={service.id}>
                   <Link
                     className="water-hover inline-block hover:text-white"
@@ -119,7 +134,7 @@ export default function FooterSection() {
               <li>
                 <a
                   className="water-hover inline-block hover:text-white"
-                  href={CONTACT_DETAILS.googleReviewUrl}
+                  href={contactDetails.googleReviewUrl}
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -129,7 +144,7 @@ export default function FooterSection() {
             </ul>
 
             <a
-              href={CONTACT_DETAILS.whatsappUrl}
+              href={contactDetails.whatsappUrl}
               target="_blank"
               rel="noreferrer"
               className="btn-water mt-5 inline-flex items-center gap-2 rounded-full border border-transparent bg-[rgb(var(--brand))] px-5 py-2.5 text-sm font-semibold text-white"
@@ -139,7 +154,7 @@ export default function FooterSection() {
             </a>
 
             <a
-              href={CONTACT_DETAILS.googleProfileUrl}
+              href={contactDetails.googleProfileUrl}
               target="_blank"
               rel="noreferrer"
               className="water-hover mt-3 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.05] px-5 py-2.5 text-sm font-semibold text-slate-100"
@@ -151,7 +166,7 @@ export default function FooterSection() {
           <motion.div variants={item}>
             <h4 className="text-sm font-extrabold tracking-tight text-white">Latest Insights</h4>
             <div className="mt-4 space-y-3">
-              {INSIGHT_POSTS.slice(0, 2).map((post) => (
+              {posts.slice(0, 2).map((post) => (
                 <Link
                   key={post.slug}
                   href={`/insights/${post.slug}`}
@@ -180,7 +195,7 @@ export default function FooterSection() {
               </a>
               .
             </p>
-            <p>Bookings are managed in {CONTACT_DETAILS.timezone}.</p>
+            <p>Bookings are managed in {contactDetails.timezone}.</p>
           </div>
         </div>
       </div>

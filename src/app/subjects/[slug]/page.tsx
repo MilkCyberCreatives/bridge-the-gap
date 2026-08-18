@@ -5,6 +5,7 @@ import SubjectDetailContent from "@/components/subjects/detail/SubjectDetailCont
 import ConsultationFormSection from "@/components/home/ConsultationFormSection";
 import StructuredData from "@/components/seo/StructuredData";
 import { SUBJECTS } from "@/data/subjects";
+import { getCmsSubject } from "@/lib/cms";
 import {
   absoluteUrl,
   buildPageMetadata,
@@ -25,7 +26,7 @@ export async function generateMetadata({
   params,
 }: SubjectDetailProps): Promise<Metadata> {
   const { slug } = await params;
-  const subject = SUBJECTS.find((item) => item.slug === slug);
+  const subject = await getCmsSubject(slug);
   if (!subject) {
     return buildPageMetadata({
       title: "Subject Not Found",
@@ -46,7 +47,7 @@ export async function generateMetadata({
 
 export default async function SubjectDetailPage({ params }: SubjectDetailProps) {
   const { slug } = await params;
-  const subject = SUBJECTS.find((item) => item.slug === slug);
+  const subject = await getCmsSubject(slug);
   if (!subject) return notFound();
 
   const subjectFaqs = subject.faqs.map((faq) => ({

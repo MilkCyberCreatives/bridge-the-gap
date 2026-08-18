@@ -4,9 +4,16 @@ import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { SERVICE_AREAS } from "@/data/site";
+import type { CmsProgramme } from "@/lib/cms-types";
 import { EASE_OUT } from "@/lib/motion";
 
-export default function SubjectsSection() {
+type SubjectsSectionProps = {
+  programmes?: CmsProgramme[];
+};
+
+export default function SubjectsSection({
+  programmes = SERVICE_AREAS as unknown as CmsProgramme[],
+}: SubjectsSectionProps) {
   const reduceMotion = useReducedMotion();
 
   const item = {
@@ -52,7 +59,7 @@ export default function SubjectsSection() {
         </motion.div>
 
         <div className="mt-8 grid gap-4">
-          {SERVICE_AREAS.map((service) => (
+          {programmes.map((service) => (
             <motion.article
               key={service.id}
               initial={reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 22 }}

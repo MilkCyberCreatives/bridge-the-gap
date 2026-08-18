@@ -4,9 +4,16 @@ import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { SERVICE_AREAS } from "@/data/site";
+import type { CmsProgramme } from "@/lib/cms-types";
 import { EASE_OUT } from "@/lib/motion";
 
-export default function ProgrammesSection() {
+type ProgrammesSectionProps = {
+  programmes?: CmsProgramme[];
+};
+
+export default function ProgrammesSection({
+  programmes = SERVICE_AREAS as unknown as CmsProgramme[],
+}: ProgrammesSectionProps) {
   const reduceMotion = useReducedMotion();
 
   const container = {
@@ -66,7 +73,7 @@ export default function ProgrammesSection() {
           viewport={{ once: true, amount: 0.2 }}
           className="mt-10 grid gap-5 md:auto-rows-fr md:grid-cols-2"
         >
-          {SERVICE_AREAS.map((service) => (
+          {programmes.map((service) => (
             <motion.article
               key={service.id}
               variants={item}
