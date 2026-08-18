@@ -2,10 +2,11 @@ import "server-only";
 
 import { HOME_FAQS } from "@/data/faqs";
 import { INSIGHT_POSTS } from "@/data/insights";
-import { SERVICE_AREAS } from "@/data/site";
+import { CONTACT_DETAILS, SERVICE_AREAS } from "@/data/site";
 import { SUBJECTS } from "@/data/subjects";
 import type {
   CmsBootstrap,
+  CmsContactDetails,
   CmsFaq,
   CmsInsight,
   CmsProgramme,
@@ -16,6 +17,7 @@ const STATIC_PROGRAMMES = SERVICE_AREAS as unknown as CmsProgramme[];
 const STATIC_SUBJECTS = SUBJECTS as unknown as CmsSubject[];
 const STATIC_INSIGHTS = INSIGHT_POSTS as unknown as CmsInsight[];
 const STATIC_FAQS = HOME_FAQS as unknown as CmsFaq[];
+const STATIC_CONTACT = CONTACT_DETAILS as unknown as CmsContactDetails;
 
 function backendUrl(): string | null {
   const configured = process.env.LARAVEL_BACKEND_URL?.trim();
@@ -50,6 +52,31 @@ async function fetchBackend(path: string): Promise<Record<string, unknown> | nul
   }
 }
 
+function isContactDetails(value: unknown): value is CmsContactDetails {
+  if (!value || typeof value !== "object") return false;
+  const candidate = value as Record<string, unknown>;
+  return [
+    "phoneLocal",
+    "phoneIntl",
+    "whatsappUrl",
+    "bookingsEmail",
+    "generalEmail",
+    "instagramUrl",
+    "facebookUrl",
+    "linkedinUrl",
+    "googleReviewUrl",
+    "googleProfileUrl",
+    "timezone",
+  ].every((key) => typeof candidate[key] === "string" && candidate[key] !== "");
+}
+
+export function resolveCmsContactDetails(
+  settings: Record<string, unknown>
+): CmsContactDetails {
+  const value = settings.contact_details;
+  return isContactDetails(value) ? value : STATIC_CONTACT;
+}
+
 export async function getCmsBootstrap(): Promise<CmsBootstrap> {
   const payload = await fetchBackend("/api/v1/bootstrap");
 
@@ -81,6 +108,11 @@ export async function getCmsBootstrap(): Promise<CmsBootstrap> {
     settings: {},
     source: "static",
   };
+}
+
+export async function getCmsContactDetails(): Promise<CmsContactDetails> {
+  const cms = await getCmsBootstrap();
+  return resolveCmsContactDetails(cms.settings);
 }
 
 export async function getCmsProgrammes(): Promise<CmsProgramme[]> {
