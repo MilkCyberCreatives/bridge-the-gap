@@ -5,13 +5,20 @@ import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { INSIGHT_POSTS } from "@/data/insights";
+import type { CmsInsight } from "@/lib/cms-types";
 
 const EASE_OUT = [0.22, 1, 0.36, 1] as const;
 const HOME_INSIGHT_LIMIT = 3;
 
-export default function BlogPreviewSection() {
+type BlogPreviewSectionProps = {
+  posts?: CmsInsight[];
+};
+
+export default function BlogPreviewSection({
+  posts = INSIGHT_POSTS as unknown as CmsInsight[],
+}: BlogPreviewSectionProps) {
   const reduceMotion = useReducedMotion();
-  const previewPosts = INSIGHT_POSTS.slice(0, HOME_INSIGHT_LIMIT);
+  const previewPosts = posts.slice(0, HOME_INSIGHT_LIMIT);
 
   return (
     <section className="relative w-full py-16 sm:py-20">
