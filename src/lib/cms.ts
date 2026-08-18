@@ -4,57 +4,13 @@ import { HOME_FAQS } from "@/data/faqs";
 import { INSIGHT_POSTS } from "@/data/insights";
 import { SERVICE_AREAS } from "@/data/site";
 import { SUBJECTS } from "@/data/subjects";
-
-export type CmsProgramme = {
-  id: string;
-  slug: string;
-  title: string;
-  shortTitle: string;
-  summary: string;
-  audience: string;
-  benefits: string[];
-  focusAreas: string[];
-  subjectLists: Array<{ headline: string; items: string[] }>;
-  image?: string | null;
-};
-
-export type CmsSubject = {
-  slug: string;
-  name: string;
-  tagline: string;
-  introTitle: string;
-  introText: string;
-  outcomes: Array<{ title: string; desc: string }>;
-  topics: string[];
-  support: Array<{ title: string; desc: string }>;
-  faqs: Array<{ q: string; a: string }>;
-  images: Array<{ src: string; alt: string }>;
-};
-
-export type CmsInsight = {
-  slug: string;
-  title: string;
-  excerpt: string;
-  publishedAt: string;
-  readingMinutes: number;
-  category: string;
-  image: string;
-  content: string[];
-};
-
-export type CmsFaq = {
-  question: string;
-  answer: string;
-};
-
-export type CmsBootstrap = {
-  programmes: CmsProgramme[];
-  subjects: CmsSubject[];
-  insights: CmsInsight[];
-  faqs: CmsFaq[];
-  settings: Record<string, unknown>;
-  source: "laravel" | "static";
-};
+import type {
+  CmsBootstrap,
+  CmsFaq,
+  CmsInsight,
+  CmsProgramme,
+  CmsSubject,
+} from "@/lib/cms-types";
 
 const STATIC_PROGRAMMES = SERVICE_AREAS as unknown as CmsProgramme[];
 const STATIC_SUBJECTS = SUBJECTS as unknown as CmsSubject[];
