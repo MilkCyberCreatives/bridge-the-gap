@@ -99,4 +99,34 @@ class BookingApiTest extends TestCase
             'notification_status' => 'delivered',
         ]);
     }
+
+    public function test_failed_booking_releases_the_slot_for_a_new_request(): void
+    {
+        $first = $this->withHeaders(['Idempotency-Key' => 'booking-failed'])
+            ->postJson('/api/v1/bookings', $this->payload(['preferredTime' => '12:00']))
+            ->assertCreated();
+
+        $bookingId = (string) $first->json('bookingId');
+
+        $this->withToken('test-service-token')
+            ->patchJson("/api/v1/bookings/{$bookingId}/sync", [
+                'status' => 'failed',
+                'calendarStatus' => 'failed',
+                'notificationStatus' => 'failed',
+            ])
+            ->assertOk();
+
+        $this->assertDatabaseHas('bookings', [
+            'public_id' => $bookingId,
+            'status' => 'failed',
+            'slot_key' => null,
+        ]);
+
+        $this->withHeaders(['Idempotency-Key' => 'booking-after-failure'])
+            ->postJson('/api/v1/bookings', $this->payload([
+                'preferredTime' => '12:00',
+                'email' => 'retry@example.com',
+            ]))
+            ->assertCreated();
+    }
 }
