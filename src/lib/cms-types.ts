@@ -40,6 +40,20 @@ export type CmsFaq = {
   answer: string;
 };
 
+export type CmsContactDetails = {
+  phoneLocal: string;
+  phoneIntl: string;
+  whatsappUrl: string;
+  bookingsEmail: string;
+  generalEmail: string;
+  instagramUrl: string;
+  facebookUrl: string;
+  linkedinUrl: string;
+  googleReviewUrl: string;
+  googleProfileUrl: string;
+  timezone: string;
+};
+
 export type CmsBootstrap = {
   programmes: CmsProgramme[];
   subjects: CmsSubject[];
