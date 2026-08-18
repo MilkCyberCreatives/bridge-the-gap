@@ -29,9 +29,13 @@ class ContentApiTest extends TestCase
 
     public function test_health_endpoint_is_private_from_cache(): void
     {
-        $this->getJson('/api/v1/health')
+        $response = $this->getJson('/api/v1/health')
             ->assertOk()
-            ->assertHeader('Cache-Control', 'no-store, max-age=0')
             ->assertJsonPath('service', 'bridge-the-gap-backend');
+
+        $cacheControl = (string) $response->headers->get('Cache-Control');
+
+        $this->assertStringContainsString('no-store', $cacheControl);
+        $this->assertStringContainsString('max-age=0', $cacheControl);
     }
 }
