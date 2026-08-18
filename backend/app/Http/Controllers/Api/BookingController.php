@@ -125,12 +125,20 @@ class BookingController extends Controller
             'providerReference' => ['nullable', 'string', 'max:255'],
         ]);
 
+        $nextStatus = $validated['status'] ?? null;
+
         $booking->fill(array_filter([
-            'status' => $validated['status'] ?? null,
+            'status' => $nextStatus,
             'calendar_status' => $validated['calendarStatus'] ?? null,
             'notification_status' => $validated['notificationStatus'] ?? null,
             'provider_reference' => $validated['providerReference'] ?? null,
-        ], fn ($value) => $value !== null))->save();
+        ], fn ($value) => $value !== null));
+
+        if (in_array($nextStatus, ['failed', 'cancelled'], true)) {
+            $booking->slot_key = null;
+        }
+
+        $booking->save();
 
         return response()->json([
             'ok' => true,
@@ -144,6 +152,8 @@ class BookingController extends Controller
             'ok' => true,
             'bookingId' => $booking->public_id,
             'status' => $booking->status,
+            'calendarStatus' => $booking->calendar_status,
+            'notificationStatus' => $booking->notification_status,
             'duplicate' => $duplicate,
         ], $status)->header('Cache-Control', 'no-store, max-age=0');
     }
