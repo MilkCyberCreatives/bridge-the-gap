@@ -11,11 +11,13 @@ Artisan::command('bridge:admin {email?}', function (?string $email = null): int 
 
     if (! filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $this->error('Please provide a valid email address.');
+
         return self::FAILURE;
     }
 
     if (! is_string($password) || strlen($password) < 12) {
         $this->error('Use a password with at least 12 characters.');
+
         return self::FAILURE;
     }
 
@@ -29,5 +31,6 @@ Artisan::command('bridge:admin {email?}', function (?string $email = null): int 
     );
 
     $this->info('Administrator account is ready.');
+
     return self::SUCCESS;
 })->purpose('Create or update a Bridge The Gap administrator.');
