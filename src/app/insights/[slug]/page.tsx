@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import BreadcrumbHero from "@/components/ui/BreadcrumbHero";
 import StructuredData from "@/components/seo/StructuredData";
 import { INSIGHT_POSTS } from "@/data/insights";
+import { getCmsInsight } from "@/lib/cms";
 import {
   absoluteUrl,
   buildPageMetadata,
@@ -25,7 +26,7 @@ export async function generateMetadata({
   params,
 }: InsightDetailProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = INSIGHT_POSTS.find((item) => item.slug === slug);
+  const post = await getCmsInsight(slug);
   if (!post) {
     return buildPageMetadata({
       title: "Article Not Found",
@@ -50,7 +51,7 @@ export async function generateMetadata({
 
 export default async function InsightDetailPage({ params }: InsightDetailProps) {
   const { slug } = await params;
-  const post = INSIGHT_POSTS.find((item) => item.slug === slug);
+  const post = await getCmsInsight(slug);
   if (!post) return notFound();
 
   const articleSchema = {
