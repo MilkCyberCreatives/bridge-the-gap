@@ -4,8 +4,15 @@ import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Minus, Plus } from "lucide-react";
 import { HOME_FAQS } from "@/data/faqs";
+import type { CmsFaq } from "@/lib/cms-types";
 
-export default function FAQSection() {
+type FAQSectionProps = {
+  faqs?: CmsFaq[];
+};
+
+export default function FAQSection({
+  faqs = HOME_FAQS as unknown as CmsFaq[],
+}: FAQSectionProps) {
   const reduceMotion = useReducedMotion();
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
@@ -28,7 +35,7 @@ export default function FAQSection() {
         </div>
 
         <div className="mx-auto mt-10 max-w-3xl">
-          {HOME_FAQS.map((faq, index) => {
+          {faqs.map((faq, index) => {
             const open = openIndex === index;
             return (
               <motion.div
