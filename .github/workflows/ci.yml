@@ -4,13 +4,13 @@ on:
   pull_request:
     branches: [main]
   push:
-    branches: [main, agent/production-hardening]
+    branches: [main, agent/production-hardening, agent/laravel-backend-cms]
 
 permissions:
   contents: read
 
 jobs:
-  validate:
+  frontend:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -84,3 +84,44 @@ jobs:
           ! curl -fsS http://127.0.0.1:3000/llms.txt | grep -q 'vercel.app'
           ! curl -fsS http://127.0.0.1:3000/subjects | \
             grep -q 'Bridge The Gap Educational Services | Bridge The Gap Educational Services'
+
+  backend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: mbstring, intl, pdo_sqlite, sqlite3
+          coverage: none
+
+      - name: Validate Composer configuration
+        run: composer validate --strict
+
+      - name: Install backend dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Audit Composer dependencies
+        run: composer audit --locked
+
+      - name: Prepare environment
+        run: |
+          cp .env.example .env
+          touch database/database.sqlite
+          php artisan key:generate
+
+      - name: Migrate and seed
+        run: php artisan migrate:fresh --seed --force
+
+      - name: Test backend
+        run: php artisan test
+
+      - name: Check backend formatting
+        run: vendor/bin/pint --test

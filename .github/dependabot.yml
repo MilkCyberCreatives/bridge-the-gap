@@ -11,6 +11,16 @@ updates:
       development-dependencies:
         dependency-type: "development"
 
+  - package-ecosystem: "composer"
+    directory: "/backend"
+    schedule:
+      interval: "monthly"
+    open-pull-requests-limit: 5
+    groups:
+      backend-dependencies:
+        patterns:
+          - "*"
+
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
